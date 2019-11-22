@@ -23,20 +23,20 @@ std::vector<Background *> MainMenu::backgrounds() {
 }
 
 void MainMenu::load() {
-    //foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(minion_palette, sizeof(minion_palette)));
+    //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     SpriteBuilder<Sprite> spriteBuilder;
 
     minion = spriteBuilder
-            //.withData(minionTiles, sizeof(minionTiles))
+            .withData(minion_data, sizeof(minion_data))
             .withSize(SIZE_32_32)
-            .withAnimated(3, 3)
+            .withAnimated(3, 10)
             .withLocation(50, 50)
             .buildPtr();
 
-    TextStream::instance().setText(std::string("Minions VS Zombies"), 1, 8);
-    TextStream::instance().setText(std::string("Play"), 10, 12);
+    TextStream::instance().setText(std::string("Minions VS Zombies"), 1, 6);
+    TextStream::instance().setText(std::string("Play"), 10, 13);
 }
 
 void MainMenu::tick(u16 keys) {
