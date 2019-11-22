@@ -11,6 +11,7 @@ class MainMenu : public Scene {
 private:
     std::unique_ptr<Background> background;
     std::unique_ptr<Sprite> selector;
+    std::unique_ptr<Sprite> minion;
 
 public:
     MainMenu(const std::shared_ptr<GBAEngine> &engine);
