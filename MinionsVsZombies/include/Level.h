@@ -11,7 +11,7 @@ class Level : public Scene {
 private:
 
 public:
-    Level(const std::shared_ptr<GBAEngine> &engine);
+    explicit Level(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
 

@@ -14,7 +14,7 @@ private:
     std::unique_ptr<Sprite> minion;
 
 public:
-    MainMenu(const std::shared_ptr<GBAEngine> &engine);
+    explicit MainMenu(const std::shared_ptr<GBAEngine> &engine);// explicit: no implicit conversion for the engine parameter allowed
 
     std::vector<Sprite *> sprites() override;
 

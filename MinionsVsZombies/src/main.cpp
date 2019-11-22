@@ -13,11 +13,12 @@ int main() {
     auto mainMenu = new MainMenu(engine);
     engine->setScene(mainMenu);
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
     for (;;) {
         engine->update();
         engine->delay(1000);
     }
-
-    return 0;
+#pragma clang diagnostic pop
 }
 
