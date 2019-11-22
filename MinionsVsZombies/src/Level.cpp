@@ -5,7 +5,8 @@
 #include <libgba-sprite-engine/gba/tonc_types.h>
 #include <vector>
 #include <libgba-sprite-engine/sprites/sprite.h>
-#include <Level.h>
+
+#include "Level.h"
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
