@@ -3,13 +3,14 @@
 //
 
 #include <libgba-sprite-engine/gba_engine.h>
-#include <MainMenu.h>
+
+#include "MainMenu.h"
 
 int main() {
 
     std::shared_ptr<GBAEngine> engine(new GBAEngine());
 
-    MainMenu* mainMenu = new MainMenu(engine);
+    auto mainMenu = new MainMenu(engine);
     engine->setScene(mainMenu);
 
     for (;;) {
