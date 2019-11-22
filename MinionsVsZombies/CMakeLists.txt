@@ -8,6 +8,7 @@ add_executable(${PROJECT_NAME}.elf
         src/Level.cpp)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
+target_include_directories(${PROJECT_NAME}.elf PRIVATE img)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
