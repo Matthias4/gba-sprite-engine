@@ -5,7 +5,8 @@ add_executable(${PROJECT_NAME}.elf
         include/MainMenu.h
         src/MainMenu.cpp
         include/Level.h
-        src/Level.cpp img/minion_image.h)
+        src/Level.cpp
+        img/minion_image.h)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)
@@ -14,3 +15,5 @@ target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -v -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.gba)
+
+add_subdirectory(test)
