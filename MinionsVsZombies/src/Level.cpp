@@ -5,6 +5,7 @@
 #include <libgba-sprite-engine/gba/tonc_types.h>
 #include <vector>
 #include <libgba-sprite-engine/sprites/sprite.h>
+#include <libgba-sprite-engine/background/text_stream.h>
 
 #include "Level.h"
 
@@ -19,7 +20,7 @@ std::vector<Sprite *> Level::sprites() {
 }
 
 void Level::load() {
-
+    TextStream::instance().setText(std::string("lvl 1"), 1, 1);
 }
 
 void Level::tick(u16 keys) {

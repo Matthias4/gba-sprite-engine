@@ -14,7 +14,7 @@ private:
     std::unique_ptr<Sprite> minion;
 
 public:
-    explicit MainMenu(const std::shared_ptr<GBAEngine> &engine);// explicit: no implicit conversion for the engine parameter allowed
+    explicit MainMenu(const std::shared_ptr<GBAEngine> &engine);// explicit: no implicit conversion for the engine parameter allowed. ref: https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean
 
     std::vector<Sprite *> sprites() override;
 

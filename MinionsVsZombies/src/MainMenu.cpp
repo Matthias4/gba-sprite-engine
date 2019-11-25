@@ -40,10 +40,13 @@ void MainMenu::load() {
 }
 
 void MainMenu::tick(u16 keys) {
-    if (keys & KEY_A) {
+    //TextStream::instance().setText(std::string("hi"), 1, 1);
+    if (keys & KEY_START) {// ENTER key
         // A key pressed, just load the game since our menu only contains the start button ;)
+
         if (!engine->isTransitioning()) {
-            engine->transitionIntoScene(new Level(engine), new FadeOutScene(1));
+            engine->transitionIntoScene(new Level(engine), new FadeOutScene(3));
         }
+        //engine->setScene(new Level(engine));
     }
 }
