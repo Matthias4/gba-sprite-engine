@@ -10,6 +10,9 @@
 #include "Level.h"
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
+Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers) : Level(engine) {
+    flowers = startingFlowers;
+}
 
 std::vector<Background *> Level::backgrounds() {
     return {};
@@ -20,8 +23,6 @@ std::vector<Sprite *> Level::sprites() {
 }
 
 void Level::load() {
-    TextStream::instance().setText(std::string("lvl 1"), 1, 1);// Temporary to put some content on the screen
-
     /*minion = spriteBuilder
             .withData(minion_data, sizeof(minion_data))
             .withSize(SIZE_32_32)
@@ -31,5 +32,13 @@ void Level::load() {
 }
 
 void Level::tick(u16 keys) {
+    TextStream::instance().setText(std::string("#Flowers: " + std::to_string(flowers)), 1, 1);
+}
 
+void Level::Scroll(bool toZombies) {
+    if (toZombies) {// Scroll to right
+
+    } else {// Scroll to left (to original position)
+
+    }
 }

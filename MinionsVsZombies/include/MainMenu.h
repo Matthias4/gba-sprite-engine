@@ -7,7 +7,7 @@
 
 #include <libgba-sprite-engine/scene.h>
 
-#define MAINMENU_ENTRIES 2 // Number of menu entries
+#define MAINMENU_ENTRIES 2 // Number of menu entries, don't forget to update this or options will become unselectable
 
 class MainMenu : public Scene {
 private:
@@ -23,11 +23,8 @@ public:
     explicit MainMenu(const std::shared_ptr<GBAEngine> &engine);// explicit: no implicit conversion for the engine parameter allowed. ref: https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean
 
     std::vector<Sprite *> sprites() override;
-
     std::vector<Background *> backgrounds() override;
-
     void load() override;
-
     void tick(u16 keys) override;
 };
 

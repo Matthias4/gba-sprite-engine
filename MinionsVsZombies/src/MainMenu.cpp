@@ -7,11 +7,11 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
-#include <About.h>
 
-#include "MainMenu.h"
 #include "Level.h"
+#include "About.h"
 #include "minion_image.h"
+#include "MainMenu.h"
 
 MainMenu::MainMenu(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 

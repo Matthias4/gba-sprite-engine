@@ -16,11 +16,8 @@ public:
     explicit About(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
-
     std::vector<Background *> backgrounds() override;
-
     void load() override;
-
     void tick(u16 keys) override;
 };
 
