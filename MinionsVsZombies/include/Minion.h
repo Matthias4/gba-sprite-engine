@@ -8,24 +8,20 @@
 #include <libgba-sprite-engine/scene.h>
 
 class Minion {
-private:           //Willen we de variabelen private maken en getters gebruiken? Of de variabelen public?
+private:
     int health;
     int cost;
-    int firingRate;
-    int damage;
     int cooldownTime;
 
     std::unique_ptr<Sprite> image;
 
 public:
-    virtual int getHealth() = 0;
-    virtual int getCost() = 0;
-    virtual int getFiringRate() = 0;
-    virtual int getDamage() = 0;
-    virtual int getCooldownTime() = 0;
+    int getHealth();
+    int getCost();
+    int getCooldownTime();
 
-    Minion();
-    void shoot();
+    Minion(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image);
+    virtual void shoot() = 0;
 };
 
 
