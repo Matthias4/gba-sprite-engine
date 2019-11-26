@@ -7,3 +7,7 @@
 int Enemy::getHealth() {
     return health;
 }
+
+void Enemy::getHit(int damage) {
+    health -= damage;
+}
