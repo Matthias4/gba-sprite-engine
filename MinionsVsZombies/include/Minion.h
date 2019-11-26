@@ -18,11 +18,11 @@ private:           //Willen we de variabelen private maken en getters gebruiken?
     std::unique_ptr<Sprite> image;
 
 public:
-    int getHealth();
-    int getCost();
-    int getFiringRate();
-    int getDamage();
-    int getCooldownTime();
+    virtual int getHealth() = 0;
+    virtual int getCost() = 0;
+    virtual int getFiringRate() = 0;
+    virtual int getDamage() = 0;
+    virtual int getCooldownTime() = 0;
 
     Minion();
     void shoot();
