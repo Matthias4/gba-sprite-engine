@@ -5,7 +5,3 @@
 #include "Minion.h"
 
 Minion::Minion() {}
-
-void Minion::shoot() {
-
-}

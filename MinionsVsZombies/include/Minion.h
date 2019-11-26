@@ -25,7 +25,7 @@ public:
     virtual int getCooldownTime() = 0;
 
     Minion();
-    void shoot();
+    virtual void shoot() = 0;
 };
 
 
