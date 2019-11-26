@@ -6,7 +6,7 @@ add_executable(${PROJECT_NAME}.elf
         src/MainMenu.cpp
         include/Level.h
         src/Level.cpp
-        img/minion_image.h)
+        img/minion_image.h src/About.cpp include/About.h)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)

@@ -7,11 +7,17 @@
 
 #include <libgba-sprite-engine/scene.h>
 
+#define MAINMENU_ENTRIES 2 // Number of menu entries
+
 class MainMenu : public Scene {
 private:
     std::unique_ptr<Background> background;
-    std::unique_ptr<Sprite> selector;
     std::unique_ptr<Sprite> minion;
+
+    uint8_t selectedMenuEntry = 0;
+    u16 previousKeys = 0;
+
+    void updateSelectMinion();
 
 public:
     explicit MainMenu(const std::shared_ptr<GBAEngine> &engine);// explicit: no implicit conversion for the engine parameter allowed. ref: https://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-mean

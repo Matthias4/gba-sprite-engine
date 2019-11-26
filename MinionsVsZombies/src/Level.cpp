@@ -20,7 +20,14 @@ std::vector<Sprite *> Level::sprites() {
 }
 
 void Level::load() {
-    TextStream::instance().setText(std::string("lvl 1"), 1, 1);
+    TextStream::instance().setText(std::string("lvl 1"), 1, 1);// Temporary to put some content on the screen
+
+    /*minion = spriteBuilder
+            .withData(minion_data, sizeof(minion_data))
+            .withSize(SIZE_32_32)
+            .withAnimated(3, 10)
+            .withLocation(50, 50)
+            .buildPtr();*/
 }
 
 void Level::tick(u16 keys) {
