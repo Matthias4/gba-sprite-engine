@@ -4,9 +4,13 @@ add_executable(${PROJECT_NAME}.elf
         src/main.cpp
         include/MainMenu.h
         src/MainMenu.cpp
+        include/About.h
+        src/About.cpp
         include/Level.h
         src/Level.cpp
-        img/minion_image.h src/About.cpp include/About.h src/Minion.cpp include/Minion.h)
+        include/Minion.h
+        src/Minion.cpp
+        img/minion_image.h)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)
