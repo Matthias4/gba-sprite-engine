@@ -9,7 +9,7 @@ int Enemy::getHealth() {
 }
 
 void Enemy::getHit(int damage) {
-    health -= damage;// Wat als health onder 0 gaat? Zie volgende regel. Het maakt niet uit of die onder 0 gaat, zombie gaat toch gewoon dood ;)
+    health -= damage;
     if (health <= 0) {
         die();
     }

@@ -21,11 +21,14 @@ int Zombie::getPosition() {
 }
 
 void Zombie::walk() {
-                        // Ging level ook de locatie van de zombies bijhouden? Ik dacht alleen van de minions. Het was mijn veronderstelling dat level gewoon een lijst van zombies heeft
-                        // en dat de zombies zelf weten waar ze zijn en zelf vooruitwandelen enzo. Als we met een locatiearray voor de zombies zouden werken
-                        //dan moeten ze hun eigen positie en row ook niet bijhouden wel?
-
-                        //Juist... Zombies zitten inderdaad niet in die array
     // wandel wandel
     //position--; ofzo
 }
+
+Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition): Enemy(givenHealth) {
+    walkingSpeed = givenWalkingSpeed;
+    damage = givenDamage;
+    row = givenRow;
+    position = givenPosition;
+}
+

@@ -19,7 +19,7 @@ public:
     int getRow();
     int getPosition();
 
-    Zombie();
+    Zombie(int health, int walkingSpeed, int damage, int row, int position);
 
     void walk();
 };
