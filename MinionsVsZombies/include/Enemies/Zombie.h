@@ -5,7 +5,7 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_ZOMBIE_H
 #define GBA_SPRITE_ENGINE_PROJECT_ZOMBIE_H
 
-#include "Enemy.h"
+#include "Enemies/Enemy.h"
 
 class Zombie: Enemy {
 private:

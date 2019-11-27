@@ -2,7 +2,7 @@
 // Created by michi on 26/11/2019.
 //
 
-#include "Zombie.h"
+#include "Enemies/Zombie.h"
 
 int Zombie::getWalkingSpeed() {
     return walkingSpeed;

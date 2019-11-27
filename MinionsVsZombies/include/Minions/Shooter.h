@@ -5,7 +5,7 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_SHOOTER_H
 #define GBA_SPRITE_ENGINE_PROJECT_SHOOTER_H
 
-#include "Minion.h"
+#include "Minions/Minion.h"
 
 class Shooter: Minion {
 private:

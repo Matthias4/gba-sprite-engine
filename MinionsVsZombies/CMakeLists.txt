@@ -8,9 +8,9 @@ add_executable(${PROJECT_NAME}.elf
         src/About.cpp
         include/Level.h
         src/Level.cpp
-        include/Minion.h
-        src/Minion.cpp
-        img/minion_image.h src/FlowerMinion.cpp include/FlowerMinion.h src/Enemy.cpp include/Enemy.h src/Zombie.cpp include/Zombie.h src/Shooter.cpp include/Shooter.h)
+        include/Minions/Minion.h
+        src/Minions/Minion.cpp
+        img/minion_image.h src/Minions/FlowerMinion.cpp include/Minions/FlowerMinion.h src/Enemies/Enemy.cpp include/Enemies/Enemy.h src/Enemies/Zombie.cpp include/Enemies/Zombie.h src/Minions/Shooter.cpp include/Minions/Shooter.h)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)

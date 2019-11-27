@@ -3,7 +3,7 @@
 //
 
 #include <libgba-sprite-engine/scene.h>
-#include "Minion.h"
+#include "Minions/Minion.h"
 
 Minion::Minion(int givenHealth, int givenCost, int givenCooldownTime, std::unique_ptr<Sprite> givenImage) {
     health = givenHealth;
