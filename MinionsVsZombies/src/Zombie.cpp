@@ -20,7 +20,7 @@ int Zombie::getPosition() {
     return position;
 }
 
-void Zombie::walk() {
+void Zombie::walk() {//FIXME: Volgens mij niet nodig: Level past de locatiearray aan (en geeft de sprite waarschijnlijk een nieuwe positie)
     // wandel wandel
     //position--; ofzo
 }
