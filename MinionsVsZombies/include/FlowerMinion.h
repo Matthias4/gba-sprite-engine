@@ -8,7 +8,10 @@
 #include "Minion.h"
 
 class FlowerMinion: Minion {
+private:
 
+public:
+    void produceSun(); //FIXME: moet dit een void zijn? Of willen we dat die iets teruggeeft waar het level iets mee kan doen? Een boolean ofzo?
 };
 
 

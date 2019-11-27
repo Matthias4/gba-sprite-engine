@@ -21,7 +21,10 @@ public:
     int getCooldownTime();
 
     Minion(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image);
-    virtual void shoot() = 0;
+    virtual void shoot() = 0; //FIXME: moeten we deze functie wegdoen? En gewoon bij shooter zetten?
+                                // Zoja, waar moeten we dan virtual zetten? Moet we een functie getPlanted() hebben ofzo waar we
+                                // virtual bij kunnen zetten?
+
 };
 
 

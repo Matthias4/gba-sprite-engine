@@ -5,3 +5,6 @@
 #include "FlowerMinion.h"
 
 
+void FlowerMinion::produceSun() {
+    //nog te implementeren
+}
