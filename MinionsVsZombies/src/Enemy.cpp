@@ -10,4 +10,11 @@ int Enemy::getHealth() {
 
 void Enemy::getHit(int damage) {
     health -= damage;//FIXME: Wat als health onder 0 gaat?
+    if (health == 0) {
+        die();
+    }
+}
+
+void Enemy::die() {
+    //moet nog ingevuld worden
 }
