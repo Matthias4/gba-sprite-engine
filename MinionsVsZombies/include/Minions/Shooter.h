@@ -7,7 +7,7 @@
 
 #include "Minions/Minion.h"
 
-class Shooter: Minion {
+class Shooter: public Minion {
 private:
     int firingRate;
     int damage;

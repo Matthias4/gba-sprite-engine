@@ -25,7 +25,9 @@ void Zombie::walk() {
     //position--; ofzo
 }
 
-Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition): Enemy(givenHealth) {
+Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition)
+: Enemy(givenHealth)
+{
     walkingSpeed = givenWalkingSpeed;
     damage = givenDamage;
     row = givenRow;

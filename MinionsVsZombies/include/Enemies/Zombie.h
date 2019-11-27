@@ -7,7 +7,7 @@
 
 #include "Enemies/Enemy.h"
 
-class Zombie: Enemy {
+class Zombie: public Enemy {
 private:
     int walkingSpeed;
     int damage;

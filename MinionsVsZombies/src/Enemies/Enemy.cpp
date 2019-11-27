@@ -4,6 +4,10 @@
 
 #include "Enemies/Enemy.h"
 
+Enemy::Enemy(int givenHealth) {
+    health = givenHealth;
+}
+
 int Enemy::getHealth() {
     return health;
 }
@@ -19,6 +23,3 @@ void Enemy::die() {
     //moet nog ingevuld worden
 }
 
-Enemy::Enemy(int givenHealth) {
-    health = givenHealth;
-}

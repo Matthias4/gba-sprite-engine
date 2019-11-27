@@ -7,7 +7,7 @@
 
 #include "Minion.h"
 
-class FlowerMinion: Minion {
+class FlowerMinion: public Minion {
 private:
     int sunPower;
     int productionRate;
