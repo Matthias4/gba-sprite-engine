@@ -23,6 +23,9 @@ std::vector<Sprite *> Level::sprites() {
 }
 
 void Level::load() {
+
+    // Load grass as background
+
     /*minion = spriteBuilder
             .withData(minion_data, sizeof(minion_data))
             .withSize(SIZE_32_32)
