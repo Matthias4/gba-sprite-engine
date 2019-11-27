@@ -19,6 +19,8 @@ public:
     int getRow();
     int getPosition();
 
+    Zombie();
+
     void walk();
 };
 

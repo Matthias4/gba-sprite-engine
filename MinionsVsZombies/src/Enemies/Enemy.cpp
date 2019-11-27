@@ -18,3 +18,7 @@ void Enemy::getHit(int damage) {
 void Enemy::die() {
     //moet nog ingevuld worden
 }
+
+Enemy::Enemy(int givenHealth) {
+    health = givenHealth;
+}

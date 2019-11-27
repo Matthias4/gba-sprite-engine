@@ -12,6 +12,7 @@ private:
 
 public:
     int getHealth();
+    Enemy(int health);
     void getHit(int damage); //Als een banaan een Enemy raakt, gaat er wat van zijn health af, de int damage is om te weten hoeveel (afhankelijk van wie de shooter was)
     void die();
 };
