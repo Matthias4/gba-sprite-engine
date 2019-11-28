@@ -24,12 +24,17 @@ add_executable(${PROJECT_NAME}.elf
         src/Enemies/Zombie.cpp
 
         img/minion_image.h
-        img/png/shared.h
-        img/png/shared.c
-        img/png/minion.h
-        img/png/minion.c
-        img/png/BananaMinion.h
-        img/png/BananaMinion.c
+        img/Level/Banana.h
+        img/Level/BananaMinion.h
+        img/Level/BananaMinion.c
+        img/Level/Grass.h
+        img/Level/Grass.c
+        img/Level/LevelFGPalette.h
+        img/Level/LevelFGPalette.c
+        img/Level/Minion.h
+        img/Level/Minion.c
+        img/Level/Zombie.h
+        img/Level/Zombie.c
         )
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)

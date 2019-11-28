@@ -12,9 +12,9 @@
 
 #include "Level.h"
 #include "MainMenu.h"
-#include "png/shared.h"
-#include "png/minion.h"
-#include "png/BananaMinion.h"
+#include "Level/LevelFGPalette.h"
+#include "Level/Minion.h"
+#include "Level/BananaMinion.h"
 
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
@@ -41,20 +41,20 @@ void Level::load() {
             .withLocation(50, 50)
             .buildPtr();*/
 
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(levelFGPalette, sizeof(levelFGPalette)));
     //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     SpriteBuilder<Sprite> spriteBuilder;
 
     minion = spriteBuilder
-            .withData(minionTiles, sizeof(minionTiles))
+            .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
             .withAnimated(2, 20)
             .withLocation(70, 320)
             .buildPtr();
 
     bananaMinion = spriteBuilder
-            .withData(BananaMinionTiles, sizeof(BananaMinionTiles))
+            .withData(levelBananaMinionTiles, sizeof(levelBananaMinionTiles))
             .withSize(SIZE_32_32)
             .withAnimated(2, 20)
             .withLocation(170, 320)
