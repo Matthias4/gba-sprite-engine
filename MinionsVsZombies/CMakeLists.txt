@@ -23,7 +23,14 @@ add_executable(${PROJECT_NAME}.elf
         include/Enemies/Zombie.h
         src/Enemies/Zombie.cpp
 
-        img/minion_image.h)
+        img/minion_image.h
+        img/png/shared.h
+        img/png/shared.c
+        img/png/minion.h
+        img/png/minion.c
+        img/png/BananaMinion.h
+        img/png/BananaMinion.c
+        )
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)

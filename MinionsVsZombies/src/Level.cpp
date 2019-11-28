@@ -9,11 +9,13 @@
 #include <libgba-sprite-engine/gba/tonc_memdef.h>
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
-#include "minion_image.h"
 
 #include "Level.h"
 #include "MainMenu.h"
-#include "minion_image.h"
+#include "png/shared.h"
+#include "png/minion.h"
+#include "png/BananaMinion.h"
+
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers) : Level(engine) {
@@ -25,7 +27,7 @@ std::vector<Background *> Level::backgrounds() {
 }
 
 std::vector<Sprite *> Level::sprites() {
-    return {minion.get()};
+    return {bananaMinion.get()};
 }
 
 void Level::load() {
@@ -39,16 +41,23 @@ void Level::load() {
             .withLocation(50, 50)
             .buildPtr();*/
 
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(minion_palette, sizeof(minion_palette)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     SpriteBuilder<Sprite> spriteBuilder;
 
     minion = spriteBuilder
-            .withData(minion_data, sizeof(minion_data))
+            .withData(minionTiles, sizeof(minionTiles))
             .withSize(SIZE_32_32)
             .withAnimated(2, 20)
             .withLocation(70, 320)
+            .buildPtr();
+
+    bananaMinion = spriteBuilder
+            .withData(BananaMinionTiles, sizeof(BananaMinionTiles))
+            .withSize(SIZE_32_32)
+            .withAnimated(2, 20)
+            .withLocation(170, 320)
             .buildPtr();
 }
 
