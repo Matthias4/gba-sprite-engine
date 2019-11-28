@@ -4,6 +4,15 @@
 
 #include "Enemies/Zombie.h"
 
+Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition)
+        : Enemy(givenHealth)
+{
+    walkingSpeed = givenWalkingSpeed;
+    damage = givenDamage;
+    row = givenRow;
+    position = givenPosition;
+}
+
 int Zombie::getWalkingSpeed() {
     return walkingSpeed;
 }
@@ -23,14 +32,5 @@ int Zombie::getPosition() {
 void Zombie::walk() {
     // wandel wandel
     //position--; ofzo
-}
-
-Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition)
-: Enemy(givenHealth)
-{
-    walkingSpeed = givenWalkingSpeed;
-    damage = givenDamage;
-    row = givenRow;
-    position = givenPosition;
 }
 
