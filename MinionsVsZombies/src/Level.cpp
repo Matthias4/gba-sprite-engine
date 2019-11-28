@@ -15,6 +15,8 @@
 #include "png/shared.h"
 #include "png/minion.h"
 #include "png/BananaMinion.h"
+#include "png/Grass.h"
+#include "png/Zombie.h"
 
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
@@ -27,7 +29,7 @@ std::vector<Background *> Level::backgrounds() {
 }
 
 std::vector<Sprite *> Level::sprites() {
-    return {minion.get(), bananaMinion.get()};
+    return {minion.get(), bananaMinion.get(), zombie.get()};
 }
 
 void Level::load() {
@@ -44,20 +46,28 @@ void Level::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
+
     SpriteBuilder<Sprite> spriteBuilder;
 
     minion = spriteBuilder
             .withData(minionTiles, sizeof(minionTiles))
             .withSize(SIZE_32_32)
-            .withAnimated(2, 20)
+            .withAnimated(3, 20)
             .withLocation(70, 320)
             .buildPtr();
 
     bananaMinion = spriteBuilder
             .withData(BananaMinionTiles, sizeof(BananaMinionTiles))
             .withSize(SIZE_32_32)
-            .withAnimated(2, 20)
+            .withAnimated(4, 20)
             .withLocation(170, 320)
+            .buildPtr();
+
+    zombie = spriteBuilder
+            .withData(zombieTiles, sizeof(zombieTiles))
+            .withSize(SIZE_32_32)
+            .withAnimated(8, 20)
+            .withLocation(120, 320)
             .buildPtr();
 }
 

@@ -30,6 +30,10 @@ add_executable(${PROJECT_NAME}.elf
         img/png/minion.c
         img/png/BananaMinion.h
         img/png/BananaMinion.c
+        img/png/Grass.h
+        img/png/Grass.c
+        img/png/Zombie.h
+        img/png/Zombie.c
         )
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)

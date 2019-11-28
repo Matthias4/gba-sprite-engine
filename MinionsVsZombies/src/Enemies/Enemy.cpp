@@ -4,8 +4,9 @@
 
 #include "Enemies/Enemy.h"
 
-Enemy::Enemy(int givenHealth) {
+Enemy::Enemy(int givenHealth, std::shared_ptr<Sprite> givenImage) {
     health = givenHealth;
+    std::shared_ptr<Sprite> image = givenImage;
 }
 
 int Enemy::getHealth() {

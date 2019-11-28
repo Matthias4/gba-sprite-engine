@@ -5,6 +5,7 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_ZOMBIE_H
 #define GBA_SPRITE_ENGINE_PROJECT_ZOMBIE_H
 
+#include <libgba-sprite-engine/sprites/sprite.h>
 #include "Enemies/Enemy.h"
 
 class Zombie: public Enemy {
@@ -13,13 +14,14 @@ private:
     int damage;
     int row;
     int position;
+
 public:
     int getWalkingSpeed();
     int getDamage();
     int getRow();
     int getPosition();
 
-    Zombie(int health, int walkingSpeed, int damage, int row, int position);
+    Zombie(int health, int walkingSpeed, int damage, int row, int position, std::shared_ptr<Sprite> image);
 
     void walk();
 };

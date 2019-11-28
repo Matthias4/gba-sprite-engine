@@ -4,13 +4,14 @@
 
 #include "Enemies/Zombie.h"
 
-Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition)
-        : Enemy(givenHealth)
+Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition, std::shared_ptr<Sprite> givenImage)
+        : Enemy(givenHealth, givenImage)
 {
     walkingSpeed = givenWalkingSpeed;
     damage = givenDamage;
     row = givenRow;
     position = givenPosition;
+
 }
 
 int Zombie::getWalkingSpeed() {
