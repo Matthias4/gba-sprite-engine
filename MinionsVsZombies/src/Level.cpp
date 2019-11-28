@@ -27,7 +27,7 @@ std::vector<Background *> Level::backgrounds() {
 }
 
 std::vector<Sprite *> Level::sprites() {
-    return {bananaMinion.get()};
+    return {minion.get(), bananaMinion.get()};
 }
 
 void Level::load() {
