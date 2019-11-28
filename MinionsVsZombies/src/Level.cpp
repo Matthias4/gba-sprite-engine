@@ -6,8 +6,11 @@
 #include <vector>
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/background/text_stream.h>
+#include <libgba-sprite-engine/gba/tonc_memdef.h>
+#include <libgba-sprite-engine/gba_engine.h>
 
 #include "Level.h"
+#include "MainMenu.h"
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers) : Level(engine) {
@@ -35,7 +38,10 @@ void Level::load() {
 }
 
 void Level::tick(u16 keys) {
-    TextStream::instance().setText(std::string("#Flowers: " + std::to_string(flowers)), 1, 1);
+    TextStream::instance().setText(std::string("#Flowers: " + std::to_string(flowers)), 1, 1); //Waarom staat dit hier?
+    if (keys & KEY_A) {// A key (x on emulator)
+        engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
+    }
 }
 
 void Level::Scroll(bool toZombies) {
