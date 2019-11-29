@@ -15,6 +15,7 @@
 #include "Level/LevelFGPalette.h"
 #include "Level/Minion.h"
 #include "Level/BananaMinion.h"
+#include "Level/Zombie.h"
 
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
@@ -27,7 +28,7 @@ std::vector<Background *> Level::backgrounds() {
 }
 
 std::vector<Sprite *> Level::sprites() {
-    return {minion.get(), bananaMinion.get()};
+    return {/*afbeelding.get()*/};
 }
 
 void Level::load() {
@@ -44,27 +45,27 @@ void Level::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(levelFGPalette, sizeof(levelFGPalette)));
     //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
+    // Zombie(int health, void* spriteData, SpriteSize spriteSize, int numberOfFrames, int animationDelay, int walkingSpeed, int damage, int row, int position);
     SpriteBuilder<Sprite> spriteBuilder;
+    Zombie zombie1(5, levelZombieTiles, SIZE_32_32, 8, 10, 1, 2, 2, 2);
+    afbeelding = zombie1.getImage();
 
-    minion = spriteBuilder
-            .withData(levelMinionTiles, sizeof(levelMinionTiles))
-            .withSize(SIZE_32_32)
-            .withAnimated(2, 20)
-            .withLocation(70, 320)
-            .buildPtr();
 
-    bananaMinion = spriteBuilder
-            .withData(levelBananaMinionTiles, sizeof(levelBananaMinionTiles))
-            .withSize(SIZE_32_32)
-            .withAnimated(2, 20)
-            .withLocation(170, 320)
-            .buildPtr();
+
 }
 
 void Level::tick(u16 keys) {
     TextStream::instance().setText(std::string("#Flowers: " + std::to_string(flowers)), 1, 1); //Waarom staat dit hier?
+
+
+
+
     if (keys & KEY_A) {// A key (x on emulator)
         engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
+    }
+    else if (keys & KEY_LEFT) {
+
+        //
     }
 }
 

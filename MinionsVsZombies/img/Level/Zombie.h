@@ -17,7 +17,7 @@
 #define LEVEL_ZOMBIE_H
 
 #define LEVEL_ZOMBIE_TILES_LEN 8192
-extern const unsigned int levelZombieTiles[2048];
+extern void *levelZombieTiles;
 
 #endif // LEVEL_ZOMBIE_H
 

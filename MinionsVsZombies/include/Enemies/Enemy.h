@@ -14,9 +14,10 @@ private:
     std::shared_ptr<Sprite> image;
 public:
     int getHealth();
-    Enemy(int health, std::shared_ptr<Sprite> image);
-    void getHit(int damage); //Als een banaan een Enemy raakt, gaat er wat van zijn health af, de int damage is om te weten hoeveel (afhankelijk van wie de shooter was)
+    Enemy(int health, void* spriteData, SpriteSize spriteSize, int numberOfFrames, int animationDelay);
+    void getHit(int damage);
     void die();
+    std::shared_ptr<Sprite> getImage();
 };
 
 

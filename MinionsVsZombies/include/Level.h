@@ -6,13 +6,13 @@
 #define GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
 
 #include <libgba-sprite-engine/scene.h>
+#include <Enemies/Zombie.h>
 
 class Level : public Scene {
 private:
     uint32_t flowers = 0;// Amount of flowers on start can be entered here
-    std::unique_ptr<Sprite> minion;
-    std::unique_ptr<Sprite> bananaMinion;
-    std::unique_ptr<Sprite> zombie;
+
+    std::shared_ptr<Sprite> afbeelding;
 
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);

@@ -21,7 +21,7 @@ public:
     int getRow();
     int getPosition();
 
-    Zombie(int health, int walkingSpeed, int damage, int row, int position, std::shared_ptr<Sprite> image);
+    Zombie(int health, void* spriteData, SpriteSize spriteSize, int numberOfFrames, int animationDelay, int walkingSpeed, int damage, int row, int position);
 
     void walk();
 };

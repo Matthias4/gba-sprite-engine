@@ -4,8 +4,8 @@
 
 #include "Enemies/Zombie.h"
 
-Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition, std::shared_ptr<Sprite> givenImage)
-        : Enemy(givenHealth, givenImage)
+Zombie::Zombie(int givenHealth, void* spriteData, SpriteSize spriteSize, int numberOfFrames, int animationDelay, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition)
+        : Enemy(givenHealth, spriteData, spriteSize, numberOfFrames, animationDelay)
 {
     walkingSpeed = givenWalkingSpeed;
     damage = givenDamage;

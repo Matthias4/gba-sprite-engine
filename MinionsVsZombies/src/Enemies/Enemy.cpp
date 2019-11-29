@@ -2,11 +2,23 @@
 // Created by michi on 26/11/2019.
 //
 
-#include "Enemies/Enemy.h"
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
+#include <Level/Zombie.h>
+#include <libgba-sprite-engine/palette/palette_manager.h>
 
-Enemy::Enemy(int givenHealth, std::shared_ptr<Sprite> givenImage) {
+#include "Enemies/Enemy.h"
+#include "Level/LevelFGPalette.h"
+
+Enemy::Enemy(int givenHealth, void* givenSpriteData, SpriteSize givenSpriteSize, int givenNumberOfFrames, int givenAnimationDelay) {
     health = givenHealth;
-    std::shared_ptr<Sprite> image = givenImage;
+
+    SpriteBuilder<Sprite> spriteBuilder;
+    std::shared_ptr<Sprite> image = spriteBuilder
+            .withData(givenSpriteData, sizeof(givenSpriteData))
+            .withSize(givenSpriteSize)
+            .withAnimated(givenNumberOfFrames, givenAnimationDelay)
+            .withLocation(1,1)
+            .buildPtr();
 }
 
 int Enemy::getHealth() {
@@ -22,5 +34,9 @@ void Enemy::getHit(int damage) {
 
 void Enemy::die() {
     //moet nog ingevuld worden
+}
+
+std::shared_ptr<Sprite> Enemy::getImage() {
+    return image;
 }
 
