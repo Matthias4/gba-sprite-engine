@@ -54,11 +54,6 @@ std::vector<Sprite *> Level::sprites() {
         }
     }
 
-    /* tests */
-    returnSprites.push_back(minion.get());
-    returnSprites.push_back(bananaMinion.get());
-    /* ///// */
-
     return returnSprites;
 }
 
@@ -79,22 +74,6 @@ void Level::load() {
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
             .buildPtr());
-
-    /* tests */
-    minion = spriteBuilder
-            .withData(levelMinionTiles, sizeof(levelMinionTiles))
-            .withSize(SIZE_32_32)
-            .withAnimated(2, 20)
-            .withLocation(70, 320)
-            .buildPtr();
-
-    bananaMinion = spriteBuilder
-            .withData(levelBananaMinionTiles, sizeof(levelBananaMinionTiles))
-            .withSize(SIZE_32_32)
-            .withAnimated(2, 20)
-            .withLocation(170, 320)
-            .buildPtr();
-    /* ///// */
 }
 
 void Level::tick(u16 keys) {

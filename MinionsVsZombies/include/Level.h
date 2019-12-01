@@ -14,11 +14,6 @@
 class Level : public Scene {
 private:
     uint32_t flowers = 0;// Amount of flowers on start can be entered here
-    /* tests */
-    std::unique_ptr<Sprite> minion;
-    std::unique_ptr<Sprite> bananaMinion;
-    std::unique_ptr<Sprite> zombie;
-    /* ///// */
 
     Minion* grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
     void updateMinions();
