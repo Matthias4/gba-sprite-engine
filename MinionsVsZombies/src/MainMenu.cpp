@@ -7,6 +7,8 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
+#include <Level/LevelFGPalette.h>
+#include <Level/Grass.h>
 
 #include "Level.h"
 #include "About.h"
