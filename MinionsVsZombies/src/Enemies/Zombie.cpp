@@ -12,6 +12,7 @@ Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int give
     row = givenRow;
     position = givenPosition;
 
+
 }
 
 int Zombie::getWalkingSpeed() {

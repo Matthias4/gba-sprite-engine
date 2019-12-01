@@ -24,3 +24,7 @@ void Enemy::die() {
     //moet nog ingevuld worden
 }
 
+Sprite *Enemy::getSprite() {
+    return image.get();
+}
+

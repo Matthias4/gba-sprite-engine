@@ -16,6 +16,8 @@
 #include "Level/LevelFGPalette.h"
 #include "Level/Minion.h"
 #include "Level/BananaMinion.h"
+#include "Level/Zombie.h"
+#include "ZombieTypes.h"
 
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
@@ -24,9 +26,15 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
             grid[x][y] = nullptr;
         }
     }
+
+    waves = { {STANDARD_ZOMBIE} };
 }
 Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers) : Level(engine) {
     flowers = startingFlowers;
+}
+
+Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers, std::vector< std::vector<uint8_t> > waves) : Level(engine, startingFlowers) {
+    this->waves = waves;
 }
 
 void Level::updateMinions() {
@@ -37,6 +45,30 @@ void Level::updateMinions() {
             }
         }
     }
+}
+
+bool Level::nextWave() {
+    waveNumber++;
+
+    if (waveNumber > waves.size()) return false;
+
+    SpriteBuilder<Sprite> spriteBuilder;
+
+    for (auto zombie : waves[waveNumber]) {
+        switch (zombie) {
+            case STANDARD_ZOMBIE:
+                zombies.push_back(Zombie(10, 1, 1, 1, 1, spriteBuilder.withData(levelZombieTiles, sizeof(levelZombieTiles)).withSize(SIZE_32_32).buildPtr()));
+                break;
+            case CONEHEAD_ZOMBIE:
+                //TODO: Create conehead zombie class and use here
+                break;
+            case BUCKETHEAD_ZOMBIE:
+                //TODO: Create buckethead zombie class and use here
+                break;
+        }
+    }
+
+    return true;
 }
 
 std::vector<Background *> Level::backgrounds() {
@@ -54,6 +86,10 @@ std::vector<Sprite *> Level::sprites() {
         }
     }
 
+    for (auto zombie : zombies) {
+        returnSprites.push_back(zombie.getSprite());
+    }
+
     return returnSprites;
 }
 
@@ -65,6 +101,10 @@ void Level::load() {
     // Load grass as background
 
     SpriteBuilder<Sprite> spriteBuilder;
+    /*std::unique_ptr<Sprite> shooterSprite = spriteBuilder
+            .withData(levelMinionTiles, sizeof(levelMinionTiles))
+            .withSize(SIZE_32_32)
+            .buildPtr();*/
 
     grid[1][1] = new Shooter(1, 1, 1, spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
@@ -80,6 +120,10 @@ void Level::tick(u16 keys) {
     TextStream::instance().setText(std::string("#Flowers: " + std::to_string(flowers)), 1, 1); //Waarom staat dit hier? Just a test :)
     if (keys & KEY_A) {// A key (x on emulator)
         engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
+    }
+
+    if (zombies.empty()) {// All zombies dead? Start next wave
+        nextWave();
     }
 
     updateMinions();
