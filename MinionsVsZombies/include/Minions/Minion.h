@@ -26,6 +26,7 @@ public:
                                 // virtual bij kunnen zetten?
 
     Sprite *getSprite();
+    void move(int x, int y);
 };
 
 

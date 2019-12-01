@@ -33,7 +33,7 @@ void Level::updateMinions() {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
-                //*grid[x][y].
+                grid[x][y]->move(x * 32, y * 32 + 32);
             }
         }
     }
@@ -74,12 +74,10 @@ void Level::load() {
     grid[1][1] = new Shooter(1, 1, 1, spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
-            .withLocation(50, 100)
             .buildPtr());
     grid[2][2] = new Shooter(1, 1, 1, spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
-            .withLocation(100, 100)
             .buildPtr());
 
     /* tests */
@@ -104,6 +102,8 @@ void Level::tick(u16 keys) {
     if (keys & KEY_A) {// A key (x on emulator)
         engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
     }
+
+    updateMinions();
 }
 
 void Level::Scroll(bool toZombies) {

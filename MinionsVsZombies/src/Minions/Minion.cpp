@@ -28,5 +28,9 @@ Sprite *Minion::getSprite() {
     return image.get();
 }
 
+void Minion::move(int x, int y) {
+    image->moveTo(x, y);
+}
+
 
 
