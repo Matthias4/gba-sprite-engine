@@ -123,12 +123,12 @@ void Level::load() {
     grid[2][2] = new Shooter(1, 1, 1, spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
-            .buildPtr());
+            .buildPtr()); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 }
 
 void Level::tick(u16 keys) {
-    TextStream::instance().setText(std::string("#Flowers: " + std::to_string(flowers)), 1, 1); //Waarom staat dit hier? Just a test :)
-    if (keys & KEY_A) {// A key (x on emulator)
+    TextStream::instance().setText(std::string("#Flowers: " + std::to_string(flowers)), 1, 1); //Waarom staat dit hier? Just a test :) Okidoki :)
+    if (keys & KEY_A) {// A key (x on emulator) //FIXME: Als je teruggaat, is er geen selectieminion meer
         engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
     }
 

@@ -16,7 +16,7 @@ public:
     Enemy(int health, std::unique_ptr<Sprite> image);
 
     int getHealth();
-    void getHit(int damage); //Als een banaan een Enemy raakt, gaat er wat van zijn health af, de int damage is om te weten hoeveel (afhankelijk van wie de shooter was)
+    void getHit(int damage);
     void die();
 
     void move(int x, int y);
