@@ -25,6 +25,8 @@ public:
                                 // Zoja, waar moeten we dan virtual zetten? Moet we een functie getPlanted() hebben ofzo waar we
                                 // virtual bij kunnen zetten?
 
+    Sprite *getSprite();
+    void move(int x, int y);
 };
 
 

@@ -12,6 +12,8 @@ private:
     int firingRate;
     int damage;
 public:
+    //Shooter(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image) : Minion(health, cost, cooldownTime, image) {};
+    using Minion::Minion;// Constructor inheritance, see https://stackoverflow.com/questions/347358/inheriting-constructors
     int getFiringRate();
     int getDamage();
     void shoot() override; //Als we shoot weghalen bij Minion, dan moet hier de override weg.

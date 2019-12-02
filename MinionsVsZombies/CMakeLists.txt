@@ -35,7 +35,7 @@ add_executable(${PROJECT_NAME}.elf
         img/Level/Minion.c
         img/Level/Zombie.h
         img/Level/Zombie.c
-        )
+        include/ZombieTypes.h include/Enemies/Basic.h src/Enemies/Basic.cpp)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)
