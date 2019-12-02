@@ -123,7 +123,7 @@ void Level::load() {
     grid[2][2] = new Shooter(1, 1, 1, spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
-            .buildPtr());
+            .buildPtr()); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 }
 
 void Level::tick(u16 keys) {
