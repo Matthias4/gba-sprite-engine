@@ -23,6 +23,7 @@ private:
     void updateMinions();
 
     std::vector<Zombie> zombies = std::vector<Zombie>();
+    void updateZombies();
 
     bool nextWave();
 

@@ -41,9 +41,17 @@ void Level::updateMinions() {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
-                grid[x][y]->move(x * 32, y * 32 + 32);
+                grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
             }
         }
+    }
+}
+
+void Level::updateZombies() {
+    //for (auto zombie : zombies) {//FIXME: Use iterator
+    for (int i = 0; i < zombies.size(); i++) {
+        //zombie.move(0, 0);//zombie.getRow() * 32 + 32, 50);//, zombie.getPosition());
+        zombies[i].move(zombies[i].getRow() * 32 + 32, zombies[i].getPosition());
     }
 }
 
@@ -86,8 +94,10 @@ std::vector<Sprite *> Level::sprites() {
         }
     }
 
-    for (auto zombie : zombies) {
-        returnSprites.push_back(zombie.getSprite());
+    //for (auto zombie : zombies) {//FIXME: Use iterator
+    for (int i = 0; i < zombies.size(); i++) {
+        //returnSprites.push_back(zombie.getSprite());
+        returnSprites.push_back(zombies[i].getSprite());
     }
 
     return returnSprites;
@@ -127,6 +137,7 @@ void Level::tick(u16 keys) {
     }
 
     updateMinions();
+    updateZombies();
 }
 
 void Level::Scroll(bool toZombies) {
