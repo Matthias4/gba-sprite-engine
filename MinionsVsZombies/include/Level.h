@@ -7,6 +7,7 @@
 
 #include <libgba-sprite-engine/scene.h>
 #include <Minions/Shooter.h>
+#include <Enemies/Zombie.h>
 
 #define LEVEL_GRID_WIDTH 6
 #define LEVEL_GRID_HEIGHT 4
@@ -14,18 +15,22 @@
 class Level : public Scene {
 private:
     uint32_t flowers = 0;// Amount of flowers on start can be entered here
-    /* tests */
-    std::unique_ptr<Sprite> minion;
-    std::unique_ptr<Sprite> bananaMinion;
-    std::unique_ptr<Sprite> zombie;
-    /* ///// */
+
+    std::vector< std::vector<uint8_t> > waves;
+    int16_t waveNumber = -1;
 
     Minion* grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
     void updateMinions();
 
+    std::vector<Zombie> zombies = std::vector<Zombie>();
+    void updateZombies();
+
+    bool nextWave();
+
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);
     Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers);
+    Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers, std::vector< std::vector<uint8_t> > waves);
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;

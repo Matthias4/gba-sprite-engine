@@ -16,6 +16,8 @@
 #include "Level/LevelFGPalette.h"
 #include "Level/Minion.h"
 #include "Level/BananaMinion.h"
+#include "Level/Zombie.h"
+#include "ZombieTypes.h"
 
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
@@ -24,19 +26,57 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
             grid[x][y] = nullptr;
         }
     }
+
+    waves = { {STANDARD_ZOMBIE} };
 }
 Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers) : Level(engine) {
     flowers = startingFlowers;
+}
+
+Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers, std::vector< std::vector<uint8_t> > waves) : Level(engine, startingFlowers) {
+    this->waves = waves;
 }
 
 void Level::updateMinions() {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
-                grid[x][y]->move(x * 32, y * 32 + 32);
+                grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
             }
         }
     }
+}
+
+void Level::updateZombies() {
+    //for (auto zombie : zombies) {//FIXME: Use iterator
+    for (int i = 0; i < zombies.size(); i++) {
+        //zombie.move(0, 0);//zombie.getRow() * 32 + 32, 50);//, zombie.getPosition());
+        zombies[i].move(zombies[i].getRow() * 32 + 32, zombies[i].getPosition());
+    }
+}
+
+bool Level::nextWave() {
+    waveNumber++;
+
+    if (waveNumber > waves.size()) return false;
+
+    SpriteBuilder<Sprite> spriteBuilder;
+
+    for (auto zombie : waves[waveNumber]) {
+        switch (zombie) {
+            case STANDARD_ZOMBIE:
+                zombies.push_back(Zombie(10, 1, 1, 1, 1, spriteBuilder.withData(levelZombieTiles, sizeof(levelZombieTiles)).withSize(SIZE_32_32).buildPtr()));
+                break;
+            case CONEHEAD_ZOMBIE:
+                //TODO: Create conehead zombie class and use here
+                break;
+            case BUCKETHEAD_ZOMBIE:
+                //TODO: Create buckethead zombie class and use here
+                break;
+        }
+    }
+
+    return true;
 }
 
 std::vector<Background *> Level::backgrounds() {
@@ -54,10 +94,11 @@ std::vector<Sprite *> Level::sprites() {
         }
     }
 
-    /* tests */
-    returnSprites.push_back(minion.get());
-    returnSprites.push_back(bananaMinion.get());
-    /* ///// */
+    //for (auto zombie : zombies) {//FIXME: Use iterator
+    for (int i = 0; i < zombies.size(); i++) {
+        //returnSprites.push_back(zombie.getSprite());
+        returnSprites.push_back(zombies[i].getSprite());
+    }
 
     return returnSprites;
 }
@@ -70,6 +111,10 @@ void Level::load() {
     // Load grass as background
 
     SpriteBuilder<Sprite> spriteBuilder;
+    /*std::unique_ptr<Sprite> shooterSprite = spriteBuilder
+            .withData(levelMinionTiles, sizeof(levelMinionTiles))
+            .withSize(SIZE_32_32)
+            .buildPtr();*/
 
     grid[1][1] = new Shooter(1, 1, 1, spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
@@ -79,22 +124,6 @@ void Level::load() {
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
             .buildPtr());
-
-    /* tests */
-    minion = spriteBuilder
-            .withData(levelMinionTiles, sizeof(levelMinionTiles))
-            .withSize(SIZE_32_32)
-            .withAnimated(2, 20)
-            .withLocation(70, 320)
-            .buildPtr();
-
-    bananaMinion = spriteBuilder
-            .withData(levelBananaMinionTiles, sizeof(levelBananaMinionTiles))
-            .withSize(SIZE_32_32)
-            .withAnimated(2, 20)
-            .withLocation(170, 320)
-            .buildPtr();
-    /* ///// */
 }
 
 void Level::tick(u16 keys) {
@@ -103,7 +132,12 @@ void Level::tick(u16 keys) {
         engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
     }
 
+    if (zombies.empty()) {// All zombies dead? Start next wave
+        nextWave();
+    }
+
     updateMinions();
+    updateZombies();
 }
 
 void Level::Scroll(bool toZombies) {

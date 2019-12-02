@@ -7,13 +7,12 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
-#include <Level/LevelFGPalette.h>
-#include <Level/Grass.h>
 
 #include "Level.h"
 #include "About.h"
 #include "minion_image.h"
 #include "MainMenu.h"
+#include "ZombieTypes.h"
 
 MainMenu::MainMenu(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
@@ -53,7 +52,7 @@ void MainMenu::tick(u16 keys) {
     if (keys & KEY_START) {// ENTER key
         if (selectedMenuEntry == 0) {
             if (!engine->isTransitioning()) {
-                engine->transitionIntoScene(new Level(engine), new FadeOutScene(3));
+                engine->transitionIntoScene(new Level(engine, 100, { {STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE} }), new FadeOutScene(3));
             }
             //engine->setScene(new Level(engine));
         } else if (selectedMenuEntry == 1) {

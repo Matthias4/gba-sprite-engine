@@ -4,9 +4,9 @@
 
 #include "Enemies/Enemy.h"
 
-Enemy::Enemy(int givenHealth, std::shared_ptr<Sprite> givenImage) {
+Enemy::Enemy(int givenHealth, std::unique_ptr<Sprite> givenImage) {
     health = givenHealth;
-    std::shared_ptr<Sprite> image = givenImage;
+    image = std::move(givenImage);
 }
 
 int Enemy::getHealth() {
@@ -22,5 +22,13 @@ void Enemy::getHit(int damage) {
 
 void Enemy::die() {
     //moet nog ingevuld worden
+}
+
+void Enemy::move(int x, int y) {
+    image->moveTo(x, y);
+}
+
+Sprite *Enemy::getSprite() {
+    return image.get();
 }
 
