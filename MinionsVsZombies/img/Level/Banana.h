@@ -4,21 +4,25 @@
 //======================================================================
 //
 //	Banana, 32x32@8, 
+//	+ palette 256 entries, not compressed
 //	+ 16 tiles not compressed
-//	Total size: 1024 = 1024
+//	Total size: 512 + 1024 = 1536
 //
-//	Time-stamp: 2019-11-28, 11:55:08
+//	Time-stamp: 2019-12-03, 14:29:27
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-#ifndef LEVEL_BANANA_H
-#define LEVEL_BANANA_H
+#ifndef GRIT_BANANA_H
+#define GRIT_BANANA_H
 
-#define LEVEL_BANANA_TILES_LEN 1024
-extern const unsigned int levelBananaTiles[256];
+#define BananaTilesLen 1024
+extern const unsigned int BananaTiles[256];
 
-#endif // LEVEL_BANANA_H
+#define BananaPalLen 512
+extern const unsigned short BananaPal[256];
+
+#endif // GRIT_BANANA_H
 
 //}}BLOCK(Banana)
