@@ -24,6 +24,8 @@ add_executable(${PROJECT_NAME}.elf
         src/Enemies/Zombie.cpp
 
         img/minion_image.h
+        img/Level/Shared.c
+        img/Level/Shared.h
         img/Level/Banana.h
         img/Level/BananaMinion.h
         img/Level/BananaMinion.c

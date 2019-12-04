@@ -4,11 +4,10 @@
 //======================================================================
 //
 //	minion, 32x96@8, 
-//	+ palette 256 entries, not compressed
 //	+ 48 tiles not compressed
-//	Total size: 512 + 3072 = 3584
+//	Total size: 3072 = 3072
 //
-//	Time-stamp: 2019-12-03, 14:29:27
+//	Time-stamp: 2019-12-04, 12:44:46
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -19,9 +18,6 @@
 
 #define minionTilesLen 3072
 extern const unsigned int minionTiles[768];
-
-#define minionPalLen 512
-extern const unsigned short minionPal[256];
 
 #endif // GRIT_MINION_H
 

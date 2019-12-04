@@ -1,11 +1,11 @@
 
-//{{BLOCK(FlowerMinion)
+//{{BLOCK(Shared)
 
 //======================================================================
 //
-//	FlowerMinion, 32x96@8, 
-//	+ 48 tiles not compressed
-//	Total size: 3072 = 3072
+//	Shared, 16x16@8, 
+//	+ palette 27 entries, not compressed
+//	Total size: 54 = 54
 //
 //	Time-stamp: 2019-12-04, 12:44:46
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
@@ -13,12 +13,12 @@
 //
 //======================================================================
 
-#ifndef GRIT_FLOWERMINION_H
-#define GRIT_FLOWERMINION_H
+#ifndef GRIT_SHARED_H
+#define GRIT_SHARED_H
 
-#define FlowerMinionTilesLen 3072
-extern const unsigned int FlowerMinionTiles[768];
+#define SharedPalLen 54
+extern const unsigned short SharedPal[28];
 
-#endif // GRIT_FLOWERMINION_H
+#endif // GRIT_SHARED_H
 
-//}}BLOCK(FlowerMinion)
+//}}BLOCK(Shared)
