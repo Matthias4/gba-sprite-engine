@@ -22,10 +22,12 @@ private:
     Minion* grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
     void updateMinions();
 
-    std::vector<Zombie> zombies = std::vector<Zombie>();
+    std::vector< std::unique_ptr<Zombie> > zombies = std::vector< std::unique_ptr<Zombie> >();
     void updateZombies();
 
     bool nextWave();
+
+    std::unique_ptr<Sprite> testZombieSprite;
 
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);

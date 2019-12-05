@@ -51,7 +51,7 @@ void Level::updateZombies() {
     //for (auto zombie : zombies) {//FIXME: Use iterator
     for (int i = 0; i < zombies.size(); i++) {
         //zombie.move(0, 0);//zombie.getRow() * 32 + 32, 50);//, zombie.getPosition());
-        zombies[i].move(zombies[i].getRow() * 32 + 32, zombies[i].getPosition());
+        zombies[i]->move(zombies[i]->getRow() * 32 + 32, zombies[i]->getPosition());
     }
 }
 
@@ -65,7 +65,7 @@ bool Level::nextWave() {
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
             case STANDARD_ZOMBIE:
-                zombies.push_back(Zombie(10, 1, 1, 1, 1, spriteBuilder.withData(zombieTiles, sizeof(zombieTiles)).withSize(SIZE_32_32).buildPtr()));
+                zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder.withData(zombieTiles, sizeof(zombieTiles)).withLocation(70, 70).withSize(SIZE_32_32).buildPtr())));
                 break;
             case CONEHEAD_ZOMBIE:
                 //TODO: Create conehead zombie class and use here
@@ -96,9 +96,11 @@ std::vector<Sprite *> Level::sprites() {
 
     //for (auto zombie : zombies) {//FIXME: Use iterator
     for (int i = 0; i < zombies.size(); i++) {
-        //returnSprites.push_back(zombie.getSprite());
-        returnSprites.push_back(zombies[i].getSprite());
+        //returnSprites.push_back(zombie->getSprite());
+        returnSprites.push_back(zombies[i]->getSprite());
     }
+
+    returnSprites.push_back(testZombieSprite.get());
 
     return returnSprites;
 }
@@ -124,6 +126,8 @@ void Level::load() {
             .withData(minionTiles, sizeof(minionTiles))
             .withSize(SIZE_32_32)
             .buildPtr()); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+
+            testZombieSprite = spriteBuilder.withData(zombieTiles, sizeof(zombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
 }
 
 void Level::tick(u16 keys) {
