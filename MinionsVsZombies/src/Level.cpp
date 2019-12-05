@@ -131,9 +131,9 @@ void Level::load() {
 }
 
 void Level::tick(u16 keys) {
-    TextStream::instance().setText(std::string("Flowers: " + std::to_string(flowers)), 1, 1); //Waarom staat dit hier? Just a test :) Okidoki :)
-    TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen
-    if (keys & KEY_A) {// A key (x on emulator) //FIXME: Als je teruggaat, is er geen selectieminion meer
+    TextStream::instance().setText(std::string("Flowers: " + std::to_string(flowers)), 1, 1);
+    TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen Toppie :D
+    if (keys & KEY_A) {// A key (x on emulator) //FIXME: Als je teruggaat, crasht het
         engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
     }
 
