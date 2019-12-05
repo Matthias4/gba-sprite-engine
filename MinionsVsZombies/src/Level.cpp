@@ -60,12 +60,10 @@ bool Level::nextWave() {
 
     if (waveNumber > waves.size()) return false;
 
-    SpriteBuilder<Sprite> spriteBuilder;
-
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
             case STANDARD_ZOMBIE:
-                zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder.withData(zombieTiles, sizeof(zombieTiles)).withLocation(70, 70).withSize(SIZE_32_32).buildPtr())));
+                zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite.get()))));
                 break;
             case CONEHEAD_ZOMBIE:
                 //TODO: Create conehead zombie class and use here
@@ -112,22 +110,26 @@ void Level::load() {
 
     // Load grass as background
 
-    SpriteBuilder<Sprite> spriteBuilder;
+    spriteBuilder = std::unique_ptr< SpriteBuilder<Sprite> >(new SpriteBuilder<Sprite>);
     /*std::unique_ptr<Sprite> shooterSprite = spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
             .buildPtr();*/
 
-    grid[1][1] = new Shooter(1, 1, 1, spriteBuilder
-            .withData(minionTiles, sizeof(minionTiles))
+    shooterSprite = spriteBuilder
+            ->withData(minionTiles, sizeof(minionTiles))
             .withSize(SIZE_32_32)
-            .buildPtr());
-    grid[2][2] = new Shooter(1, 1, 1, spriteBuilder
-            .withData(minionTiles, sizeof(minionTiles))
-            .withSize(SIZE_32_32)
-            .buildPtr()); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+            .buildPtr();
 
-            testZombieSprite = spriteBuilder.withData(zombieTiles, sizeof(zombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
+    basicZombieSprite = spriteBuilder
+            ->withData(zombieTiles, sizeof(zombieTiles))
+            .withSize(SIZE_32_32)
+            .buildPtr();
+
+    grid[1][1] = new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite));
+    grid[2][2] = new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+
+    testZombieSprite = spriteBuilder->withData(zombieTiles, sizeof(zombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
 }
 
 void Level::tick(u16 keys) {

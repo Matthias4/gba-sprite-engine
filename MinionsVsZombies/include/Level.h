@@ -29,6 +29,12 @@ private:
 
     std::unique_ptr<Sprite> testZombieSprite;
 
+    std::unique_ptr< SpriteBuilder<Sprite> > spriteBuilder;
+
+    std::unique_ptr<Sprite> shooterSprite;
+
+    std::unique_ptr<Sprite> basicZombieSprite;
+
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);
     Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers);
