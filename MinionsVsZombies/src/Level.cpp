@@ -65,7 +65,7 @@ bool Level::nextWave() {
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
             case STANDARD_ZOMBIE:
-                zombies.push_back(Zombie(10, 1, 1, 1, 1, spriteBuilder.withData(zombieTiles, sizeof(zombieTiles)).withSize(SIZE_32_32).buildPtr()));
+                zombies.push_back(Zombie(10, 1, 1, 1, 1, spriteBuilder.withData(ZombieTiles, sizeof(ZombieTiles)).withSize(SIZE_32_32).buildPtr()));
                 break;
             case CONEHEAD_ZOMBIE:
                 //TODO: Create conehead zombie class and use here
@@ -117,11 +117,11 @@ void Level::load() {
             .buildPtr();*/
 
     grid[1][1] = new Shooter(1, 1, 1, spriteBuilder
-            .withData(minionTiles, sizeof(minionTiles))
+            .withData(MinionTiles, sizeof(MinionTiles))
             .withSize(SIZE_32_32)
             .buildPtr());
     grid[2][2] = new Shooter(1, 1, 1, spriteBuilder
-            .withData(minionTiles, sizeof(minionTiles))
+            .withData(MinionTiles, sizeof(MinionTiles))
             .withSize(SIZE_32_32)
             .buildPtr()); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 }

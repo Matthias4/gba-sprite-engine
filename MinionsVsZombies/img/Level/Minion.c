@@ -1,19 +1,19 @@
 
-//{{BLOCK(minion)
+//{{BLOCK(Minion)
 
 //======================================================================
 //
-//	minion, 32x96@8, 
+//	Minion, 32x96@8, 
 //	+ 48 tiles not compressed
 //	Total size: 3072 = 3072
 //
-//	Time-stamp: 2019-12-04, 12:44:46
+//	Time-stamp: 2019-12-05, 10:19:38
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-const unsigned int minionTiles[768] __attribute__((aligned(4)))=
+const unsigned int MinionTiles[768] __attribute__((aligned(4)))=
 {
 	0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
 	0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
@@ -124,4 +124,4 @@ const unsigned int minionTiles[768] __attribute__((aligned(4)))=
 	0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
 };
 
-//}}BLOCK(minion)
+//}}BLOCK(Minion)
