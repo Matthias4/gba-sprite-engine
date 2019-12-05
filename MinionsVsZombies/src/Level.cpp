@@ -16,7 +16,10 @@
 #include "Level/LevelFGPalette.h"
 #include "Level/Minion.h"
 #include "Level/BananaMinion.h"
+#include "Level/FlowerMinion.h"
 #include "Level/Zombie.h"
+#include "Level/Banana.h"
+#include "Level/Shared.h"
 #include "ZombieTypes.h"
 
 
@@ -105,7 +108,7 @@ std::vector<Sprite *> Level::sprites() {
 
 void Level::load() {
 
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(levelFGPalette, sizeof(levelFGPalette)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(SharedPal, sizeof(SharedPal)));
     //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     // Load grass as background

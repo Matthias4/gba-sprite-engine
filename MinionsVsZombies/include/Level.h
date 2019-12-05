@@ -2,12 +2,12 @@
 // Created by matthias on 11/21/19.
 //
 
-#ifndef GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
-#define GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
-
 #include <libgba-sprite-engine/scene.h>
 #include <Minions/Shooter.h>
 #include <Enemies/Zombie.h>
+
+#ifndef GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
+#define GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
 
 #define LEVEL_GRID_WIDTH 6
 #define LEVEL_GRID_HEIGHT 4
@@ -38,6 +38,9 @@ public:
     void tick(u16 keys) override;
 
     void Scroll(bool toZombies);
+
+    inline void addFlower(int numberOfFlowers) {flowers += numberOfFlowers;};
+    inline void removeFlower(int numberOfFlowers) {flowers -= numberOfFlowers;};
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_LEVEL_H

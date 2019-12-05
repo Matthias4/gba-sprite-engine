@@ -2,10 +2,10 @@
 // Created by michi on 26/11/2019.
 //
 
+#include "Minion.h"
+
 #ifndef GBA_SPRITE_ENGINE_PROJECT_FLOWERMINION_H
 #define GBA_SPRITE_ENGINE_PROJECT_FLOWERMINION_H
-
-#include "Minion.h"
 
 class FlowerMinion: public Minion {
 private:
