@@ -30,6 +30,9 @@ int Zombie::getPosition() {
 
 void Zombie::walk() {
     // wandel wandel
+    // (•_•)
+    // ( •_•)⌐■-■
+    // (⌐■_■)
     //position--; ofzo
 }
 

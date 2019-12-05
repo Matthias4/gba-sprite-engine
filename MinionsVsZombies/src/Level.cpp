@@ -16,7 +16,10 @@
 #include "Level/LevelFGPalette.h"
 #include "Level/Minion.h"
 #include "Level/BananaMinion.h"
+#include "Level/FlowerMinion.h"
 #include "Level/Zombie.h"
+#include "Level/Banana.h"
+#include "Level/Shared.h"
 #include "ZombieTypes.h"
 
 
@@ -105,7 +108,7 @@ std::vector<Sprite *> Level::sprites() {
 
 void Level::load() {
 
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(levelFGPalette, sizeof(levelFGPalette)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(SharedPal, sizeof(SharedPal)));
     //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     // Load grass as background
@@ -133,11 +136,15 @@ void Level::load() {
 }
 
 void Level::tick(u16 keys) {
+
+    if (keys & KEY_A) {// A key (x on emulator) //
+        engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
+        return;
+    }
+
     TextStream::instance().setText(std::string("Flowers: " + std::to_string(flowers)), 1, 1);
     TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen Toppie :D
-    if (keys & KEY_A) {// A key (x on emulator) //FIXME: Als je teruggaat, crasht het
-        engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
-    }
+
 
     if (zombies.empty()) {// All zombies dead? Start next wave
         nextWave();
@@ -145,6 +152,8 @@ void Level::tick(u16 keys) {
 
     updateMinions();
     updateZombies();
+
+
 }
 
 void Level::Scroll(bool toZombies) {
