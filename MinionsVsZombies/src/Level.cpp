@@ -13,7 +13,6 @@
 
 #include "Level.h"
 #include "MainMenu.h"
-#include "Level/LevelFGPalette.h"
 #include "Level/Minion.h"
 #include "Level/BananaMinion.h"
 #include "Level/FlowerMinion.h"
