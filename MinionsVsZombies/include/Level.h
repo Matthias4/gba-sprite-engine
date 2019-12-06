@@ -19,7 +19,7 @@ private:
     std::vector< std::vector<uint8_t> > waves;
     int16_t waveNumber = -1;
 
-    Minion* grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
+    std::unique_ptr<Minion> grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
     void updateMinions();
 
     std::vector< std::unique_ptr<Zombie> > zombies = std::vector< std::unique_ptr<Zombie> >();
