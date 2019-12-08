@@ -32,8 +32,6 @@ add_executable(${PROJECT_NAME}.elf
         img/Level/Banana.h
         img/Level/BananaMinion.h
         img/Level/BananaMinion.c
-        img/Level/Grass.h
-        img/Level/Grass.c
         img/Level/Minion.h
         img/Level/Minion.c
         img/Level/Zombie.h

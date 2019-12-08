@@ -7,7 +7,7 @@
 //	+ 66 tiles not compressed
 //	Total size: 4224 = 4224
 //
-//	Time-stamp: 2019-12-05, 09:51:26
+//	Time-stamp: 2019-12-08, 16:03:47
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -23,26 +23,26 @@ extern const unsigned int BackgroundTiles[1056];
 
 //}}BLOCK(Background)
 
-//{{BLOCK(___w___B_______Shared)
+//{{BLOCK(___w___H_______Shared)
 
 //======================================================================
 //
-//	___w___B_______Shared, 16x16@8, 
-//	+ palette 18 entries, not compressed
-//	Total size: 36 = 36
+//	___w___H_______Shared, 16x16@8, 
+//	+ palette 19 entries, not compressed
+//	Total size: 38 = 38
 //
-//	Time-stamp: 2019-12-05, 09:51:26
+//	Time-stamp: 2019-12-08, 16:03:47
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-#ifndef GRIT____W___B_______SHARED_H
-#define GRIT____W___B_______SHARED_H
+#ifndef GRIT____W___H_______SHARED_H
+#define GRIT____W___H_______SHARED_H
 
-#define ___w___B_______SharedPalLen 36
-extern const unsigned short BackgroundPal[18];
+#define ___w___H_______SharedPalLen 38
+extern const unsigned short BackgroundPal[20];
 
-#endif // GRIT____W___B_______SHARED_H
+#endif // GRIT____W___H_______SHARED_H
 
-//}}BLOCK(___w___B_______Shared)
+//}}BLOCK(___w___H_______Shared)
