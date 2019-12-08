@@ -21,6 +21,10 @@
 #include "Level/Shared.h"
 #include "ZombieTypes.h"
 
+// Includes for the background
+#include "Level/Background.h"
+#include "Level/Map.h"
+
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
@@ -82,7 +86,7 @@ bool Level::nextWave() {
 }
 
 std::vector<Background *> Level::backgrounds() {
-    return {};
+    return { background.get() };
 }
 
 std::vector<Sprite *> Level::sprites() {
@@ -108,7 +112,7 @@ std::vector<Sprite *> Level::sprites() {
 void Level::load() {
 
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(SharedPal, sizeof(SharedPal)));
-    //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(BackgroundPal, sizeof(BackgroundPal)));
 
     // Load grass as background
 
@@ -126,6 +130,9 @@ void Level::load() {
             .withData(MinionTiles, sizeof(MinionTiles))
             .withSize(SIZE_32_32)
             .buildPtr()); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+
+    background = std::unique_ptr<Background>(new Background(1, BackgroundTiles, sizeof(BackgroundTiles), map, sizeof(map)));
+    background.get()->useMapScreenBlock(16);
 }
 
 void Level::tick(u16 keys) {

@@ -27,6 +27,8 @@ private:
 
     bool nextWave();
 
+    std::unique_ptr<Background> background;
+
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);
     Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers);

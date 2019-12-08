@@ -26,6 +26,9 @@ add_executable(${PROJECT_NAME}.elf
         img/minion_image.h
         img/Level/Shared.c
         img/Level/Shared.h
+        img/Level/Background.h
+        img/Level/Background.c
+        img/Level/Map.h
         img/Level/Banana.h
         img/Level/BananaMinion.h
         img/Level/BananaMinion.c
@@ -35,7 +38,7 @@ add_executable(${PROJECT_NAME}.elf
         img/Level/Minion.c
         img/Level/Zombie.h
         img/Level/Zombie.c
-        include/ZombieTypes.h include/Enemies/Basic.h src/Enemies/Basic.cpp)
+        include/ZombieTypes.h include/Enemies/Basic.h src/Enemies/Basic.cpp img/Level/Background.c img/Level/Background.h)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)

@@ -41,7 +41,7 @@ extern const unsigned int BackgroundTiles[1056];
 #define GRIT____W___B_______SHARED_H
 
 #define ___w___B_______SharedPalLen 36
-extern const unsigned short ___w___B_______SharedPal[18];
+extern const unsigned short BackgroundPal[18];
 
 #endif // GRIT____W___B_______SHARED_H
 

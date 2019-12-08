@@ -181,7 +181,7 @@ const unsigned int BackgroundTiles[1056] __attribute__((aligned(4)))=
 //
 //======================================================================
 
-const unsigned short ___w___B_______SharedPal[18] __attribute__((aligned(4)))=
+const unsigned short BackgroundPal[18] __attribute__((aligned(4)))=
 {
 	0x0000,0x1185,0x1571,0x4631,0x1144,0x6318,0x2A4E,0x1E69,
 	0x14A5,0x1DF7,0x32F2,0x1A06,0x222D,0x2AB0,0x15C7,0x3353,
