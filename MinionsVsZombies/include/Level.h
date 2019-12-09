@@ -27,8 +27,6 @@ private:
 
     bool nextWave();
 
-    std::unique_ptr<Background> background;
-
     std::unique_ptr<Sprite> testZombieSprite;
 
     std::unique_ptr< SpriteBuilder<Sprite> > spriteBuilder;
@@ -36,6 +34,8 @@ private:
     std::unique_ptr<Sprite> shooterSprite;
 
     std::unique_ptr<Sprite> basicZombieSprite;
+
+    std::unique_ptr<Background> background;
 
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);

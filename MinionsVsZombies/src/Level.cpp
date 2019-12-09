@@ -143,7 +143,6 @@ void Level::load() {
     //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
 
     //testZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
-            .buildPtr()); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 
     background = std::unique_ptr<Background>(new Background(1, BackgroundTiles, sizeof(BackgroundTiles), map, sizeof(map)));
     background.get()->useMapScreenBlock(16);
