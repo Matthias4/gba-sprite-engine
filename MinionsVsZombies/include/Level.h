@@ -22,7 +22,7 @@ private:
     std::unique_ptr<Minion> grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
     void updateMinions();
 
-    std::vector< std::unique_ptr<Zombie> > zombies = std::vector< std::unique_ptr<Zombie> >();
+    std::vector< std::unique_ptr<Enemy> > enemies = std::vector< std::unique_ptr<Enemy> >();
     void updateZombies();
 
     bool nextWave();
