@@ -11,6 +11,7 @@
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <Minions/Shooter.h>
+#include <Minions/FlowerMinion.h>
 
 #include "Level.h"
 #include "MainMenu.h"
@@ -132,13 +133,18 @@ void Level::load() {
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)// from demo 3
             .buildPtr();
 
+    flowerMinionSprite = spriteBuilder->withData(FlowerMinionTiles, sizeof(FlowerMinionTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
+            .buildPtr();
+
     basicZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
 
     grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
-    grid[2][2] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+    grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(*flowerMinionSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 
     //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
 

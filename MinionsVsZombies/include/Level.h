@@ -32,6 +32,7 @@ private:
     std::unique_ptr< SpriteBuilder<Sprite> > spriteBuilder;
 
     std::unique_ptr<Sprite> shooterSprite;
+    std::unique_ptr<Sprite> flowerMinionSprite;
 
     std::unique_ptr<Sprite> basicZombieSprite;
 
