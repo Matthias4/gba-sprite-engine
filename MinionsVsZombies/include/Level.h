@@ -19,15 +19,23 @@ private:
     std::vector< std::vector<uint8_t> > waves;
     int16_t waveNumber = -1;
 
-    Minion* grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
+    std::unique_ptr<Minion> grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
     void updateMinions();
 
-    std::vector<Zombie> zombies = std::vector<Zombie>();
+    std::vector< std::unique_ptr<Zombie> > zombies = std::vector< std::unique_ptr<Zombie> >();
     void updateZombies();
 
     bool nextWave();
 
     std::unique_ptr<Background> background;
+
+    std::unique_ptr<Sprite> testZombieSprite;
+
+    std::unique_ptr< SpriteBuilder<Sprite> > spriteBuilder;
+
+    std::unique_ptr<Sprite> shooterSprite;
+
+    std::unique_ptr<Sprite> basicZombieSprite;
 
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);

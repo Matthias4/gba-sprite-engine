@@ -3,6 +3,7 @@
 //
 
 #include <libgba-sprite-engine/gba/tonc_types.h>
+#include <utility>
 #include <vector>
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/background/text_stream.h>
@@ -40,7 +41,7 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers)
 }
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers, std::vector< std::vector<uint8_t> > waves) : Level(engine, startingFlowers) {
-    this->waves = waves;
+    this->waves = std::move(waves);
 }
 
 void Level::updateMinions() {
@@ -57,7 +58,7 @@ void Level::updateZombies() {
     //for (auto zombie : zombies) {//FIXME: Use iterator
     for (int i = 0; i < zombies.size(); i++) {
         //zombie.move(0, 0);//zombie.getRow() * 32 + 32, 50);//, zombie.getPosition());
-        zombies[i].move(zombies[i].getRow() * 32 + 32, zombies[i].getPosition());
+        zombies[i]->move(0, 0);//zombies[i]->getRow() * 32 + 32, zombies[i]->getPosition());
     }
 }
 
@@ -66,12 +67,10 @@ bool Level::nextWave() {
 
     if (waveNumber > waves.size()) return false;
 
-    SpriteBuilder<Sprite> spriteBuilder;
-
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
             case STANDARD_ZOMBIE:
-                zombies.push_back(Zombie(10, 1, 1, 1, 1, spriteBuilder.withData(ZombieTiles, sizeof(ZombieTiles)).withSize(SIZE_32_32).buildPtr()));
+                zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
                 break;
             case CONEHEAD_ZOMBIE:
                 //TODO: Create conehead zombie class and use here
@@ -102,9 +101,15 @@ std::vector<Sprite *> Level::sprites() {
 
     //for (auto zombie : zombies) {//FIXME: Use iterator
     for (int i = 0; i < zombies.size(); i++) {
-        //returnSprites.push_back(zombie.getSprite());
-        returnSprites.push_back(zombies[i].getSprite());
+        //returnSprites.push_back(zombie->getSprite());
+        returnSprites.push_back(zombies[i]->getSprite());
     }
+
+    // Sprite templates
+    returnSprites.push_back(shooterSprite.get());
+    returnSprites.push_back(basicZombieSprite.get());
+
+    //returnSprites.push_back(testZombieSprite.get());
 
     return returnSprites;
 }
@@ -116,19 +121,28 @@ void Level::load() {
 
     // Load grass as background
 
-    SpriteBuilder<Sprite> spriteBuilder;
+    spriteBuilder = std::unique_ptr< SpriteBuilder<Sprite> >(new SpriteBuilder<Sprite>);
     /*std::unique_ptr<Sprite> shooterSprite = spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
             .buildPtr();*/
 
-    grid[1][1] = new Shooter(1, 1, 1, spriteBuilder
-            .withData(MinionTiles, sizeof(MinionTiles))
+    shooterSprite = spriteBuilder->withData(MinionTiles, sizeof(MinionTiles))
             .withSize(SIZE_32_32)
-            .buildPtr());
-    grid[2][2] = new Shooter(1, 1, 1, spriteBuilder
-            .withData(MinionTiles, sizeof(MinionTiles))
+            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)// from demo 3
+            .buildPtr();
+
+    basicZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles))
             .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
+            .buildPtr();
+
+    grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
+    grid[2][2] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+
+    //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
+
+    //testZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
             .buildPtr()); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 
     background = std::unique_ptr<Background>(new Background(1, BackgroundTiles, sizeof(BackgroundTiles), map, sizeof(map)));
