@@ -48,7 +48,7 @@ void Level::updateMinions() {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
-                grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
+                grid[x][y]->move(x * 32, y * 32 + 12);//FIXME: Minions are moved EVERY tick, should only be moved once...
             }
         }
     }
