@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME}.elf
         include/Level.h
         src/Level.cpp
 
+        include/ZombieTypes.h
         include/Minions/Minion.h
         src/Minions/Minion.cpp
         include/Minions/FlowerMinion.h
@@ -22,6 +23,8 @@ add_executable(${PROJECT_NAME}.elf
         src/Enemies/Enemy.cpp
         include/Enemies/Zombie.h
         src/Enemies/Zombie.cpp
+        include/Enemies/Basic.h
+        src/Enemies/Basic.cpp
 
         img/minion_image.h
         img/Level/Shared.c
@@ -34,9 +37,12 @@ add_executable(${PROJECT_NAME}.elf
         img/Level/BananaMinion.c
         img/Level/Minion.h
         img/Level/Minion.c
+        img/Level/FlowerMinion.h
+        img/Level/FlowerMinion.c
         img/Level/Zombie.h
         img/Level/Zombie.c
-        include/ZombieTypes.h include/Enemies/Basic.h src/Enemies/Basic.cpp img/Level/Background.c img/Level/Background.h)
+        img/Level/Background.h
+        img/Level/Background.c)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)
