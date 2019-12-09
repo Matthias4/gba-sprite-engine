@@ -3,6 +3,7 @@
 //
 
 #include <libgba-sprite-engine/gba/tonc_types.h>
+#include <utility>
 #include <vector>
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/background/text_stream.h>
@@ -36,7 +37,7 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers)
 }
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers, std::vector< std::vector<uint8_t> > waves) : Level(engine, startingFlowers) {
-    this->waves = waves;
+    this->waves = std::move(waves);
 }
 
 void Level::updateMinions() {
@@ -104,7 +105,7 @@ std::vector<Sprite *> Level::sprites() {
     returnSprites.push_back(shooterSprite.get());
     returnSprites.push_back(basicZombieSprite.get());
 
-    returnSprites.push_back(testZombieSprite.get());
+    //returnSprites.push_back(testZombieSprite.get());
 
     return returnSprites;
 }
@@ -135,9 +136,9 @@ void Level::load() {
     grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
     grid[2][2] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 
-    zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
+    //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
 
-    testZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
+    //testZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
 }
 
 void Level::tick(u16 keys) {
