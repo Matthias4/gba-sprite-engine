@@ -56,21 +56,21 @@ void Level::updateMinions() {
 
 void Level::updateZombies() {
     //for (auto zombie : zombies) {//FIXME: Use iterator
-    for (int i = 0; i < enemies.size(); i++) {
+    for (int i = 0; i < zombies.size(); i++) {
+        //zombies[i]->walk();
         //zombie.move(0, 0);//zombie.getRow() * 32 + 32, 50);//, zombie.getPosition());
-        enemies[i]->move(2, 2);//zombies[i]->getRow() * 32 + 32, zombies[i]->getPosition());
+        zombies[i]->move(0, 0);//zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 12);
     }
 }
 
 bool Level::nextWave() {
+    if (waveNumber >= waves.size()) return false;
     waveNumber++;
-
-    if (waveNumber > waves.size()) return false;
 
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
             case STANDARD_ZOMBIE:
-                //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
+                zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
                 break;
             case CONEHEAD_ZOMBIE:
                 //TODO: Create conehead zombie class and use here
@@ -100,9 +100,9 @@ std::vector<Sprite *> Level::sprites() {
     }
 
     //for (auto zombie : zombies) {//FIXME: Use iterator
-    for (int i = 0; i < enemies.size(); i++) {
+    for (int i = 0; i < zombies.size(); i++) {
         //returnSprites.push_back(zombie->getSprite());
-        returnSprites.push_back(enemies[i]->getSprite());
+        returnSprites.push_back(zombies[i]->getSprite());
     }
 
     // Sprite templates
@@ -140,7 +140,7 @@ void Level::load() {
     grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
     grid[2][2] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 
-    enemies.push_back(std::unique_ptr<Enemy>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
+    //enemies.push_back(std::unique_ptr<Enemy>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
 
     //testZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
 
@@ -156,17 +156,17 @@ void Level::tick(u16 keys) {
     }
 
     TextStream::instance().setText(std::string("Flowers: " + std::to_string(flowers)), 1, 1);
-    TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(enemies.size())), 3, 1);// @Anouk, meer testen Toppie :D
+    TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen Toppie :D
 
 
-    if (enemies.empty()) {// All zombies dead? Start next wave
+    if (zombies.empty()) {// All zombies dead? Start next wave
         nextWave();
     }
 
     updateMinions();
     updateZombies();
 
-
+    engine->getTimer()->start();
 }
 
 void Level::Scroll(bool toZombies) {
