@@ -10,7 +10,7 @@ Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int give
     walkingSpeed = givenWalkingSpeed;
     damage = givenDamage;
     row = givenRow;
-    position = 100;//GBA_SCREEN_WIDTH
+    position = GBA_SCREEN_WIDTH;
 }
 
 int Zombie::getWalkingSpeed() {

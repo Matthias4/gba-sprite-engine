@@ -58,8 +58,7 @@ void Level::updateMinions() {
 void Level::updateZombies() {
     //for (auto zombie : zombies) {//FIXME: Use iterator
     for (int i = 0; i < zombies.size(); i++) {
-        //zombies[i]->walk();
-        //zombie.move(0, 0);//zombie.getRow() * 32 + 32, 50);//, zombie.getPosition());
+        zombies[i]->walk();
         zombies[i]->move(zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 12);
     }
 }
@@ -117,10 +116,6 @@ std::vector<Sprite *> Level::sprites() {
         returnSprites.push_back(toolbar[i].get());
     }
 
-    //TextStream::instance().setText(std::to_string((unsigned int) zombies[0]->getSprite()), 5, 1);// Sprite address
-
-    //returnSprites.push_back(testZombieSprite.get());
-
     return returnSprites;
 }
 
@@ -131,13 +126,7 @@ void Level::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
             new BackgroundPaletteManager(BackgroundPal, sizeof(BackgroundPal)));
 
-    // Load grass as background
-
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite> >(new SpriteBuilder<Sprite>);
-    /*std::unique_ptr<Sprite> shooterSprite = spriteBuilder
-            .withData(levelMinionTiles, sizeof(levelMinionTiles))
-            .withSize(SIZE_32_32)
-            .buildPtr();*/
 
     shooterSprite = spriteBuilder->withData(MinionTiles, sizeof(MinionTiles))
             .withSize(SIZE_32_32)
@@ -155,12 +144,12 @@ void Level::load() {
             .buildPtr();
 
     grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
-    grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(
-            *flowerMinionSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+    grid[2][2] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(
+            *flowerMinionSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion? spriteBuilder en flowerMinionSprite kan je daar niet aan :(
 
     for (int i = 0; i < TOOLBAR_SIZE; i++) {//TODO: Optimize this block
         int x = 32;
-        int y = -10;
+        int y = 0;
         switch (i) {
             case 0:
                 toolbar[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*shooterSprite);
@@ -178,7 +167,7 @@ void Level::load() {
     background = std::unique_ptr<Background>(new Background(1, BackgroundTiles, sizeof(BackgroundTiles), map, sizeof(map)));
     background.get()->useMapScreenBlock(16);
 
-    engine->getTimer()->start();
+    engine->getTimer()->start();//TODO: Use this timer to move zombies
 }
 
 void Level::tick(u16 keys) {
@@ -196,8 +185,6 @@ void Level::tick(u16 keys) {
             TextStream::instance().setText(std::string("You won!"), 10, 6);
         }
     }
-
-    //TextStream::instance().setText(std::to_string((int) zombies[0]->getSprite()), 5, 1);//print address
 
     updateMinions();
     updateZombies();
