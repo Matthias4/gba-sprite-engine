@@ -164,7 +164,7 @@ void Level::load() {
 
     //testZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
 
-    background = std::unique_ptr<Background>(new Background(1, BackgroundTiles, sizeof(BackgroundTiles), map, sizeof(map)));
+    background = std::unique_ptr<Background>(new Background(1, BackgroundTiles, sizeof(BackgroundTiles), Map, sizeof(Map)));
     background.get()->useMapScreenBlock(16);
 
     engine->getTimer()->start();//TODO: Use this timer to move zombies
