@@ -2,12 +2,13 @@
 // Created by michi on 26/11/2019.
 //
 
+#include <libgba-sprite-engine/background/text_stream.h>
 #include "Enemies/Enemy.h"
 
-Enemy::Enemy(int givenHealth, std::unique_ptr<Sprite> givenImage) {
+/*Enemy::Enemy(int givenHealth, std::unique_ptr<Sprite> givenImage) {
     health = givenHealth;
     image = std::move(givenImage);
-}
+}*/
 
 int Enemy::getHealth() {
     return health;
@@ -26,9 +27,5 @@ void Enemy::die() {
 
 void Enemy::move(int x, int y) {
     image->moveTo(x, y);
-}
-
-Sprite *Enemy::getSprite() {
-    return image.get();
 }
 

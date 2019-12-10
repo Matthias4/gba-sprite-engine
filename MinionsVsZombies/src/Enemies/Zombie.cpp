@@ -2,14 +2,15 @@
 // Created by michi on 26/11/2019.
 //
 
+#include <libgba-sprite-engine/gba_engine.h>
 #include "Enemies/Zombie.h"
 
-Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, int givenPosition, std::unique_ptr<Sprite> givenImage)
-        : Enemy(givenHealth, std::move(givenImage)) {
+Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, std::unique_ptr<Sprite> image)
+        : Enemy(givenHealth, std::move(image)) {
     walkingSpeed = givenWalkingSpeed;
     damage = givenDamage;
     row = givenRow;
-    position = givenPosition;
+    position = 100;//GBA_SCREEN_WIDTH
 }
 
 int Zombie::getWalkingSpeed() {
@@ -34,5 +35,6 @@ void Zombie::walk() {
     // ( •_•)⌐■-■
     // (⌐■_■)
     //position--; ofzo
-}
 
+    position -= walkingSpeed;// #matthias: position -= walkSpeed; ofzo?
+}
