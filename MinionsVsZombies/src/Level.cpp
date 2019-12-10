@@ -82,6 +82,8 @@ bool Level::nextWave() {
         }
     }
 
+    engine->updateSpritesInScene();
+
     return true;
 }
 
@@ -91,6 +93,11 @@ std::vector<Background *> Level::backgrounds() {
 
 std::vector<Sprite *> Level::sprites() {
     std::vector<Sprite *> returnSprites;
+
+    // Sprite templates
+    returnSprites.push_back(shooterSprite.get());
+    returnSprites.push_back(flowerMinionSprite.get());
+    returnSprites.push_back(basicZombieSprite.get());
 
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
@@ -106,9 +113,9 @@ std::vector<Sprite *> Level::sprites() {
         returnSprites.push_back(zombies[i]->getSprite());
     }
 
-    // Sprite templates
-    returnSprites.push_back(shooterSprite.get());
-    returnSprites.push_back(basicZombieSprite.get());
+    for (int i = 0; i < TOOLBAR_SIZE; i++) {
+        returnSprites.push_back(toolbar[i].get());
+    }
 
     //TextStream::instance().setText(std::to_string((unsigned int) zombies[0]->getSprite()), 5, 1);// Sprite address
 
@@ -119,12 +126,14 @@ std::vector<Sprite *> Level::sprites() {
 
 void Level::load() {
 
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(SharedPal, sizeof(SharedPal)));
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(BackgroundPal, sizeof(BackgroundPal)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
+            new ForegroundPaletteManager(SharedPal, sizeof(SharedPal)));
+    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
+            new BackgroundPaletteManager(BackgroundPal, sizeof(BackgroundPal)));
 
     // Load grass as background
 
-    spriteBuilder = std::unique_ptr< SpriteBuilder<Sprite> >(new SpriteBuilder<Sprite>);
+    spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite> >(new SpriteBuilder<Sprite>);
     /*std::unique_ptr<Sprite> shooterSprite = spriteBuilder
             .withData(levelMinionTiles, sizeof(levelMinionTiles))
             .withSize(SIZE_32_32)
@@ -146,7 +155,21 @@ void Level::load() {
             .buildPtr();
 
     grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
-    grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(*flowerMinionSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+    grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(
+            *flowerMinionSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
+
+    for (int i = 0; i < TOOLBAR_SIZE; i++) {//TODO: Optimize this block
+        int x = 32;
+        int y = -10;
+        switch (i) {
+            case 0:
+                toolbar[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*shooterSprite);
+                break;
+            case 1:
+                toolbar[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*flowerMinionSprite);
+                break;
+        }
+    }
 
     //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
 

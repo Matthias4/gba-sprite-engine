@@ -12,6 +12,8 @@
 #define LEVEL_GRID_WIDTH 6
 #define LEVEL_GRID_HEIGHT 4
 
+#define TOOLBAR_SIZE 2
+
 class Level : public Scene {
 private:
     uint32_t flowers = 0;// Amount of flowers on start can be entered here
@@ -35,6 +37,8 @@ private:
     std::unique_ptr<Sprite> flowerMinionSprite;
 
     std::unique_ptr<Sprite> basicZombieSprite;
+
+    std::unique_ptr<Sprite> toolbar[TOOLBAR_SIZE];
 
     std::unique_ptr<Background> background;
 
