@@ -81,7 +81,7 @@ bool Level::nextWave() {
         }
     }
 
-    engine->updateSpritesInScene();
+    engine->updateSpritesInScene();// Reload sprites
 
     return true;
 }
@@ -144,7 +144,7 @@ void Level::load() {
             .buildPtr();
 
     grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
-    grid[2][2] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(
+    grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(
             *flowerMinionSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion? spriteBuilder en flowerMinionSprite kan je daar niet aan :(
 
     for (int i = 0; i < TOOLBAR_SIZE; i++) {//TODO: Optimize this block
