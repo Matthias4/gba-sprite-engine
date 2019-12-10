@@ -59,13 +59,13 @@ void Level::updateZombies() {
     for (int i = 0; i < zombies.size(); i++) {
         //zombies[i]->walk();
         //zombie.move(0, 0);//zombie.getRow() * 32 + 32, 50);//, zombie.getPosition());
-        zombies[i]->move(0, 0);//zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 12);
+        zombies[i]->move(zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 12);
     }
 }
 
 bool Level::nextWave() {
-    if (waveNumber >= waves.size()) return false;
     waveNumber++;
+    if (waveNumber >= waves.size()) return false;
 
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
@@ -109,6 +109,8 @@ std::vector<Sprite *> Level::sprites() {
     returnSprites.push_back(shooterSprite.get());
     returnSprites.push_back(basicZombieSprite.get());
 
+    //TextStream::instance().setText(std::to_string((unsigned int) zombies[0]->getSprite()), 5, 1);// Sprite address
+
     //returnSprites.push_back(testZombieSprite.get());
 
     return returnSprites;
@@ -140,12 +142,14 @@ void Level::load() {
     grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
     grid[2][2] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion?
 
-    //enemies.push_back(std::unique_ptr<Enemy>(new Zombie(10, 1, 1, 1, 1, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
+    //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
 
     //testZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
 
     background = std::unique_ptr<Background>(new Background(1, BackgroundTiles, sizeof(BackgroundTiles), map, sizeof(map)));
     background.get()->useMapScreenBlock(16);
+
+    engine->getTimer()->start();
 }
 
 void Level::tick(u16 keys) {
@@ -158,15 +162,16 @@ void Level::tick(u16 keys) {
     TextStream::instance().setText(std::string("Flowers: " + std::to_string(flowers)), 1, 1);
     TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen Toppie :D
 
-
     if (zombies.empty()) {// All zombies dead? Start next wave
-        nextWave();
+        if (!nextWave()) {
+            TextStream::instance().setText(std::string("You won!"), 10, 6);
+        }
     }
+
+    //TextStream::instance().setText(std::to_string((int) zombies[0]->getSprite()), 5, 1);//print address
 
     updateMinions();
     updateZombies();
-
-    engine->getTimer()->start();
 }
 
 void Level::Scroll(bool toZombies) {

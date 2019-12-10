@@ -13,15 +13,14 @@ private:
     int health;
     std::unique_ptr<Sprite> image;
 public:
-    Enemy(int health, std::unique_ptr<Sprite> image);
+    Enemy(int health, std::unique_ptr<Sprite> image) : health(health), image(std::move(image)) {};
 
     int getHealth();
     void getHit(int damage);
     void die();
 
     void move(int x, int y);
-
-    Sprite *getSprite();
+    Sprite *getSprite() { return image.get(); };
 };
 
 

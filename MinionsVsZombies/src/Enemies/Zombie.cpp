@@ -5,8 +5,8 @@
 #include <libgba-sprite-engine/gba_engine.h>
 #include "Enemies/Zombie.h"
 
-Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, std::unique_ptr<Sprite> givenImage)
-        : Enemy(givenHealth, std::move(givenImage)) {
+Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int givenRow, std::unique_ptr<Sprite> image)
+        : Enemy(givenHealth, std::move(image)) {
     walkingSpeed = givenWalkingSpeed;
     damage = givenDamage;
     row = givenRow;
@@ -38,4 +38,3 @@ void Zombie::walk() {
 
     position -= walkingSpeed;// #matthias: position -= walkSpeed; ofzo?
 }
-
