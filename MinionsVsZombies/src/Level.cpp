@@ -287,9 +287,17 @@ void Level::tick(u16 keys) {
 }
 
 void Level::Scroll(bool toZombies) {
+    //TODO 10-12-'19: @Luc, test the code to see if it works
     if (toZombies) {// Scroll to right
+        for(int ii; ii > 0; --ii)
+        {
+            zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 12);
+        }
 
     } else {// Scroll to left (to original position)
-
+        for(int ii; ii < 10; ++ii)
+        {
+            zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 12);
+        }
     }
 }
