@@ -49,7 +49,7 @@ void Level::updateMinions() {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
-                grid[x][y]->move(x * 32, y * 32 + 12);//FIXME: Minions are moved EVERY tick, should only be moved once...
+                grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
             }
         }
     }
@@ -59,7 +59,7 @@ void Level::updateZombies() {
     //for (auto zombie : zombies) {//FIXME: Use iterator
     for (int i = 0; i < zombies.size(); i++) {
         zombies[i]->walk();
-        zombies[i]->move(zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 12);
+        zombies[i]->move(zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 32);
     }
 }
 
@@ -229,6 +229,12 @@ void Level::tick(u16 keys) {
         }
     } else if ((keys & KEY_A) && ((keys & KEY_A) != (lastKeys & KEY_A))) {// A key (x on emulator) //
         plantSelected = !plantSelected;
+        if (plantSelected) {
+
+        } else {
+            selectorX = 0;
+            selectorY = 0;
+        }
     }
     lastKeys = keys;
 
