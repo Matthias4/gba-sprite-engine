@@ -288,16 +288,27 @@ void Level::tick(u16 keys) {
 
 void Level::Scroll(bool toZombies) {
     //TODO 10-12-'19: @Luc, test the code to see if it works
+    SpriteManager spriteManager;
     if (toZombies) {// Scroll to right
-        for(int ii; ii > 0; --ii)
+        for(int jj = (GBA_SCREEN_WIDTH * 0.5); jj >= 0; --jj)
         {
-            zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 12);
+            for(int ii = 0; ii > zombies.size(); ++ii)
+            //if(zombies[ii]->getPosition() != GBA_SCREEN_WIDTH)
+            {
+                zombies[ii]->move(zombies[ii]->getPosition() - jj, zombies[ii]->getRow() * 32 + 12);
+                spriteManager.render();
+            }
         }
 
     } else {// Scroll to left (to original position)
-        for(int ii; ii < 10; ++ii)
+        for(int jj = 0; jj <= (GBA_SCREEN_WIDTH * 0.5); ++jj)
         {
-            zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 12);
+            for(int ii = 0; ii < zombies.size(); ++ii)
+            //if(zombies[ii]->getPosition() == GBA_SCREEN_WIDTH*0.75)
+            {
+                zombies[ii]->move(zombies[ii]->getPosition() - jj, zombies[ii]->getRow() * 32 + 12);
+                spriteManager.render();
+            }
         }
     }
 }
