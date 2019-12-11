@@ -86,6 +86,16 @@ bool Level::nextWave() {
     return true;
 }
 
+void Level::updateSelectedMinion() {
+    toolbarSprites[selectorX]->animate();
+    if (selectorX > 0) {
+        toolbarSprites[selectorX - 1]->stopAnimating();
+    }
+    if (selectorX <= TOOLBAR_SIZE - 2) {
+        toolbarSprites[selectorX + 1]->stopAnimating();
+    }
+}
+
 std::vector<Background *> Level::backgrounds() {
     return { background.get() };
 }
@@ -113,7 +123,7 @@ std::vector<Sprite *> Level::sprites() {
     }
 
     for (int i = 0; i < TOOLBAR_SIZE; i++) {
-        returnSprites.push_back(toolbar[i].get());
+        returnSprites.push_back(toolbarSprites[i].get());
     }
 
     return returnSprites;
@@ -128,17 +138,20 @@ void Level::load() {
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite> >(new SpriteBuilder<Sprite>);
 
-    shooterSprite = spriteBuilder->withData(MinionTiles, sizeof(MinionTiles))
+    shooterSprite = spriteBuilder->withAnimated(3, 2)
+            .withData(MinionTiles, sizeof(MinionTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)// from demo 3
             .buildPtr();
 
-    flowerMinionSprite = spriteBuilder->withData(FlowerMinionTiles, sizeof(FlowerMinionTiles))
+    flowerMinionSprite = spriteBuilder->withAnimated(3, 1)
+            .withData(FlowerMinionTiles, sizeof(FlowerMinionTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
 
-    basicZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles))
+    basicZombieSprite = spriteBuilder->withAnimated(4, 2)
+            .withData(ZombieTiles, sizeof(ZombieTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
@@ -150,12 +163,12 @@ void Level::load() {
     for (int i = 0; i < TOOLBAR_SIZE; i++) {//TODO: Optimize this block
         int x = 32;
         int y = 0;
-        switch (i) {
-            case 0:
-                toolbar[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*shooterSprite);
+        switch (toolbar[i]) {
+            case SHOOTER_MINION:
+                toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*shooterSprite);
                 break;
-            case 1:
-                toolbar[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*flowerMinionSprite);
+            case FLOWER_MINION:
+                toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*flowerMinionSprite);
                 break;
         }
     }
@@ -171,14 +184,57 @@ void Level::load() {
 }
 
 void Level::tick(u16 keys) {
+    if (firstTick) {
+        firstTick = false;
+        lastKeys = keys;
 
-    if (keys & KEY_A) {// A key (x on emulator) //
-        engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
         return;
     }
 
+    if (!(keys & KEY_START) && (lastKeys & KEY_START)) {// Enter key, wait until released
+        engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
+        return;
+    } else if ((keys & KEY_LEFT) && ((keys & KEY_LEFT) != (lastKeys & KEY_LEFT))) {
+        if (selectorX > 0) {
+            selectorX--;
+        }
+
+        if (plantSelected) {
+
+        } else {
+            updateSelectedMinion();
+        }
+    } else if ((keys & KEY_RIGHT) && ((keys & KEY_RIGHT) != (lastKeys & KEY_RIGHT))) {
+        if (plantSelected) {
+            if (selectorX <= LEVEL_GRID_WIDTH - 2) {
+                selectorX++;
+            }
+        } else {
+            if (selectorX <= TOOLBAR_SIZE - 2) {
+                selectorX++;
+                updateSelectedMinion();
+            }
+        }
+    } else if ((keys & KEY_UP) && ((keys & KEY_UP) != (lastKeys & KEY_UP))) {
+        if (plantSelected) {
+            if (selectorY > 0) {
+                selectorY--;
+            }
+        }
+    } else if ((keys & KEY_DOWN) && ((keys & KEY_DOWN) != (lastKeys & KEY_DOWN))) {
+        if (plantSelected) {
+            if (selectorY <= LEVEL_GRID_HEIGHT - 2) {
+                selectorY++;
+            }
+        }
+    } else if ((keys & KEY_A) && ((keys & KEY_A) != (lastKeys & KEY_A))) {// A key (x on emulator) //
+        plantSelected = !plantSelected;
+    }
+    lastKeys = keys;
+
     TextStream::instance().setText(std::string("Flowers: " + std::to_string(flowers)), 1, 1);
     TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen Toppie :D
+    TextStream::instance().setText(std::string("Selector: " + std::to_string(selectorX) + "," + std::to_string(selectorY)), 5, 1);//@Anouk, nog meer testen :o
 
     if (zombies.empty()) {// All zombies dead? Start next wave
         if (!nextWave()) {

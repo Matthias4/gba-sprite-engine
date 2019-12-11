@@ -48,8 +48,15 @@ void MainMenu::load() {
 }
 
 void MainMenu::tick(u16 keys) {
+    if (firstTick) {
+        firstTick = false;
+        previousKeys = keys;
+
+        return;
+    }
+
     //TextStream::instance().setText(std::string("hi"), 1, 1);
-    if (keys & KEY_START) {// ENTER key
+    if (!(keys & KEY_START) && (previousKeys & KEY_START)) {// ENTER key, wait until released
         if (selectedMenuEntry == 0) {
             if (!engine->isTransitioning()) {
                 //engine->transitionIntoScene(new Level(engine, 100/*, { {STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE} }*/), new FadeOutScene(3));

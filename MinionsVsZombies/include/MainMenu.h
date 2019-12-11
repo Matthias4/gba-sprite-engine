@@ -16,6 +16,7 @@ private:
 
     uint8_t selectedMenuEntry = 0;
     u16 previousKeys = 0;
+    bool firstTick = true;
 
     void updateSelectMinion();
 

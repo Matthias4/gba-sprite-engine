@@ -5,6 +5,7 @@
 #include <libgba-sprite-engine/scene.h>
 #include <Minions/Shooter.h>
 #include <Enemies/Zombie.h>
+#include "MinionTypes.h"
 
 #ifndef GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
 #define GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
@@ -16,6 +17,8 @@
 
 class Level : public Scene {
 private:
+    bool firstTick = true;
+
     uint32_t flowers = 0;// Amount of flowers on start can be entered here
 
     std::vector< std::vector<uint8_t> > waves;
@@ -26,19 +29,20 @@ private:
 
     std::vector< std::unique_ptr<Zombie> > zombies = std::vector< std::unique_ptr<Zombie> >();
     void updateZombies();
-
     bool nextWave();
 
-    std::unique_ptr<Sprite> testZombieSprite;
-
     std::unique_ptr< SpriteBuilder<Sprite> > spriteBuilder;
-
     std::unique_ptr<Sprite> shooterSprite;
     std::unique_ptr<Sprite> flowerMinionSprite;
-
     std::unique_ptr<Sprite> basicZombieSprite;
 
-    std::unique_ptr<Sprite> toolbar[TOOLBAR_SIZE];
+    int toolbar[TOOLBAR_SIZE] = {SHOOTER_MINION, FLOWER_MINION};
+    std::unique_ptr<Sprite> toolbarSprites[TOOLBAR_SIZE];
+    bool plantSelected = false;
+    uint8_t selectorX = 0;
+    uint8_t selectorY = 0;
+    u16 lastKeys;
+    void updateSelectedMinion();
 
     std::unique_ptr<Background> background;
 
