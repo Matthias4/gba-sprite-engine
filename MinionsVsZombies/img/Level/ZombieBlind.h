@@ -1,11 +1,11 @@
 
-//{{BLOCK(Shared)
+//{{BLOCK(ZombieBlind)
 
 //======================================================================
 //
-//	Shared, 16x16@8, 
-//	+ palette 31 entries, not compressed
-//	Total size: 62 = 62
+//	ZombieBlind, 32x128@8, 
+//	+ 64 tiles not compressed
+//	Total size: 4096 = 4096
 //
 //	Time-stamp: 2019-12-12, 12:13:55
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
@@ -13,12 +13,12 @@
 //
 //======================================================================
 
-#ifndef GRIT_SHARED_H
-#define GRIT_SHARED_H
+#ifndef GRIT_ZOMBIEBLIND_H
+#define GRIT_ZOMBIEBLIND_H
 
-#define SharedPalLen 62
-extern const unsigned short SharedPal[32];
+#define ZombieBlindTilesLen 4096
+extern const unsigned int ZombieBlindTiles[1024];
 
-#endif // GRIT_SHARED_H
+#endif // GRIT_ZOMBIEBLIND_H
 
-//}}BLOCK(Shared)
+//}}BLOCK(ZombieBlind)
