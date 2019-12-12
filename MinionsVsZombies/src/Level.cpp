@@ -244,8 +244,6 @@ void Level::tick(u16 keys) {
     } else if ((keys & KEY_A) && ((keys & KEY_A) != (lastKeys & KEY_A))) {// A key (x on emulator) //
         plantSelected = !plantSelected;
         if (plantSelected) {
-            //TODO: check if player has sufficient sun
-
             switch (toolbar[selectorX]) {
                 case SHOOTER_MINION:
                     selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
@@ -257,12 +255,16 @@ void Level::tick(u16 keys) {
                     break;
             }
 
-            engine->updateSpritesInScene();// Reload sprites
+            if (flowers >= selectedMinion->getCost()) {
+                engine->updateSpritesInScene();// Reload sprites
 
-            selectorX = 0;
-            selectorY = 0;
+                selectorX = 0;
+                selectorY = 0;
+            } else {
+                selectedMinion = nullptr;
+                plantSelected = false;
+            }
         } else {
-            //TODO: put plant down
             if (grid[selectorX][selectorY] == nullptr) {
                 if (removeFlower(selectedMinion->getCost())) {
                     grid[selectorX][selectorY] = std::move(selectedMinion);
