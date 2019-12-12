@@ -64,6 +64,10 @@ void Level::updateZombies() {
     for (int i = 0; i < zombies.size(); i++) {
         zombies[i]->walk();
         zombies[i]->move(zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 32);
+        if(zombies[i]->getPosition() == 0)
+        {
+            //--Leven;
+        }
     }
 }
 
