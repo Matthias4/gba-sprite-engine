@@ -28,6 +28,9 @@
 #include "Level/Background.h"
 #include "Level/Map.h"
 
+#define ZombieShowPlace (GBA_SCREEN_WIDTH / 2)
+
+int aantalShowStappen = 0; // the number of steps all the zombies step when the game starts for the first time
 
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
@@ -65,6 +68,10 @@ void Level::updateZombies() {
     for (int i = 0; i < zombies.size(); i++) {
         zombies[i]->walk();
         zombies[i]->move(zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 32);
+        if(zombies[i]->getPosition() == 0)
+        {
+            //--Leven;
+        }
     }
 }
 
@@ -278,6 +285,22 @@ void Level::tick(u16 keys) {
     }
     lastKeys = keys;
 
+    if((aantalShowStappen <= (GBA_SCREEN_WIDTH-ZombieShowPlace)) && (!firstTick))
+    {
+        Scroll(false);
+        ++aantalShowStappen;
+        if(aantalShowStappen > 1) // if this if isn't here, there will be some problems with loading the map.
+        {
+            return;
+        }
+    }
+    else if(aantalShowStappen <= 2 * (GBA_SCREEN_WIDTH-ZombieShowPlace))
+    {
+        Scroll(true);
+        ++aantalShowStappen;
+        return;
+    }
+
     if (zombies.empty()) {// All zombies dead? Start next wave
         if (!nextWave()) {
             TextStream::instance().setText(std::string("You won!"), 10, 6);
@@ -293,10 +316,27 @@ void Level::tick(u16 keys) {
 }
 
 void Level::Scroll(bool toZombies) {
-    if (toZombies) {// Scroll to right
+    if (toZombies) {// Scroll to right (to original position)
+    {
+        for(int ii = 0; ii < zombies.size(); ++ii)
+        {
+            if(zombies[ii]->getPosition() != GBA_SCREEN_WIDTH)
+            {
+                zombies[ii]->show(false);
+                zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 32);
+            }
+        }
+    }
 
-    } else {// Scroll to left (to original position)
-
+    } else {// Scroll to left
+        for(int ii = 0; ii < zombies.size(); ++ii)
+        {
+            if(zombies[ii]->getPosition() != ZombieShowPlace)
+            {
+                zombies[ii]->show(true);
+                zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 32);
+            }
+        }
     }
 }
 

@@ -38,3 +38,12 @@ void Zombie::walk() {
 
     position -= walkingSpeed;// #matthias: position -= walkSpeed; ofzo?
 }
+
+void Zombie::show(bool show)
+{
+    if(show) {
+        position -= walkingSpeed;
+    } else {
+        position += walkingSpeed;
+    }
+}
