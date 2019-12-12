@@ -158,7 +158,7 @@ void Level::load() {
 
     grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
     grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(
-            *flowerMinionSprite))); //Waarom kunnen we die pointer niet maken in de constructor van de Minion? spriteBuilder en flowerMinionSprite kan je daar niet aan :(
+            *flowerMinionSprite)));
 
     for (int i = 0; i < TOOLBAR_SIZE; i++) {//TODO: Optimize this block
         int x = 32;

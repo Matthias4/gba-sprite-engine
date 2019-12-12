@@ -43,7 +43,7 @@ add_executable(${PROJECT_NAME}.elf
         img/Level/Zombie.h
         img/Level/Zombie.c
         img/Level/Background.h
-        img/Level/Background.c include/MinionTypes.h)
+        img/Level/Background.c include/MinionTypes.h src/Minions/Bullet.cpp include/Minions/Bullet.h)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)
