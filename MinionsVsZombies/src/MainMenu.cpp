@@ -60,7 +60,7 @@ void MainMenu::tick(u16 keys) {
         if (selectedMenuEntry == 0) {
             if (!engine->isTransitioning()) {
                 engine->transitionIntoScene(new Level(engine, 100, { {STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE} }), new FadeOutScene(3));
-                //engine->setScene(new Level(engine, 100));
+                //engine->setScene(new Level(engine, 100, { {STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE} }));
             }
         } else if (selectedMenuEntry == 1) {
             engine->setScene(new About(engine));

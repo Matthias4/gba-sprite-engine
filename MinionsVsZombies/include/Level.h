@@ -60,7 +60,7 @@ public:
     void Scroll(bool toZombies);
 
     inline void addFlower(int numberOfFlowers) {flowers += numberOfFlowers;};
-    inline void removeFlower(int numberOfFlowers) {flowers -= numberOfFlowers;};
+    bool removeFlower(int numberOfFlowers);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
