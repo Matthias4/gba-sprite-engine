@@ -5,11 +5,13 @@
 #include <libgba-sprite-engine/scene.h>
 #include "Minions/Minion.h"
 
-Minion::Minion(int givenHealth, int givenCost, int givenCooldownTime, std::unique_ptr<Sprite> givenImage) {
+Minion::Minion(int type, int givenHealth, int givenCost, int givenCooldownTime, std::unique_ptr<Sprite> givenImage, int creationTime) {
+    this->type = type;
     health = givenHealth;
     cost = givenCost;
     cooldownTime = givenCooldownTime;
     image = std::move(givenImage);// An unique_ptr cannot be moved, std::move solves this problem https://stackoverflow.com/questions/6876751/differences-between-unique-ptr-and-shared-ptr
+    this->creationTime = creationTime;
 }
 
 int Minion::getHealth() {
