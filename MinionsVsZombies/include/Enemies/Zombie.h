@@ -24,6 +24,8 @@ public:
     int getPosition();
 
     void walk();
+
+    void show(bool show);
 };
 
 
