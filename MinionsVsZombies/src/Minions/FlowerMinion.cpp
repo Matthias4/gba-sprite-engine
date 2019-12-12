@@ -13,7 +13,8 @@ int FlowerMinion::getProductionRate() {
 }
 
 void FlowerMinion::produceSun() {
-    //nog te implementeren
+    this->getSprite()->animate();
+    //TODO: stop the animation
 }
 
 void FlowerMinion::shoot() {

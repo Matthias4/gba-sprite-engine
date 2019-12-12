@@ -2,6 +2,7 @@
 // Created by michi on 26/11/2019.
 //
 
+#include <MinionTypes.h>
 #include "Minion.h"
 
 #ifndef GBA_SPRITE_ENGINE_PROJECT_FLOWERMINION_H
@@ -12,7 +13,8 @@ private:
     int sunPower;
     int productionRate;
 public:
-    using Minion::Minion;// Constructor inheritance, see https://stackoverflow.com/questions/347358/inheriting-constructors
+    FlowerMinion(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image, int creationTime) : Minion(FLOWER_MINION, health, cost, cooldownTime, std::move(image), creationTime) {};
+    //using Minion::Minion;// Constructor inheritance, see https://stackoverflow.com/questions/347358/inheriting-constructors
     int getSunPower();
     int getProductionRate();
     void produceSun(); //FIXME: moet dit een void zijn? Of willen we dat die iets teruggeeft waar het level iets mee kan doen? Een boolean ofzo?
