@@ -35,7 +35,7 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
         }
     }
 
-    waves = { {STANDARD_ZOMBIE} };
+    //waves = { {STANDARD_ZOMBIE} };
 }
 Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers) : Level(engine) {
     flowers = startingFlowers;
@@ -52,6 +52,10 @@ void Level::updateMinions() {
                 grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
             }
         }
+    }
+
+    if (selectedMinion != nullptr) {
+        selectedMinion->move(selectorX * 32, selectorY * 32 + 32);
     }
 }
 
@@ -70,7 +74,7 @@ bool Level::nextWave() {
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
             case STANDARD_ZOMBIE:
-                zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, spriteBuilder->withLocation(100, 100).buildWithDataOf(*basicZombieSprite))));
+                zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
                 break;
             case CONEHEAD_ZOMBIE:
                 //TODO: Create conehead zombie class and use here
@@ -94,6 +98,8 @@ void Level::updateSelectedMinion() {
     if (selectorX <= TOOLBAR_SIZE - 2) {
         toolbarSprites[selectorX + 1]->stopAnimating();
     }
+
+    engine->updateSpritesInScene();// Reload sprites  //TODO: test me
 }
 
 std::vector<Background *> Level::backgrounds() {
@@ -114,6 +120,10 @@ std::vector<Sprite *> Level::sprites() {
                 returnSprites.push_back((*grid[x][y]).getSprite());
             }
         }
+    }
+
+    if (selectedMinion != nullptr) {
+        returnSprites.push_back(selectedMinion->getSprite());
     }
 
     //for (auto zombie : zombies) {//FIXME: Use iterator
@@ -206,7 +216,7 @@ void Level::tick(u16 keys) {
         }
     } else if ((keys & KEY_RIGHT) && ((keys & KEY_RIGHT) != (lastKeys & KEY_RIGHT))) {
         if (plantSelected) {
-            if (selectorX <= LEVEL_GRID_WIDTH - 2) {
+            if (selectorX <= LEVEL_GRID_WIDTH - 1) {
                 selectorX++;
             }
         } else {
@@ -230,8 +240,32 @@ void Level::tick(u16 keys) {
     } else if ((keys & KEY_A) && ((keys & KEY_A) != (lastKeys & KEY_A))) {// A key (x on emulator) //
         plantSelected = !plantSelected;
         if (plantSelected) {
+            //TODO: check if player has sufficient sun
 
+            switch (toolbar[selectorX]) {
+                case SHOOTER_MINION:
+                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
+
+                    break;
+                case FLOWER_MINION:
+                    selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(*flowerMinionSprite)));
+
+                    break;
+            }
+
+            engine->updateSpritesInScene();// Reload sprites
+
+            selectorX = 0;
+            selectorY = 0;
         } else {
+            //TODO: put plant down
+            if (grid[selectorX][selectorY] == nullptr) {
+                grid[selectorX][selectorY] = std::move(selectedMinion);
+                //TODO: subtract sun
+            }
+
+            selectedMinion = nullptr;
+
             selectorX = 0;
             selectorY = 0;
         }
