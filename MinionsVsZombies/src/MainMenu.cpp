@@ -50,13 +50,13 @@ void MainMenu::load() {
 void MainMenu::tick(u16 keys) {
     if (firstTick) {
         firstTick = false;
-        previousKeys = keys;
+        lastKeys = keys;
 
         return;
     }
 
     //TextStream::instance().setText(std::string("hi"), 1, 1);
-    if (!(keys & KEY_START) && (previousKeys & KEY_START)) {// ENTER key, wait until released
+    if (!(keys & KEY_START) && (lastKeys & KEY_START)) {// ENTER key, wait until released
         if (selectedMenuEntry == 0) {
             if (!engine->isTransitioning()) {
                 engine->transitionIntoScene(new Level(engine, 100, { {STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE} }), new FadeOutScene(3));
@@ -65,13 +65,13 @@ void MainMenu::tick(u16 keys) {
         } else if (selectedMenuEntry == 1) {
             engine->setScene(new About(engine));
         }
-    } else if ((keys & KEY_DOWN) && !(previousKeys & KEY_DOWN)) {
+    } else if ((keys & KEY_DOWN) && !(lastKeys & KEY_DOWN)) {
         if (selectedMenuEntry + 1 < MAINMENU_ENTRIES) {
             selectedMenuEntry++;
 
             updateSelectMinion();
         }
-    } else if ((keys & KEY_UP) && !(previousKeys & KEY_UP)) {
+    } else if ((keys & KEY_UP) && !(lastKeys & KEY_UP)) {
         if (selectedMenuEntry  > 0) {
             selectedMenuEntry--;
 
@@ -79,5 +79,5 @@ void MainMenu::tick(u16 keys) {
         }
     }
 
-    previousKeys = keys;
+    lastKeys = keys;
 }

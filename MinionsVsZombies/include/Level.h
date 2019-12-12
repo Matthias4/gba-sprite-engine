@@ -41,6 +41,7 @@ private:
     bool plantSelected = false;
     uint8_t selectorX = 0;
     uint8_t selectorY = 0;
+    std::unique_ptr<Minion> selectedMinion = nullptr;
     u16 lastKeys;
     void updateSelectedMinion();
 
