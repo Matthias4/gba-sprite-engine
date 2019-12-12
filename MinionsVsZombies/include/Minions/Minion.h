@@ -9,9 +9,11 @@
 
 class Minion {
 private:
+    int type;
     int health;
     int cost;
     int cooldownTime;
+    int creationTime;
 
     std::unique_ptr<Sprite> image;
 
@@ -19,8 +21,9 @@ public:
     int getHealth();
     int getCost();
     int getCooldownTime();
+    int getCreationTime() { return creationTime; }
 
-    Minion(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image);
+    Minion(int type, int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image, int creationTime);
     virtual void shoot() = 0; //FIXME: moeten we deze functie wegdoen? En gewoon bij shooter zetten?
                                 // Zoja, waar moeten we dan virtual zetten? Moet we een functie getPlanted() hebben ofzo waar we
                                 // virtual bij kunnen zetten?

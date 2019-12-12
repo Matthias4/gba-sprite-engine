@@ -6,14 +6,15 @@
 #define GBA_SPRITE_ENGINE_PROJECT_SHOOTER_H
 
 #include "Minions/Minion.h"
+#include "MinionTypes.h"
 
 class Shooter: public Minion {
 private:
     int firingRate;
     int damage;
 public:
-    //Shooter(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image) : Minion(health, cost, cooldownTime, image) {};
-    using Minion::Minion;// Constructor inheritance, see https://stackoverflow.com/questions/347358/inheriting-constructors
+    Shooter(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image, int creationTime) : Minion(SHOOTER_MINION, health, cost, cooldownTime, std::move(image), creationTime) {};
+    //using Minion::Minion;// Constructor inheritance, see https://stackoverflow.com/questions/347358/inheriting-constructors
     int getFiringRate();
     int getDamage();
     void shoot() override; //Als we shoot weghalen bij Minion, dan moet hier de override weg.

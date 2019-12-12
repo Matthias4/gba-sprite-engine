@@ -50,10 +50,16 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers,
 }
 
 void Level::updateMinions() {
+    int currentTime = engine->getTimer()->getTotalMsecs();
+
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
-                grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
+                //grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
+                if ((currentTime - grid[x][y]->getCreationTime()) % grid[x][y]->getCooldownTime()) {
+                    grid[x][y]->shoot();
+                    //if (grid[x][y])
+                }
             }
         }
     }
@@ -174,9 +180,8 @@ void Level::load() {
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
 
-    grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
-    grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(
-            *flowerMinionSprite)));
+    //grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
+    //grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
 
     for (int i = 0; i < TOOLBAR_SIZE; i++) {//TODO: Optimize this block
         int x = 32;
@@ -253,11 +258,11 @@ void Level::tick(u16 keys) {
         if (plantSelected) {
             switch (toolbar[selectorX]) {
                 case SHOOTER_MINION:
-                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite)));
+                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->withAnimated(3, 1).buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
 
                     break;
                 case FLOWER_MINION:
-                    selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(*flowerMinionSprite)));
+                    selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1000, spriteBuilder->withAnimated(3, 1).buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
 
                     break;
             }
