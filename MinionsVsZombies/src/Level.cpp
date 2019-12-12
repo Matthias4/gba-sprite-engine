@@ -12,6 +12,7 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <Minions/Shooter.h>
 #include <Minions/FlowerMinion.h>
+#include <libgba-sprite-engine/effects/fade_out_scene.h>
 
 #include "Level.h"
 #include "MainMenu.h"
@@ -202,7 +203,10 @@ void Level::tick(u16 keys) {
     }
 
     if (!(keys & KEY_START) && (lastKeys & KEY_START)) {// Enter key, wait until released
-        engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
+        if (!engine->isTransitioning()) {
+            //engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
+            engine->transitionIntoScene(new MainMenu(engine), new FadeOutScene(3));
+        }
         return;
     } else if ((keys & KEY_LEFT) && ((keys & KEY_LEFT) != (lastKeys & KEY_LEFT))) {
         if (selectorX > 0) {
@@ -260,11 +264,13 @@ void Level::tick(u16 keys) {
         } else {
             //TODO: put plant down
             if (grid[selectorX][selectorY] == nullptr) {
-                grid[selectorX][selectorY] = std::move(selectedMinion);
-                //TODO: subtract sun
+                if (removeFlower(selectedMinion->getCost())) {
+                    grid[selectorX][selectorY] = std::move(selectedMinion);
+                }
             }
 
             selectedMinion = nullptr;
+            engine->updateSpritesInScene();// Reload sprites
 
             selectorX = 0;
             selectorY = 0;
@@ -292,4 +298,14 @@ void Level::Scroll(bool toZombies) {
     } else {// Scroll to left (to original position)
 
     }
+}
+
+bool Level::removeFlower(int numberOfFlowers) {
+    if (flowers - numberOfFlowers < 0) {
+        return false;
+    }
+
+    flowers -= numberOfFlowers;
+
+    return true;
 }
