@@ -201,6 +201,10 @@ void Level::load() {
                 toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*flowerMinionSprite);
                 break;
         }
+
+        if (i == 0) {
+            toolbarSprites[i]->animate();// First toolbar item is selected by default and should be animated
+        }
     }
 
     //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
