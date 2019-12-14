@@ -59,7 +59,7 @@ public:
 
     void Scroll(bool toZombies);
 
-    inline void addFlower(int numberOfFlowers) {flowers += numberOfFlowers;};
+    void addFlower(int numberOfFlowers) {flowers += numberOfFlowers;};
     bool removeFlower(int numberOfFlowers);
 };
 

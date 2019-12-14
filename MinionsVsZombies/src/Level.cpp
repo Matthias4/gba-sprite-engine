@@ -56,9 +56,16 @@ void Level::updateMinions() {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
                 //grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
-                if ((currentTime - grid[x][y]->getCreationTime()) % grid[x][y]->getCooldownTime()) {
+                uint32_t counter = ((currentTime - grid[x][y]->getCreationTime()) % grid[x][y]->getCooldownTime());
+                if (counter == 0) {
                     grid[x][y]->shoot();
+                    if (grid[x][y]->getType() == FLOWER_MINION) {
+                        //flowers++;
+                        addFlower((dynamic_cast<FlowerMinion*>(grid[x][y].get()))->getSunPower());// Dynamic cast, references: http://www.cplusplus.com/forum/general/2710/ and https://stackoverflow.com/questions/26377430/how-to-do-perform-a-dynamic-cast-with-a-unique-ptr
+                    }
                     //if (grid[x][y])
+                //} else if (counter == 500) {//TODO: stop the animation
+                //    grid[x][y]->getSprite()->stopAnimating();
                 }
             }
         }
@@ -258,11 +265,11 @@ void Level::tick(u16 keys) {
         if (plantSelected) {
             switch (toolbar[selectorX]) {
                 case SHOOTER_MINION:
-                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->withAnimated(3, 1).buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
+                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
 
                     break;
                 case FLOWER_MINION:
-                    selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1000, spriteBuilder->withAnimated(3, 1).buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
+                    selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1000, 10, spriteBuilder->buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
 
                     break;
             }

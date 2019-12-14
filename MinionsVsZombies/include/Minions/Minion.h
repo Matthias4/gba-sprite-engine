@@ -18,6 +18,7 @@ private:
     std::unique_ptr<Sprite> image;
 
 public:
+    int getType() { return type; }
     int getHealth();
     int getCost();
     int getCooldownTime();

@@ -13,7 +13,9 @@ private:
     int sunPower;
     int productionRate;
 public:
-    FlowerMinion(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image, int creationTime) : Minion(FLOWER_MINION, health, cost, cooldownTime, std::move(image), creationTime) {};
+    FlowerMinion(int health, int cost, int cooldownTime, int sunPower, std::unique_ptr<Sprite> image, int creationTime) : Minion(FLOWER_MINION, health, cost, cooldownTime, std::move(image), creationTime) {
+        this->sunPower = sunPower;
+    };
     //using Minion::Minion;// Constructor inheritance, see https://stackoverflow.com/questions/347358/inheriting-constructors
     int getSunPower();
     int getProductionRate();
