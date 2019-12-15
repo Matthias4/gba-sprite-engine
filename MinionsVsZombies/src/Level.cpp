@@ -292,7 +292,7 @@ void Level::tick(u16 keys) {
             if (grid[selectorX][selectorY] == nullptr) {
                 if (removeFlower(selectedMinion->getCost())) {
                     grid[selectorX][selectorY] = std::move(selectedMinion);
-                    testboolpleaseremove = true;
+                    //testboolpleaseremove = true;
                 }
             }
 
@@ -335,9 +335,9 @@ void Level::tick(u16 keys) {
     TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen Toppie :D
     //TextStream::instance().setText(std::string("Selector: " + std::to_string(selectorX) + "," + std::to_string(selectorY)), 5, 1);//@Anouk, nog meer testen :o
 
-    if (testboolpleaseremove) {
-        TextStream::instance().setText(std::string("Time: " + std::to_string(engine->getTimer()->getTotalMsecs()) + "/" + std::to_string(grid[0][0]->getCreationTime()) + "/" + std::to_string(grid[0][0]->getCooldownTime())), 5, 1);
-    }
+    //if (testboolpleaseremove) {
+    //    TextStream::instance().setText(std::string("Time: " + std::to_string(engine->getTimer()->getTotalMsecs()) + "/" + std::to_string(grid[0][0]->getCreationTime()) + "/" + std::to_string(grid[0][0]->getCooldownTime())), 5, 1);
+    //}
 }
 
 void Level::Scroll(bool toZombies) {

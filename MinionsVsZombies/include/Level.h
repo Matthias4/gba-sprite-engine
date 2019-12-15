@@ -47,7 +47,7 @@ private:
 
     std::unique_ptr<Background> background;
 
-    bool testboolpleaseremove = false;
+    //bool testboolpleaseremove = false;
 
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);
