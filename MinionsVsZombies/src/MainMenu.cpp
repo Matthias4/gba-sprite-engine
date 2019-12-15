@@ -25,7 +25,7 @@ std::vector<Sprite *> MainMenu::sprites() {
 }
 
 std::vector<Background *> MainMenu::backgrounds() {
-    return { };//background.get() };
+    return {};
 }
 
 void MainMenu::load() {
@@ -55,7 +55,6 @@ void MainMenu::tick(u16 keys) {
         return;
     }
 
-    //TextStream::instance().setText(std::string("hi"), 1, 1);
     if (!(keys & KEY_START) && (lastKeys & KEY_START)) {// ENTER key, wait until released
         if (selectedMenuEntry == 0) {
             if (!engine->isTransitioning()) {

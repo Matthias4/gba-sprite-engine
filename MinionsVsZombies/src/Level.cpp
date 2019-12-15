@@ -28,10 +28,6 @@
 #include "Level/Background.h"
 #include "Level/Map.h"
 
-#define ZombieShowPlace (GBA_SCREEN_WIDTH / 2)
-
-int aantalShowStappen = 0; // the number of steps all the zombies step when the game starts for the first time
-
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
@@ -64,7 +60,6 @@ void Level::updateMinions() {
                     if (grid[x][y]->getType() == FLOWER_MINION) {
                         addFlower((dynamic_cast<FlowerMinion*>(grid[x][y].get()))->getSunPower());// Dynamic cast, references: http://www.cplusplus.com/forum/general/2710/ and https://stackoverflow.com/questions/26377430/how-to-do-perform-a-dynamic-cast-with-a-unique-ptr
                     }
-                    //if (grid[x][y])
                 } else if (counter >= 500 && counter <= grid[x][y]->getCooldownTime()) {
                     grid[x][y]->stopAnimtation();
                 }
@@ -123,7 +118,7 @@ void Level::updateSelectedMinion() {
         toolbarSprites[selectorX + 1]->stopAnimating();
     }
 
-    engine->updateSpritesInScene();// Reload sprites  //TODO: test me
+    engine->updateSpritesInScene();// Reload sprites
 }
 
 std::vector<Background *> Level::backgrounds() {
@@ -138,6 +133,7 @@ std::vector<Sprite *> Level::sprites() {
     returnSprites.push_back(flowerMinionSprite.get());
     returnSprites.push_back(basicZombieSprite.get());
 
+    // Minions in grid
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
@@ -146,16 +142,19 @@ std::vector<Sprite *> Level::sprites() {
         }
     }
 
+    // To be placed minion
     if (selectedMinion != nullptr) {
         returnSprites.push_back(selectedMinion->getSprite());
     }
 
+    // Zombies
     //for (auto zombie : zombies) {//FIXME: Use iterator
     for (int i = 0; i < zombies.size(); i++) {
         //returnSprites.push_back(zombie->getSprite());
         returnSprites.push_back(zombies[i]->getSprite());
     }
 
+    // Minions in toolbar
     for (int i = 0; i < TOOLBAR_SIZE; i++) {
         returnSprites.push_back(toolbarSprites[i].get());
     }
@@ -165,10 +164,8 @@ std::vector<Sprite *> Level::sprites() {
 
 void Level::load() {
 
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-            new ForegroundPaletteManager(SharedPal, sizeof(SharedPal)));
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
-            new BackgroundPaletteManager(BackgroundPal, sizeof(BackgroundPal)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(SharedPal, sizeof(SharedPal)));
+    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(BackgroundPal, sizeof(BackgroundPal)));
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite> >(new SpriteBuilder<Sprite>);
 
@@ -190,9 +187,6 @@ void Level::load() {
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
 
-    //grid[1][1] = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
-    //grid[2][2] = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1, spriteBuilder->buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
-
     for (int i = 0; i < TOOLBAR_SIZE; i++) {//TODO: Optimize this block
         int x = 32;
         int y = 0;
@@ -210,10 +204,6 @@ void Level::load() {
         }
     }
 
-    //zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, 1, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
-
-    //testZombieSprite = spriteBuilder->withData(ZombieTiles, sizeof(ZombieTiles)).withLocation(50, 50).withSize(SIZE_32_32).buildPtr();
-
     background = std::unique_ptr<Background>(new Background(1, BackgroundTiles, sizeof(BackgroundTiles), Map, sizeof(Map)));
     background->useMapScreenBlock(16);
 
@@ -221,14 +211,14 @@ void Level::load() {
 }
 
 void Level::tick(u16 keys) {
-    if (firstTick) {
+    if (firstTick) {// First loop: load the current keys pressed, do nothing else
         firstTick = false;
         lastKeys = keys;
 
         return;
     }
 
-    if (!(keys & KEY_START) && (lastKeys & KEY_START)) {// Enter key, wait until released
+    if (!(keys & KEY_START) && (lastKeys & KEY_START)) {// START key (enter on emulator), wait until released
         if (!engine->isTransitioning()) {
             //engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
             engine->transitionIntoScene(new MainMenu(engine), new FadeOutScene(3));
@@ -308,7 +298,7 @@ void Level::tick(u16 keys) {
     }
     lastKeys = keys;
 
-    if((aantalShowStappen <= (GBA_SCREEN_WIDTH-ZombieShowPlace)) && (!firstTick))
+    if((aantalShowStappen <= (GBA_SCREEN_WIDTH-ZOMBIE_SHOW_PLACE)) && (!firstTick))//FIXME: is !firstTick wel nodig?
     {
         Scroll(false);
         ++aantalShowStappen;
@@ -317,7 +307,7 @@ void Level::tick(u16 keys) {
             return;
         }
     }
-    else if(aantalShowStappen <= 2 * (GBA_SCREEN_WIDTH-ZombieShowPlace))
+    else if(aantalShowStappen <= 2 * (GBA_SCREEN_WIDTH-ZOMBIE_SHOW_PLACE))
     {
         Scroll(true);
         ++aantalShowStappen;
@@ -358,13 +348,17 @@ void Level::Scroll(bool toZombies) {
     } else {// Scroll to left
         for(int ii = 0; ii < zombies.size(); ++ii)
         {
-            if(zombies[ii]->getPosition() != ZombieShowPlace)
+            if(zombies[ii]->getPosition() != ZOMBIE_SHOW_PLACE)
             {
                 zombies[ii]->show(true);
                 zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 32);
             }
         }
     }
+}
+
+void Level::addFlower(int numberOfFlowers) {
+    flowers += numberOfFlowers;
 }
 
 bool Level::removeFlower(int numberOfFlowers) {

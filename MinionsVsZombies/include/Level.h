@@ -15,6 +15,8 @@
 
 #define TOOLBAR_SIZE 2
 
+#define ZOMBIE_SHOW_PLACE (GBA_SCREEN_WIDTH / 2)
+
 class Level : public Scene {
 private:
     bool firstTick = true;
@@ -42,10 +44,12 @@ private:
     uint8_t selectorX = 0;
     uint8_t selectorY = 0;
     std::unique_ptr<Minion> selectedMinion = nullptr;
-    u16 lastKeys;
+    u16 lastKeys = 0;
     void updateSelectedMinion();
 
     std::unique_ptr<Background> background;
+
+    int aantalShowStappen = 0; // the number of steps all the zombies step when the game starts for the first time
 
     //bool testboolpleaseremove = false;
 
@@ -61,7 +65,7 @@ public:
 
     void Scroll(bool toZombies);
 
-    void addFlower(int numberOfFlowers) {flowers += numberOfFlowers;};
+    void addFlower(int numberOfFlowers);
     bool removeFlower(int numberOfFlowers);
 };
 

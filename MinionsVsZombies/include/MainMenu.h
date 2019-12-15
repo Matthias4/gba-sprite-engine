@@ -15,7 +15,7 @@ private:
     std::unique_ptr<Sprite> minion;
 
     uint8_t selectedMenuEntry = 0;
-    u16 lastKeys;
+    u16 lastKeys = 0;
     bool firstTick = true;
 
     void updateSelectMinion();

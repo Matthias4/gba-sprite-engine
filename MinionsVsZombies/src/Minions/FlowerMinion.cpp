@@ -8,10 +8,6 @@ int FlowerMinion::getSunPower() {
     return sunPower;
 }
 
-int FlowerMinion::getProductionRate() {
-    return productionRate;
-}
-
 void FlowerMinion::produceSun() {
     this->getSprite()->animate();
 }
