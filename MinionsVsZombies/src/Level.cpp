@@ -66,7 +66,7 @@ void Level::updateMinions() {
                     }
                     //if (grid[x][y])
                 } else if (counter >= 500 && counter <= grid[x][y]->getCooldownTime()) {
-                    grid[x][y]->getSprite()->stopAnimating();
+                    grid[x][y]->stopAnimtation();
                 }
             }
         }
@@ -115,9 +115,11 @@ bool Level::nextWave() {
 void Level::updateSelectedMinion() {
     toolbarSprites[selectorX]->animate();
     if (selectorX > 0) {
+        toolbarSprites[selectorX - 1]->animateToFrame(0);
         toolbarSprites[selectorX - 1]->stopAnimating();
     }
     if (selectorX <= TOOLBAR_SIZE - 2) {
+        toolbarSprites[selectorX + 1]->animateToFrame(0);
         toolbarSprites[selectorX + 1]->stopAnimating();
     }
 
@@ -170,19 +172,19 @@ void Level::load() {
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite> >(new SpriteBuilder<Sprite>);
 
-    shooterSprite = spriteBuilder->withAnimated(3, 2)
+    shooterSprite = spriteBuilder->withAnimated(3, 5)
             .withData(MinionTiles, sizeof(MinionTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)// from demo 3
             .buildPtr();
 
-    flowerMinionSprite = spriteBuilder->withAnimated(3, 1)
+    flowerMinionSprite = spriteBuilder->withAnimated(3, 5)
             .withData(FlowerMinionTiles, sizeof(FlowerMinionTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
 
-    basicZombieSprite = spriteBuilder->withAnimated(4, 2)
+    basicZombieSprite = spriteBuilder->withAnimated(4, 5)
             .withData(ZombieTiles, sizeof(ZombieTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
@@ -270,11 +272,11 @@ void Level::tick(u16 keys) {
         if (plantSelected) {
             switch (toolbar[selectorX]) {
                 case SHOOTER_MINION:
-                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1000, spriteBuilder->buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
+                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 100, 1000, spriteBuilder->buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
 
                     break;
                 case FLOWER_MINION:
-                    selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 1, 1000, 10, spriteBuilder->buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
+                    selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 50, 10000, 25, spriteBuilder->buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
 
                     break;
             }

@@ -36,6 +36,7 @@ public:
 
     Sprite *getSprite();
     void move(int x, int y);
+    void stopAnimtation();
 };
 
 

@@ -38,5 +38,10 @@ void Minion::move(int x, int y) {
     image->moveTo(x, y);
 }
 
+void Minion::stopAnimtation() {
+    image->stopAnimating();
+    image->animateToFrame(0);
+}
+
 
 
