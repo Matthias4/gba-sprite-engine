@@ -26,6 +26,10 @@ int Minion::getCooldownTime() {
     return cooldownTime;
 }
 
+int Minion::getTotalShot() {
+    return totalShot;
+}
+
 Sprite *Minion::getSprite() {
     return image.get();
 }

@@ -47,6 +47,8 @@ private:
 
     std::unique_ptr<Background> background;
 
+    bool testboolpleaseremove = false;
+
 public:
     explicit Level(const std::shared_ptr<GBAEngine> &engine);
     Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers);

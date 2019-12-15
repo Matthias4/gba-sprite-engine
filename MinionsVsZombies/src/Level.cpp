@@ -55,17 +55,18 @@ void Level::updateMinions() {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
             if (grid[x][y] != nullptr) {
-                //grid[x][y]->move(x * 32, y * 32 + 32);//FIXME: Minions are moved EVERY tick, should only be moved once...
-                uint32_t counter = ((currentTime - grid[x][y]->getCreationTime()) % grid[x][y]->getCooldownTime());
-                if (counter == 0) {
+                //grid[x][y]->move(x * 32, y * 32 + 32);// Only enable when minions are not placed using the toolbar
+                int counter = ((currentTime - grid[x][y]->getCreationTime()) % grid[x][y]->getCooldownTime());
+                if ((counter >= 0)
+                && (counter <= 200)
+                && (grid[x][y]->getTotalShot() < (currentTime - grid[x][y]->getCreationTime()) / grid[x][y]->getCooldownTime())) {
                     grid[x][y]->shoot();
                     if (grid[x][y]->getType() == FLOWER_MINION) {
-                        //flowers++;
                         addFlower((dynamic_cast<FlowerMinion*>(grid[x][y].get()))->getSunPower());// Dynamic cast, references: http://www.cplusplus.com/forum/general/2710/ and https://stackoverflow.com/questions/26377430/how-to-do-perform-a-dynamic-cast-with-a-unique-ptr
                     }
                     //if (grid[x][y])
-                //} else if (counter == 500) {//TODO: stop the animation
-                //    grid[x][y]->getSprite()->stopAnimating();
+                } else if (counter >= 500 && counter <= grid[x][y]->getCooldownTime()) {
+                    grid[x][y]->getSprite()->stopAnimating();
                 }
             }
         }
@@ -269,7 +270,7 @@ void Level::tick(u16 keys) {
         if (plantSelected) {
             switch (toolbar[selectorX]) {
                 case SHOOTER_MINION:
-                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1, spriteBuilder->buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
+                    selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 1, 1000, spriteBuilder->buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
 
                     break;
                 case FLOWER_MINION:
@@ -291,6 +292,7 @@ void Level::tick(u16 keys) {
             if (grid[selectorX][selectorY] == nullptr) {
                 if (removeFlower(selectedMinion->getCost())) {
                     grid[selectorX][selectorY] = std::move(selectedMinion);
+                    testboolpleaseremove = true;
                 }
             }
 
@@ -299,6 +301,7 @@ void Level::tick(u16 keys) {
 
             selectorX = 0;
             selectorY = 0;
+            updateSelectedMinion();
         }
     }
     lastKeys = keys;
@@ -321,7 +324,7 @@ void Level::tick(u16 keys) {
 
     if (zombies.empty()) {// All zombies dead? Start next wave
         if (!nextWave()) {
-            TextStream::instance().setText(std::string("You won!"), 10, 6);
+            TextStream::instance().setText(std::string("You won!"), 10, 6);// In case there is no next wave, the player won
         }
     }
 
@@ -330,7 +333,11 @@ void Level::tick(u16 keys) {
 
     TextStream::instance().setText(std::string("Flowers: " + std::to_string(flowers)), 1, 1);
     TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen Toppie :D
-    TextStream::instance().setText(std::string("Selector: " + std::to_string(selectorX) + "," + std::to_string(selectorY)), 5, 1);//@Anouk, nog meer testen :o
+    //TextStream::instance().setText(std::string("Selector: " + std::to_string(selectorX) + "," + std::to_string(selectorY)), 5, 1);//@Anouk, nog meer testen :o
+
+    if (testboolpleaseremove) {
+        TextStream::instance().setText(std::string("Time: " + std::to_string(engine->getTimer()->getTotalMsecs()) + "/" + std::to_string(grid[0][0]->getCreationTime()) + "/" + std::to_string(grid[0][0]->getCooldownTime())), 5, 1);
+    }
 }
 
 void Level::Scroll(bool toZombies) {

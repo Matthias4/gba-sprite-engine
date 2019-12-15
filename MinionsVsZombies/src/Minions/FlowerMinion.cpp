@@ -14,9 +14,9 @@ int FlowerMinion::getProductionRate() {
 
 void FlowerMinion::produceSun() {
     this->getSprite()->animate();
-    //TODO: stop the animation
 }
 
 void FlowerMinion::shoot() {
+    totalShot++;
     produceSun();// Flower minion is harmless. Instead of firing deadly banana's at zombies, it produces beautiful flowers :)
 }

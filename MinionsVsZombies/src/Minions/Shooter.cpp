@@ -13,5 +13,6 @@ int Shooter::getDamage() {
 }
 
 void Shooter::shoot() {
+    totalShot++;
     //pieuw pieuw
 }
