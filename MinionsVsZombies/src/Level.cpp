@@ -295,6 +295,16 @@ void Level::tick(u16 keys) {
             selectorY = 0;
             updateSelectedMinion();
         }
+    } else if ((keys & KEY_B) && ((keys & KEY_B) != (lastKeys & KEY_B))) {
+        if (plantSelected) {
+            plantSelected = false;
+            selectedMinion = nullptr;
+            engine->updateSpritesInScene();
+
+            selectorX = 0;
+            selectorY = 0;
+            updateSelectedMinion();
+        }
     }
     lastKeys = keys;
 
