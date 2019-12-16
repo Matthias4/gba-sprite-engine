@@ -96,13 +96,13 @@ bool Level::nextWave() {
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
             case STANDARD_ZOMBIE:
-                zombies.push_back(std::unique_ptr<Zombie>(new BasicZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
+                zombies.push_back(std::unique_ptr<Zombie>(new BasicZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*basicZombieSprite), engine->getTimer()->getTotalMsecs())));
                 break;
             case CONEHEAD_ZOMBIE:
-                zombies.push_back(std::unique_ptr<Zombie>(new ConeheadZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*coneheadZombieSprite))));
+                zombies.push_back(std::unique_ptr<Zombie>(new ConeheadZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*coneheadZombieSprite), engine->getTimer()->getTotalMsecs())));
                 break;
             case BUCKETHEAD_ZOMBIE:
-                zombies.push_back(std::unique_ptr<Zombie>(new BucketheadZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*bucketheadZombieSprite))));
+                zombies.push_back(std::unique_ptr<Zombie>(new BucketheadZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*bucketheadZombieSprite), engine->getTimer()->getTotalMsecs())));
                 break;
         }
     }

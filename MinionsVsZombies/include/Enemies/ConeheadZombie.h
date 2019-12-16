@@ -10,7 +10,7 @@
 
 class ConeheadZombie: public Zombie {
 public:
-    ConeheadZombie(int row, std::unique_ptr<Sprite> image);
+    ConeheadZombie(int row, std::unique_ptr<Sprite> image, int creationTime);
 };
 
 

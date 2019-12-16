@@ -4,4 +4,4 @@
 
 #include "Enemies/BasicZombie.h"
 
-BasicZombie::BasicZombie(int givenRow, std::unique_ptr<Sprite> givenImage) : Zombie(10, 5, 2, givenRow, std::move(givenImage)) {}
+BasicZombie::BasicZombie(int givenRow, std::unique_ptr<Sprite> givenImage, int creationTime) : Zombie(10, 5, 2, givenRow, std::move(givenImage), creationTime) {}

@@ -9,7 +9,7 @@
 
 class BasicZombie: public Zombie {
 public:
-    BasicZombie(int row, std::unique_ptr<Sprite> image);
+    BasicZombie(int row, std::unique_ptr<Sprite> image, int creationTime);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_BASICZOMBIE_H

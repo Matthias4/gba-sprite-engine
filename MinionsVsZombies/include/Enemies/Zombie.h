@@ -14,9 +14,10 @@ private:
     int damage;
     int row;
     int position;
+    int creationTime;
 
 public:
-    Zombie(int health, int walkingSpeed, int damage, int row, std::unique_ptr<Sprite> image);
+    Zombie(int health, int walkingSpeed, int damage, int row, std::unique_ptr<Sprite> image, int creationTime);
 
     int getWalkingSpeed();
     int getDamage();

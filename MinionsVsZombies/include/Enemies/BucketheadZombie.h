@@ -9,7 +9,7 @@
 
 class BucketheadZombie: public Zombie {
 public:
-    BucketheadZombie(int row, std::unique_ptr<Sprite> image);
+    BucketheadZombie(int row, std::unique_ptr<Sprite> image, int creationTime);
 };
 
 
