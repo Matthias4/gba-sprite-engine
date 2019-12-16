@@ -236,7 +236,7 @@ void Level::tick(u16 keys) {
         }
     } else if ((keys & KEY_RIGHT) && ((keys & KEY_RIGHT) != (lastKeys & KEY_RIGHT))) {
         if (plantSelected) {
-            if (selectorX <= LEVEL_GRID_WIDTH - 1) {
+            if (selectorX <= LEVEL_GRID_WIDTH - 2) {
                 selectorX++;
             }
         } else {
