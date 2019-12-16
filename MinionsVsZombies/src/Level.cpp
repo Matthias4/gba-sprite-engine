@@ -78,16 +78,28 @@ void Level::updateMinions() {
 }
 
 void Level::updateZombies() {
-    //for (auto zombie : zombies) {//FIXME: Use iterator
-    for (int i = 0; i < zombies.size(); i++) {
-        zombies[i]->walk();
-        zombies[i]->move(zombies[i]->getPosition(), zombies[i]->getRow() * 32 + 32);
-        if(zombies[i]->killedUser())
-        {
-            //--Leven;
+    int currentTime = engine->getTimer()->getTotalMsecs();
+    for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
+        for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {
+            if (grid[x][y] != nullptr) {
+                int counter = ((currentTime - grid[x][y]->getCreationTime()) % grid[x][y]->getCooldownTime());
+                if ((counter >= 0)
+                && (counter <= 200)
+                && (grid[x][y]->getTotalShot() < (currentTime - grid[x][y]->getCreationTime()) / grid[x][y]->getCooldownTime())) {
+                    if ((grid[x][y]->getType() == STANDARD_ZOMBIE) || (grid[x][y]->getType() == CONEHEAD_ZOMBIE) || (grid[x][y]->getType() == BUCKETHEAD_ZOMBIE)) {
+                        auto zombie = dynamic_cast<Zombie*>(grid[x][y].get());
+                        zombie->walk();
+                        zombie->move(zombie->getPosition(), zombie->getRow() * 32 + 32);
+                        if(zombie->killedUser())
+                        {
+                            //TODO: stop the game. the user has been killed
+                        }
+                    }
+                }
+            }
         }
     }
-    }
+}
 
 bool Level::nextWave() {
     waveNumber++;
