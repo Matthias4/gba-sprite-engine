@@ -35,13 +35,10 @@ int Zombie::getCreationTime() {
 }
 
 void Zombie::walk() {
-    // wandel wandel
-    // (•_•)
-    // ( •_•)⌐■-■
-    // (⌐■_■)
-    //position--; ofzo
-
-    position -= walkingSpeed;// #matthias: position -= walkSpeed; ofzo?
+    if(position > -32)
+    {
+        position -= walkingSpeed;
+    }
 }
 
 void Zombie::show(bool show)
@@ -51,4 +48,8 @@ void Zombie::show(bool show)
     } else {
         position += walkingSpeed;
     }
+}
+
+void Zombie::increaseWalkingSpeed() {
+    //make it walking faster
 }

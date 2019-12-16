@@ -26,8 +26,11 @@ public:
     int getCreationTime();
 
     void walk();
+    void increaseWalkingSpeed();
 
     void show(bool show);
+
+    inline bool killedUser(){return position == 0;}
 };
 
 
