@@ -142,6 +142,11 @@ std::vector<Sprite *> Level::sprites() {
         }
     }
 
+    // Minions in toolbar
+    for (int i = 0; i < TOOLBAR_SIZE; i++) {
+        returnSprites.push_back(toolbarSprites[i].get());
+    }
+
     // To be placed minion
     if (selectedMinion != nullptr) {
         returnSprites.push_back(selectedMinion->getSprite());
@@ -152,11 +157,6 @@ std::vector<Sprite *> Level::sprites() {
     for (int i = 0; i < zombies.size(); i++) {
         //returnSprites.push_back(zombie->getSprite());
         returnSprites.push_back(zombies[i]->getSprite());
-    }
-
-    // Minions in toolbar
-    for (int i = 0; i < TOOLBAR_SIZE; i++) {
-        returnSprites.push_back(toolbarSprites[i].get());
     }
 
     return returnSprites;
@@ -214,6 +214,27 @@ void Level::tick(u16 keys) {
     if (firstTick) {// First loop: load the current keys pressed, do nothing else
         firstTick = false;
         lastKeys = keys;
+
+        //FIXME: for some reason, this block does not function correctly in load() but does in the first tick
+        for (int i = 0; i < TOOLBAR_SIZE; i++) {//TODO: Optimize this block
+            int x = 32;
+            int y = 0;
+            switch (toolbar[i]) {
+                case SHOOTER_MINION:
+                    toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*shooterSprite);
+                    break;
+                case FLOWER_MINION:
+                    toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*flowerMinionSprite);
+                    break;
+            }
+
+            if (i == 0) {
+                toolbarSprites[i]->animate();// First toolbar item is selected by default and should be animated
+            }
+        }
+
+        engine->updateSpritesInScene();// Reload sprites
+        ///////////////////////////////////////////////////////////////////////////
 
         return;
     }
