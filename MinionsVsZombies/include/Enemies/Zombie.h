@@ -23,6 +23,7 @@ public:
     int getDamage();
     int getRow();
     int getPosition();
+    int getCreationTime();
 
     void walk();
 

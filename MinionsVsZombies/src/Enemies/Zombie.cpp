@@ -30,6 +30,10 @@ int Zombie::getPosition() {
     return position;
 }
 
+int Zombie::getCreationTime() {
+    return creationTime;
+}
+
 void Zombie::walk() {
     // wandel wandel
     // (•_•)
