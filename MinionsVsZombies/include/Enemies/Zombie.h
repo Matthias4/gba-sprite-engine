@@ -26,7 +26,6 @@ public:
     int getCreationTime();
 
     void walk();
-    void increaseWalkingSpeed();
 
     void show(bool show);
 
