@@ -24,8 +24,11 @@ public:
     int getPosition();
 
     void walk();
+    void increaseWalkingSpeed();
 
     void show(bool show);
+
+    inline bool killedUser(){return position == 0;}
 };
 
 
