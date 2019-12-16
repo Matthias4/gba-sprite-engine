@@ -44,7 +44,3 @@ void Zombie::show(bool show)
         position += walkingSpeed;
     }
 }
-
-void Zombie::increaseWalkingSpeed() {
-    //make it walking faster
-}

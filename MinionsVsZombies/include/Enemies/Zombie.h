@@ -24,7 +24,6 @@ public:
     int getPosition();
 
     void walk();
-    void increaseWalkingSpeed();
 
     void show(bool show);
 
