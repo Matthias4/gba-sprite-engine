@@ -344,7 +344,6 @@ void Level::tick(u16 keys) {
 
 void Level::Scroll(bool toZombies) {
     if (toZombies) {// Scroll to right (to original position)
-    {
         for(int ii = 0; ii < zombies.size(); ++ii)
         {
             if(zombies[ii]->getPosition() != GBA_SCREEN_WIDTH)
@@ -353,7 +352,6 @@ void Level::Scroll(bool toZombies) {
                 zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 32);
             }
         }
-    }
 
     } else {// Scroll to left
         for(int ii = 0; ii < zombies.size(); ++ii)
