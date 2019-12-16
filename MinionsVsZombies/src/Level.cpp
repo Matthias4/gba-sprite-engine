@@ -13,6 +13,9 @@
 #include <Minions/Shooter.h>
 #include <Minions/FlowerMinion.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
+#include <Enemies/ConeheadZombie.h>
+#include <Enemies/BasicZombie.h>
+#include <Enemies/BucketheadZombie.h>
 
 #include "Level.h"
 #include "MainMenu.h"
@@ -20,6 +23,8 @@
 #include "Level/BananaMinion.h"
 #include "Level/FlowerMinion.h"
 #include "Level/Zombie.h"
+#include "Level/ZombieWithClothes.h"
+#include "Level/ZombieBlind.h"
 #include "Level/Banana.h"
 #include "Level/Shared.h"
 #include "ZombieTypes.h"
@@ -91,13 +96,13 @@ bool Level::nextWave() {
     for (auto zombie : waves[waveNumber]) {
         switch (zombie) {
             case STANDARD_ZOMBIE:
-                zombies.push_back(std::unique_ptr<Zombie>(new Zombie(10, 1, 1, rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
+                zombies.push_back(std::unique_ptr<Zombie>(new BasicZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*basicZombieSprite))));
                 break;
             case CONEHEAD_ZOMBIE:
-                //TODO: Create conehead zombie class and use here
+                zombies.push_back(std::unique_ptr<Zombie>(new ConeheadZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*coneheadZombieSprite))));
                 break;
             case BUCKETHEAD_ZOMBIE:
-                //TODO: Create buckethead zombie class and use here
+                zombies.push_back(std::unique_ptr<Zombie>(new BucketheadZombie(rand() % LEVEL_GRID_HEIGHT, spriteBuilder->buildWithDataOf(*bucketheadZombieSprite))));
                 break;
         }
     }
@@ -132,6 +137,8 @@ std::vector<Sprite *> Level::sprites() {
     returnSprites.push_back(shooterSprite.get());
     returnSprites.push_back(flowerMinionSprite.get());
     returnSprites.push_back(basicZombieSprite.get());
+    returnSprites.push_back(coneheadZombieSprite.get());
+    returnSprites.push_back(bucketheadZombieSprite.get());
 
     // Minions in grid
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
@@ -183,6 +190,18 @@ void Level::load() {
 
     basicZombieSprite = spriteBuilder->withAnimated(4, 5)
             .withData(ZombieTiles, sizeof(ZombieTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
+            .buildPtr();
+
+    coneheadZombieSprite = spriteBuilder->withAnimated(4, 5)
+            .withData(ZombieWithClothesTiles, sizeof(ZombieWithClothesTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
+            .buildPtr();
+
+    bucketheadZombieSprite = spriteBuilder->withAnimated(4, 5)
+            .withData(ZombieBlindTiles, sizeof(ZombieBlindTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();

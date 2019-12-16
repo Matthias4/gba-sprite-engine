@@ -19,13 +19,19 @@ add_executable(${PROJECT_NAME}.elf
         src/Minions/FlowerMinion.cpp
         include/Minions/Shooter.h
         src/Minions/Shooter.cpp
+        include/Minions/Bullet.h
+        src/Minions/Bullet.cpp
 
         include/Enemies/Enemy.h
         src/Enemies/Enemy.cpp
         include/Enemies/Zombie.h
         src/Enemies/Zombie.cpp
-        include/Enemies/Basic.h
-        src/Enemies/Basic.cpp
+        include/Enemies/BasicZombie.h
+        src/Enemies/BasicZombie.cpp
+        include/Enemies/ConeheadZombie.h
+        src/Enemies/ConeheadZombie.cpp
+        include/Enemies/BucketheadZombie.h
+        src/Enemies/BucketheadZombie.cpp
 
         img/minion_image.h
         img/Level/Shared.c
@@ -42,8 +48,12 @@ add_executable(${PROJECT_NAME}.elf
         img/Level/FlowerMinion.c
         img/Level/Zombie.h
         img/Level/Zombie.c
+        img/Level/ZombieWithClothes.h
+        img/Level/ZombieWithClothes.c
+        img/Level/ZombieBlind.h
+        img/Level/ZombieBlind.c
         img/Level/Background.h
-        img/Level/Background.c include/MinionTypes.h src/Minions/Bullet.cpp include/Minions/Bullet.h)
+        img/Level/Background.c)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)

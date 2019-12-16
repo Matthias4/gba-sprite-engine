@@ -37,6 +37,8 @@ private:
     std::unique_ptr<Sprite> shooterSprite;
     std::unique_ptr<Sprite> flowerMinionSprite;
     std::unique_ptr<Sprite> basicZombieSprite;
+    std::unique_ptr<Sprite> coneheadZombieSprite;
+    std::unique_ptr<Sprite> bucketheadZombieSprite;
 
     int toolbar[TOOLBAR_SIZE] = {SHOOTER_MINION, FLOWER_MINION};
     std::unique_ptr<Sprite> toolbarSprites[TOOLBAR_SIZE];
