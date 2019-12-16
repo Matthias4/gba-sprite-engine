@@ -249,6 +249,8 @@ void Level::tick(u16 keys) {
 
             if (i == 0) {
                 toolbarSprites[i]->animate();// First toolbar item is selected by default and should be animated
+            } else {
+                toolbarSprites[i]->stopAnimating();
             }
         }
 
