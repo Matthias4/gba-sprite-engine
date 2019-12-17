@@ -281,7 +281,7 @@ void Level::tick(u16 keys) {
             engine->transitionIntoScene(new MainMenu(engine), new FadeOutScene(3));
         }
         return;
-    } else if (playerDied) {
+    } else if (playerDied) {// When the player died, do not process the rest if the function (including reading keys other than START)
         lastKeys = keys;
 
         return;
