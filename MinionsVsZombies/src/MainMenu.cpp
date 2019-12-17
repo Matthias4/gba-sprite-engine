@@ -58,7 +58,7 @@ void MainMenu::tick(u16 keys) {
     if (!(keys & KEY_START) && (lastKeys & KEY_START)) {// ENTER key, wait until released
         if (selectedMenuEntry == 0) {
             if (!engine->isTransitioning()) {
-                engine->transitionIntoScene(new Level(engine, 100, { {STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE} }), new FadeOutScene(3));
+                engine->transitionIntoScene(new Level(engine, 100, { {STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE, STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE, STANDARD_ZOMBIE, CONEHEAD_ZOMBIE}, {STANDARD_ZOMBIE, BUCKETHEAD_ZOMBIE}, {CONEHEAD_ZOMBIE, CONEHEAD_ZOMBIE, BUCKETHEAD_ZOMBIE, BUCKETHEAD_ZOMBIE} }), new FadeOutScene(3));
                 //engine->setScene(new Level(engine, 100, { {STANDARD_ZOMBIE}, {STANDARD_ZOMBIE, STANDARD_ZOMBIE} }));
             }
         } else if (selectedMenuEntry == 1) {
