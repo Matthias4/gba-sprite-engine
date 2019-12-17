@@ -30,8 +30,16 @@ int Zombie::getPosition() {
     return position;
 }
 
+void Zombie::setPosition(int newPosition){
+    position = newPosition;
+}
+
 int Zombie::getCreationTime() {
     return creationTime;
+}
+
+bool Zombie::setCreationTime(int newCreationTime) {
+    return creationTime = newCreationTime;
 }
 
 void Zombie::walk() {
@@ -41,11 +49,14 @@ void Zombie::walk() {
     }
 }
 
-void Zombie::show(bool show)
+bool Zombie::show(bool show)
 {
+    bool backAtOrigin = false;
     if(show) {
         position -= walkingSpeed;
     } else {
         position += walkingSpeed;
+        backAtOrigin = true;
     }
+    return backAtOrigin;
 }

@@ -79,17 +79,19 @@ void Level::updateMinions() {
 
 void Level::updateZombies() {
     int currentTime = engine->getTimer()->getTotalMsecs();
-    for (int ii; ii<zombies.size(); ++ii)
+    int zombiePosition;
+    for (int ii = 0; ii<zombies.size(); ++ii)
     {
         int counter = (currentTime - zombies[ii]->getCreationTime());
-        if ((counter >= 0)
-        && (counter <= 200)){
-            zombies[ii]->walk();
-            zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 32);
-            if(zombies[ii]->killedUser())
-            {
-                //TODO: stop the game. the user has been killed
-            }
+        if(zombies[ii]->getPosition() >= 0 ) {
+            zombiePosition = GBA_SCREEN_WIDTH - ((counter * zombies[ii]->getWalkingSpeed()) / 100);
+            zombies[ii]->move(zombiePosition,
+                              zombies[ii]->getRow() * 32 + 32);
+            zombies[ii]->setPosition(zombiePosition);
+        }
+        if(zombies[ii]->killedUser())
+        {
+            TextStream::instance().setText(std::string("You died!"), 10, 6);
         }
     }
 }
@@ -355,7 +357,8 @@ void Level::tick(u16 keys) {
     }
     lastKeys = keys;
 
-    if((aantalShowStappen <= (GBA_SCREEN_WIDTH-ZOMBIE_SHOW_PLACE)) && (!firstTick))//FIXME: is !firstTick wel nodig?
+#if SHOWSTART
+    if(aantalShowStappen <= (GBA_SCREEN_WIDTH-ZOMBIE_SHOW_PLACE))
     {
         Scroll(false);
         ++aantalShowStappen;
@@ -370,6 +373,7 @@ void Level::tick(u16 keys) {
         ++aantalShowStappen;
         return;
     }
+#endif
 
     if (zombies.empty()) {// All zombies dead? Start next wave
         if (!nextWave()) {
@@ -389,13 +393,18 @@ void Level::tick(u16 keys) {
     //}
 }
 
+#if SHOWATSTART
 void Level::Scroll(bool toZombies) {
     if (toZombies) {// Scroll to right (to original position)
         for(int ii = 0; ii < zombies.size(); ++ii)
         {
             if(zombies[ii]->getPosition() != GBA_SCREEN_WIDTH)
             {
-                zombies[ii]->show(false);
+                if(zombies[ii]->show(false))
+                {
+                    //Reset the creation time otherwise the zombies will spawn in the middle of the map
+                    zombies[ii]->setCreationTime(engine->getTimer()->getTotalMsecs()*1.5);
+                }
                 zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 32);
             }
         }
@@ -411,6 +420,7 @@ void Level::Scroll(bool toZombies) {
         }
     }
 }
+#endif
 
 void Level::addFlower(int numberOfFlowers) {
     flowers += numberOfFlowers;
