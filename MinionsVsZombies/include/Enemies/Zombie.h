@@ -23,11 +23,15 @@ public:
     int getDamage();
     int getRow();
     int getPosition();
+    void setPosition(int newPosition);
     int getCreationTime();
+    bool setCreationTime(int newCreationTime);
 
     void walk();
 
-    void show(bool show);
+    bool show(bool show);
+
+    inline bool killedUser(){return position == 0;}
 };
 
 

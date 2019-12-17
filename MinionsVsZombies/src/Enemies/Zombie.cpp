@@ -30,25 +30,33 @@ int Zombie::getPosition() {
     return position;
 }
 
+void Zombie::setPosition(int newPosition){
+    position = newPosition;
+}
+
 int Zombie::getCreationTime() {
     return creationTime;
 }
 
-void Zombie::walk() {
-    // wandel wandel
-    // (•_•)
-    // ( •_•)⌐■-■
-    // (⌐■_■)
-    //position--; ofzo
-
-    position -= walkingSpeed;// #matthias: position -= walkSpeed; ofzo?
+bool Zombie::setCreationTime(int newCreationTime) {
+    return creationTime = newCreationTime;
 }
 
-void Zombie::show(bool show)
+void Zombie::walk() {
+    if(position > -32)
+    {
+        position -= walkingSpeed;
+    }
+}
+
+bool Zombie::show(bool show)
 {
+    bool backAtOrigin = false;
     if(show) {
         position -= walkingSpeed;
     } else {
         position += walkingSpeed;
+        backAtOrigin = true;
     }
+    return backAtOrigin;
 }
