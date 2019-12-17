@@ -22,6 +22,7 @@ private:
     bool firstTick = true;
 
     uint32_t flowers = 0;// Amount of flowers on start can be entered here
+    int automaticFlowersProduced = 0;
     bool playerDied = false;
 
     std::vector< std::vector<uint8_t> > waves;

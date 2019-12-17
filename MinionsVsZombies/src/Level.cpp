@@ -396,6 +396,11 @@ void Level::tick(u16 keys) {
     updateMinions();
     updateZombies();
 
+    if (automaticFlowersProduced < (engine->getTimer()->getTotalMsecs() / 10000)) {
+        automaticFlowersProduced++;
+        addFlower(50);
+    }
+
     TextStream::instance().setText(std::string("Flowers: " + std::to_string(flowers)), 1, 15);
     //TextStream::instance().setText(std::string("Wave: " + std::to_string(waveNumber + 1) + " / Zombies: " + std::to_string(zombies.size())), 3, 1);// @Anouk, meer testen Toppie :D
     //TextStream::instance().setText(std::string("Selector: " + std::to_string(selectorX) + "," + std::to_string(selectorY)), 5, 1);//@Anouk, nog meer testen :o
