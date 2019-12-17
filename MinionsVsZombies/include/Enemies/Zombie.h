@@ -29,11 +29,7 @@ public:
 
     void walk();
 
-<<<<<<< HEAD
     bool show(bool show);
-=======
-    void show(bool show);
->>>>>>> MoveZombies
 
     inline bool killedUser(){return position == 0;}
 };
