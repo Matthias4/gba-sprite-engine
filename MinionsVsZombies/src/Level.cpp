@@ -118,6 +118,10 @@ bool Level::nextWave() {
         }
     }
 
+    for (int i = 0; i < zombies.size(); i++) {
+        zombies[i]->getSprite()->animate();
+    }
+
     engine->updateSpritesInScene();// Reload sprites
 
     return true;
