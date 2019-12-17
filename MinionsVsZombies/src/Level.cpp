@@ -33,8 +33,6 @@
 #include "Level/Background.h"
 #include "Level/Map.h"
 
-#define ZOMBIES_SPEED_FACTOR 3
-
 Level::Level(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
         for (int y = 0; y < LEVEL_GRID_HEIGHT; y++) {

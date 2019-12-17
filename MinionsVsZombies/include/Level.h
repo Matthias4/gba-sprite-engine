@@ -16,6 +16,7 @@
 #define TOOLBAR_SIZE 2
 
 #define ZOMBIE_SHOW_PLACE (GBA_SCREEN_WIDTH / 2)
+#define ZOMBIES_SPEED_FACTOR 3
 
 class Level : public Scene {
 private:
