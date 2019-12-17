@@ -79,6 +79,7 @@ void Level::updateMinions() {
 
 void Level::updateZombies() {
     int currentTime = engine->getTimer()->getTotalMsecs();
+<<<<<<< HEAD
     int zombiePosition;
     for (int ii = 0; ii<zombies.size(); ++ii)
     {
@@ -92,6 +93,19 @@ void Level::updateZombies() {
         if(zombies[ii]->killedUser())
         {
             TextStream::instance().setText(std::string("You died!"), 10, 6);
+=======
+    for (int ii; ii<zombies.size(); ++ii)
+    {
+        int counter = (currentTime - zombies[ii]->getCreationTime());
+        if ((counter >= 0)
+        && (counter <= 200)){
+            zombies[ii]->walk();
+            zombies[ii]->move(zombies[ii]->getPosition(), zombies[ii]->getRow() * 32 + 32);
+            if(zombies[ii]->killedUser())
+            {
+                //TODO: stop the game. the user has been killed
+            }
+>>>>>>> MoveZombies
         }
     }
 }

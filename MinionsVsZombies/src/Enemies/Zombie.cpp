@@ -30,6 +30,7 @@ int Zombie::getPosition() {
     return position;
 }
 
+<<<<<<< HEAD
 void Zombie::setPosition(int newPosition){
     position = newPosition;
 }
@@ -42,6 +43,8 @@ bool Zombie::setCreationTime(int newCreationTime) {
     return creationTime = newCreationTime;
 }
 
+=======
+>>>>>>> MoveZombies
 void Zombie::walk() {
     if(position > -32)
     {
