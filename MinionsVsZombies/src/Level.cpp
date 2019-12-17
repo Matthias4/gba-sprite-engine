@@ -94,6 +94,7 @@ void Level::updateZombies() {
         }
         if(zombies[ii]->killedUser())
         {
+            playerDied = true;
             TextStream::instance().setText(std::string("You died!"), 10, 6);
         }
     }
@@ -275,6 +276,10 @@ void Level::tick(u16 keys) {
             //engine->setScene(new MainMenu(engine)); //Eventueel kunnen we hier een boodschap geven 'Are you sure you want to quit the level?' ofzo..
             engine->transitionIntoScene(new MainMenu(engine), new FadeOutScene(3));
         }
+        return;
+    } else if (playerDied) {
+        lastKeys = keys;
+
         return;
     } else if ((keys & KEY_LEFT) && ((keys & KEY_LEFT) != (lastKeys & KEY_LEFT))) {
         if (selectorX > 0) {
