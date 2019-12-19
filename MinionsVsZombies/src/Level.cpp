@@ -445,9 +445,16 @@ void Level::tick(u16 keys) {
 #endif
 
     if (zombies.empty()) {// All zombies dead? Start next wave
-        if (!nextWave()) {
-            TextStream::instance().setText(std::string("You won!"), 10, 6);// In case there is no next wave, the player won
+#if ENABLE_ZOMBIE_START_DELAY
+        if (engine->getTimer()->getTotalMsecs() > ZOMBIE_START_DELAY_MS) {
+#endif
+            if (!nextWave()) {
+                TextStream::instance().setText(std::string("You won!"), 10,
+                                               6);// In case there is no next wave, the player won
+            }
+#if ENABLE_ZOMBIE_START_DELAY
         }
+#endif
     }
 
     updateMinions();

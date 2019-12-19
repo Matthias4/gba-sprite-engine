@@ -21,6 +21,9 @@
 
 #define BULLET_SPEED_FACTOR 10
 
+#define ZOMBIE_START_DELAY_MS 5000
+#define ENABLE_ZOMBIE_START_DELAY 1
+
 class Level : public Scene {
 private:
     bool firstTick = true;
