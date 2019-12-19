@@ -5,6 +5,7 @@
 #include <libgba-sprite-engine/scene.h>
 #include <Minions/Shooter.h>
 #include <Enemies/Zombie.h>
+#include <Minions/Bullet.h>
 #include "MinionTypes.h"
 
 #ifndef GBA_SPRITE_ENGINE_PROJECT_LEVEL_H
@@ -17,6 +18,8 @@
 
 #define ZOMBIE_SHOW_PLACE (GBA_SCREEN_WIDTH / 2)
 #define ZOMBIES_SPEED_FACTOR 3
+
+#define BULLET_SPEED_FACTOR 10
 
 class Level : public Scene {
 private:
@@ -32,9 +35,14 @@ private:
     std::unique_ptr<Minion> grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
     void updateMinions();
 
+    void createBullet(int gridX, int currentTime, int gridY, std::unique_ptr<Sprite> sprite);
+    void updateBullets();
+
     std::vector< std::unique_ptr<Zombie> > zombies = std::vector< std::unique_ptr<Zombie> >();
     void updateZombies();
     bool nextWave();
+
+    std::vector<std::unique_ptr<Bullet> > bullets = std::vector <std::unique_ptr<Bullet> >();
 
     std::unique_ptr< SpriteBuilder<Sprite> > spriteBuilder;
     std::unique_ptr<Sprite> shooterSprite;
@@ -42,6 +50,7 @@ private:
     std::unique_ptr<Sprite> basicZombieSprite;
     std::unique_ptr<Sprite> coneheadZombieSprite;
     std::unique_ptr<Sprite> bucketheadZombieSprite;
+    std::unique_ptr<Sprite> bananaBulletSprite;
 
     int toolbar[TOOLBAR_SIZE] = {SHOOTER_MINION, FLOWER_MINION};
     std::unique_ptr<Sprite> toolbarSprites[TOOLBAR_SIZE];

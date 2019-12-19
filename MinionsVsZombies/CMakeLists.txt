@@ -40,6 +40,7 @@ add_executable(${PROJECT_NAME}.elf
         img/Level/Background.c
         img/Level/Map.h
         img/Level/Banana.h
+        img/Level/Banana.c
         img/Level/BananaMinion.h
         img/Level/BananaMinion.c
         img/Level/Minion.h

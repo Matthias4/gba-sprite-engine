@@ -50,6 +50,11 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers,
     this->waves = std::move(waves);
 }
 
+void Level::createBullet(int gridX, int currentTime, int gridY, std::unique_ptr<Sprite> sprite) {
+    bullets.push_back(std::unique_ptr<Bullet>(new Bullet(gridX * 32, currentTime, gridY, std::move(sprite))));
+    engine->updateSpritesInScene();// Reload sprites
+}
+
 void Level::updateMinions() {
     int currentTime = engine->getTimer()->getTotalMsecs();
 
@@ -64,6 +69,8 @@ void Level::updateMinions() {
                     grid[x][y]->shoot();
                     if (grid[x][y]->getType() == FLOWER_MINION) {
                         addFlower((dynamic_cast<FlowerMinion*>(grid[x][y].get()))->getSunPower());// Dynamic cast, references: http://www.cplusplus.com/forum/general/2710/ and https://stackoverflow.com/questions/26377430/how-to-do-perform-a-dynamic-cast-with-a-unique-ptr
+                    } else if (grid[x][y]->getType() == SHOOTER_MINION) {
+                        createBullet(x, currentTime, y, spriteBuilder->buildWithDataOf(*bananaBulletSprite));
                     }
                 } else if (counter >= 500 && counter <= grid[x][y]->getCooldownTime()) {
                     grid[x][y]->stopAnimtation();
@@ -74,6 +81,32 @@ void Level::updateMinions() {
 
     if (selectedMinion != nullptr) {
         selectedMinion->move(selectorX * 32, selectorY * 32 + 32);
+    }
+}
+
+void Level::updateBullets() {
+    //for (int i = 0; i < bullets.size(); i++) {
+    for (auto bullet = bullets.begin(); bullet < bullets.end(); bullet++) {
+        int currentTime = engine->getTimer()->getTotalMsecs();
+        int counter = currentTime - (*bullet)->getCreationTime();
+        int newPositionX = (*bullet)->getOriginalPositionX() + counter / BULLET_SPEED_FACTOR;
+
+        (*bullet)->move(newPositionX, (*bullet)->getRow() * 32 + 20);
+
+        int numberOfBullets = bullets.size();
+
+        for (int z = 0; z < zombies.size(); z++) {
+            if (zombies[z]->getRow() == (*bullet)->getRow()) {
+                if (zombies[z]->getPosition() <= newPositionX) {
+                    //zombies[z]->  //TODO: do damage to zombie
+                    bullets.erase(bullet);
+                }
+            }
+        }
+
+        if (bullets.size() != numberOfBullets) {
+            engine->updateSpritesInScene();// Reload sprites
+        }
     }
 }
 
@@ -152,6 +185,7 @@ std::vector<Sprite *> Level::sprites() {
     returnSprites.push_back(basicZombieSprite.get());
     returnSprites.push_back(coneheadZombieSprite.get());
     returnSprites.push_back(bucketheadZombieSprite.get());
+    returnSprites.push_back(bananaBulletSprite.get());
 
     // Minions in grid
     for (int x = 0; x < LEVEL_GRID_WIDTH; x++) {
@@ -170,6 +204,11 @@ std::vector<Sprite *> Level::sprites() {
     // To be placed minion
     if (selectedMinion != nullptr) {
         returnSprites.push_back(selectedMinion->getSprite());
+    }
+
+    // Bullets
+    for (int i = 0; i < bullets.size(); i++) {
+        returnSprites.push_back(bullets[i]->getSprite());
     }
 
     // Zombies
@@ -215,6 +254,11 @@ void Level::load() {
 
     bucketheadZombieSprite = spriteBuilder->withAnimated(4, 5)
             .withData(ZombieBlindTiles, sizeof(ZombieBlindTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
+            .buildPtr();
+
+    bananaBulletSprite = spriteBuilder->withData(BananaTiles, sizeof(BananaTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
@@ -392,6 +436,7 @@ void Level::tick(u16 keys) {
     }
 
     updateMinions();
+    updateBullets();
     updateZombies();
 
     if (automaticFlowersProduced < (engine->getTimer()->getTotalMsecs() / 10000)) {
