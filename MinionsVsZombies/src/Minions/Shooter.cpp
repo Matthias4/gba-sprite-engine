@@ -14,5 +14,6 @@ int Shooter::getDamage() {
 
 void Shooter::shoot() {
     totalShot++;
+    this->getSprite()->animate();
     //pieuw pieuw
 }

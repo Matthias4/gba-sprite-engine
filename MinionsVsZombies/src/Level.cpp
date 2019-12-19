@@ -63,8 +63,10 @@ void Level::updateMinions() {
             if (grid[x][y] != nullptr) {
                 //grid[x][y]->move(x * 32, y * 32 + 32);// Only enable when minions are not placed using the toolbar
                 int counter = ((currentTime - grid[x][y]->getCreationTime()) % grid[x][y]->getCooldownTime());
+                int cooldownTime = grid[x][y]->getCooldownTime();
+
                 if ((counter >= 0)
-                && (counter <= 200)
+                && (counter <= 100)
                 && (grid[x][y]->getTotalShot() < (currentTime - grid[x][y]->getCreationTime()) / grid[x][y]->getCooldownTime())) {
                     grid[x][y]->shoot();
                     if (grid[x][y]->getType() == FLOWER_MINION) {
@@ -72,7 +74,7 @@ void Level::updateMinions() {
                     } else if (grid[x][y]->getType() == SHOOTER_MINION) {
                         createBullet(x, currentTime, y, spriteBuilder->buildWithDataOf(*bananaBulletSprite));
                     }
-                } else if (counter >= 500 && counter <= grid[x][y]->getCooldownTime()) {
+                } else if (counter >= cooldownTime / 2 && counter <= grid[x][y]->getCooldownTime()) {
                     grid[x][y]->stopAnimtation();
                 }
             }
