@@ -4,10 +4,11 @@
 
 #include "Minions/Bullet.h"
 
-Bullet::Bullet(int originalPositionX, int creationTime, int row, std::unique_ptr<Sprite> image) {
+Bullet::Bullet(int originalPositionX, int creationTime, int row, int damage, std::unique_ptr<Sprite> image) {
     this->originalPositionX = originalPositionX;
     this->creationTime = creationTime;
     this->row = row;
+    this->damage = damage;
     this->image = std::move(image);
 }
 
@@ -21,6 +22,10 @@ int Bullet::getCreationTime() {
 
 int Bullet::getRow() {
     return row;
+}
+
+int Bullet::getDamage() {
+    return damage;
 }
 
 Sprite *Bullet::getSprite() {

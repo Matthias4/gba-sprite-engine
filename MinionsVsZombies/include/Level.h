@@ -35,7 +35,7 @@ private:
     std::unique_ptr<Minion> grid[LEVEL_GRID_WIDTH][LEVEL_GRID_HEIGHT];
     void updateMinions();
 
-    void createBullet(int gridX, int currentTime, int gridY, std::unique_ptr<Sprite> sprite);
+    void createBullet(int gridX, int currentTime, int gridY, int damage, std::unique_ptr<Sprite> sprite);
     void updateBullets();
 
     std::vector< std::unique_ptr<Zombie> > zombies = std::vector< std::unique_ptr<Zombie> >();

@@ -13,14 +13,16 @@ private:
     int originalPositionX;
     int creationTime;
     int row;
+    int damage;
 
     std::unique_ptr<Sprite> image;
 public:
-    Bullet(int originalPositionX, int creationTime, int row, std::unique_ptr<Sprite> image);
+    Bullet(int originalPositionX, int creationTime, int row, int damage, std::unique_ptr<Sprite> image);
 
     int getOriginalPositionX();
     int getCreationTime();
     int getRow();
+    int getDamage();
 
     Sprite *getSprite();
     void move(int x, int y);

@@ -50,8 +50,8 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers,
     this->waves = std::move(waves);
 }
 
-void Level::createBullet(int gridX, int currentTime, int gridY, std::unique_ptr<Sprite> sprite) {
-    bullets.push_back(std::unique_ptr<Bullet>(new Bullet(gridX * 32, currentTime, gridY, std::move(sprite))));
+void Level::createBullet(int gridX, int currentTime, int gridY, int damage, std::unique_ptr<Sprite> sprite) {
+    bullets.push_back(std::unique_ptr<Bullet>(new Bullet(gridX * 32, currentTime, gridY, damage, std::move(sprite))));
     engine->updateSpritesInScene();// Reload sprites
 }
 
@@ -72,7 +72,7 @@ void Level::updateMinions() {
                     if (grid[x][y]->getType() == FLOWER_MINION) {
                         addFlower((dynamic_cast<FlowerMinion*>(grid[x][y].get()))->getSunPower());// Dynamic cast, references: http://www.cplusplus.com/forum/general/2710/ and https://stackoverflow.com/questions/26377430/how-to-do-perform-a-dynamic-cast-with-a-unique-ptr
                     } else if (grid[x][y]->getType() == SHOOTER_MINION) {
-                        createBullet(x, currentTime, y, spriteBuilder->buildWithDataOf(*bananaBulletSprite));
+                        createBullet(x, currentTime, y, dynamic_cast<Shooter*>(grid[x][y].get())->getDamage(), spriteBuilder->buildWithDataOf(*bananaBulletSprite));
                     }
                 } else if (counter >= cooldownTime / 2 && counter <= grid[x][y]->getCooldownTime()) {
                     grid[x][y]->stopAnimtation();
@@ -97,13 +97,17 @@ void Level::updateBullets() {
 
         int numberOfBullets = bullets.size();
 
-        for (int z = 0; z < zombies.size(); z++) {
-            if (zombies[z]->getRow() == (*bullet)->getRow()) {
-                if (zombies[z]->getPosition() <= newPositionX) {
-                    //zombies[z]->  //TODO: do damage to zombie
+        for (auto & zombie : zombies) {
+            if (zombie->getRow() == (*bullet)->getRow()) {
+                if (zombie->getPosition() <= newPositionX) {
+                    zombie->getHit((*bullet)->getDamage());
                     bullets.erase(bullet);
                 }
             }
+        }
+
+        if ((*bullet)->getSprite()->isOffScreen()) {
+            bullets.erase(bullet);
         }
 
         if (bullets.size() != numberOfBullets) {
@@ -116,20 +120,29 @@ void Level::updateZombies() {
     int currentTime = engine->getTimer()->getTotalMsecs();
     int zombiePosition;
 
-    for (int ii = 0; ii<zombies.size(); ++ii)
-    {
-        int counter = (currentTime - zombies[ii]->getCreationTime());
-        if(zombies[ii]->getPosition() >= 0 ) {
-            zombiePosition = GBA_SCREEN_WIDTH - ((counter * zombies[ii]->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
-            zombies[ii]->move(zombiePosition,
-                              zombies[ii]->getRow() * 32 + 32);
-            zombies[ii]->setPosition(zombiePosition);
+    int numberOfZombies = zombies.size();
+
+    for (auto zombie = zombies.begin(); zombie < zombies.end(); zombie++) {
+        if ((*zombie)->getHealth() <= 0) {
+            zombies.erase(zombie);
+        } else {
+            int counter = (currentTime - (*zombie)->getCreationTime());
+            if ((*zombie)->getPosition() >= 0) {
+                zombiePosition =
+                        GBA_SCREEN_WIDTH - ((counter * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
+                (*zombie)->move(zombiePosition,
+                                (*zombie)->getRow() * 32 + 32);
+                (*zombie)->setPosition(zombiePosition);
+            }
+            if ((*zombie)->killedUser()) {
+                playerDied = true;
+                TextStream::instance().setText(std::string("You died!"), 10, 6);
+            }
         }
-        if(zombies[ii]->killedUser())
-        {
-            playerDied = true;
-            TextStream::instance().setText(std::string("You died!"), 10, 6);
-        }
+    }
+
+    if (zombies.size() != numberOfZombies) {
+        engine->updateSpritesInScene();// Reload sprites
     }
 }
 
