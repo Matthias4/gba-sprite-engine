@@ -51,8 +51,17 @@ Level::Level(const std::shared_ptr<GBAEngine> &engine, uint32_t startingFlowers,
 }
 
 void Level::createBullet(int gridX, int currentTime, int gridY, int damage, std::unique_ptr<Sprite> sprite) {
-    bullets.push_back(std::unique_ptr<Bullet>(new Bullet(gridX * 32, currentTime, gridY, damage, std::move(sprite))));
-    engine->updateSpritesInScene();// Reload sprites
+    bool zombieInRow = false;
+    for (auto & zombie : zombies) {
+        if ((*zombie).getRow() == gridY) {
+            bullets.push_back(std::unique_ptr<Bullet>(new Bullet(gridX * 32, currentTime, gridY, damage, std::move(sprite))));
+            engine->updateSpritesInScene();// Reload sprites
+
+            return;
+        }
+    }
+
+
 }
 
 void Level::updateMinions() {
@@ -87,7 +96,6 @@ void Level::updateMinions() {
 }
 
 void Level::updateBullets() {
-    //for (int i = 0; i < bullets.size(); i++) {
     for (auto bullet = bullets.begin(); bullet < bullets.end(); bullet++) {
         int currentTime = engine->getTimer()->getTotalMsecs();
         int counter = currentTime - (*bullet)->getCreationTime();
