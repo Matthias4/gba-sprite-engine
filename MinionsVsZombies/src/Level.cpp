@@ -102,6 +102,8 @@ void Level::updateBullets() {
         int counter = currentTime - (*bullet)->getCreationTime();
         int newPositionX = (*bullet)->getOriginalPositionX() + counter / BULLET_SPEED_FACTOR;
 
+        bool incrementBullet = true;
+
         (*bullet)->move(newPositionX, (*bullet)->getRow() * 32 + 20);
 
         if ((*bullet)->getSprite()->isOffScreen()) {
@@ -114,12 +116,16 @@ void Level::updateBullets() {
                 if (zombie->getPosition() <= newPositionX) {
                     zombie->getHit((*bullet)->getDamage());
                     bullets.erase(bullet);
-                    continue;// Skip bullet++ statement at the end, bullets.erase() automatically increments. Reference: https://stackoverflow.com/questions/4645705/vector-erase-iterator
+                    incrementBullet = false;
+
+                    break;
                 }
             }
         }
 
-        bullet++;
+        if (incrementBullet) {
+            bullet++;// bullets.erase() automatically increments, this line is only executed when no bullets are removed. Reference: https://stackoverflow.com/questions/4645705/vector-erase-iterator
+        }
     }
 
     if (bullets.size() != numberOfBullets) {
