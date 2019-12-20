@@ -16,6 +16,7 @@
 #include <Enemies/ConeheadZombie.h>
 #include <Enemies/BasicZombie.h>
 #include <Enemies/BucketheadZombie.h>
+#include <algorithm>
 
 #include "Level.h"
 #include "MainMenu.h"
@@ -60,8 +61,6 @@ void Level::createBullet(int gridX, int currentTime, int gridY, int damage, std:
             return;
         }
     }
-
-
 }
 
 void Level::updateMinions() {
@@ -96,6 +95,8 @@ void Level::updateMinions() {
 }
 
 void Level::updateBullets() {
+    int numberOfBullets = bullets.size();
+
     for (auto bullet = bullets.begin(); bullet < bullets.end(); bullet++) {
         int currentTime = engine->getTimer()->getTotalMsecs();
         int counter = currentTime - (*bullet)->getCreationTime();
@@ -103,7 +104,10 @@ void Level::updateBullets() {
 
         (*bullet)->move(newPositionX, (*bullet)->getRow() * 32 + 20);
 
-        int numberOfBullets = bullets.size();
+        if ((*bullet)->getSprite()->isOffScreen()) {
+            bullets.erase(bullet);
+            continue;// Bullet is erased, do not check for zombie collision as this will throw a nullpointer
+        }
 
         for (auto & zombie : zombies) {
             if (zombie->getRow() == (*bullet)->getRow()) {
@@ -113,14 +117,10 @@ void Level::updateBullets() {
                 }
             }
         }
+    }
 
-        if ((*bullet)->getSprite()->isOffScreen()) {
-            bullets.erase(bullet);
-        }
-
-        if (bullets.size() != numberOfBullets) {
-            engine->updateSpritesInScene();// Reload sprites
-        }
+    if (bullets.size() != numberOfBullets) {
+        engine->updateSpritesInScene();// Reload sprites
     }
 }
 
@@ -130,27 +130,25 @@ void Level::updateZombies() {
 
     int numberOfZombies = zombies.size();
 
-    for (auto zombie = zombies.begin(); zombie < zombies.end(); zombie++) {
-        if ((*zombie)->getHealth() <= 0) {
-            zombies.erase(zombie);
-        } else {
-            int counter = (currentTime - (*zombie)->getCreationTime());
-            if ((*zombie)->getPosition() >= 0) {
-                zombiePosition =
-                        GBA_SCREEN_WIDTH - ((counter * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
-                (*zombie)->move(zombiePosition,
-                                (*zombie)->getRow() * 32 + 32);
-                (*zombie)->setPosition(zombiePosition);
-            }
-            if ((*zombie)->killedUser()) {
-                playerDied = true;
-                TextStream::instance().setText(std::string("You died!"), 10, 6);
-            }
-        }
-    }
+    zombies.erase(std::remove_if(zombies.begin(), zombies.end(), [](std::unique_ptr<Zombie> & zombie) { return zombie->getHealth() <= 0; }), zombies.end());// Reference: https://www.fluentcpp.com/2018/09/18/how-to-remove-pointers-from-a-vector-in-cpp/
 
     if (zombies.size() != numberOfZombies) {
         engine->updateSpritesInScene();// Reload sprites
+    }
+
+    for (auto zombie = zombies.begin(); zombie < zombies.end(); zombie++) {
+        int counter = (currentTime - (*zombie)->getCreationTime());
+        if ((*zombie)->getPosition() >= 0) {
+            zombiePosition =
+                    GBA_SCREEN_WIDTH - ((counter * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
+            (*zombie)->move(zombiePosition,
+                    (*zombie)->getRow() * 32 + 32);
+            (*zombie)->setPosition(zombiePosition);
+        }
+        if ((*zombie)->killedUser()) {
+            playerDied = true;
+            TextStream::instance().setText(std::string("You died!"), 10, 6);
+        }
     }
 }
 

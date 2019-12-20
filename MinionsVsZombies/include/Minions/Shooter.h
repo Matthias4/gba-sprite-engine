@@ -11,7 +11,7 @@
 class Shooter: public Minion {
 private:
     int firingRate;
-    int damage = 5;
+    int damage = 2;
 public:
     Shooter(int health, int cost, int cooldownTime, std::unique_ptr<Sprite> image, int creationTime) : Minion(SHOOTER_MINION, health, cost, cooldownTime, std::move(image), creationTime) {};
     //using Minion::Minion;// Constructor inheritance, see https://stackoverflow.com/questions/347358/inheriting-constructors
