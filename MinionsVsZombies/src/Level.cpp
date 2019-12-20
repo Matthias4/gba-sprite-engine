@@ -97,7 +97,7 @@ void Level::updateMinions() {
 void Level::updateBullets() {
     int numberOfBullets = bullets.size();
 
-    for (auto bullet = bullets.begin(); bullet < bullets.end(); bullet++) {
+    for (auto bullet = bullets.begin(); bullet < bullets.end();) {
         int currentTime = engine->getTimer()->getTotalMsecs();
         int counter = currentTime - (*bullet)->getCreationTime();
         int newPositionX = (*bullet)->getOriginalPositionX() + counter / BULLET_SPEED_FACTOR;
@@ -114,9 +114,12 @@ void Level::updateBullets() {
                 if (zombie->getPosition() <= newPositionX) {
                     zombie->getHit((*bullet)->getDamage());
                     bullets.erase(bullet);
+                    continue;// Skip bullet++ statement at the end, bullets.erase() automatically increments. Reference: https://stackoverflow.com/questions/4645705/vector-erase-iterator
                 }
             }
         }
+
+        bullet++;
     }
 
     if (bullets.size() != numberOfBullets) {
