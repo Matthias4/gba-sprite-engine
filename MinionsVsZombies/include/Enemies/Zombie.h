@@ -36,7 +36,7 @@ public:
     inline bool killedUser(){return position == 0;}
 
     void collide(int time);
-    int getCollidetime(int time);
+    int getCollisionTime(int time);
 };
 
 

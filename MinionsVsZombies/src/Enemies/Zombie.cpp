@@ -68,7 +68,7 @@ void Zombie::collide(int time) {
         collisionStart = time;
     }
 }
-int Zombie::getCollidetime(int time) {
+int Zombie::getCollisionTime(int time) {
     if(collisionStart != 0) {
         collisionTime += (time - collisionStart);
         collisionStart = 0;

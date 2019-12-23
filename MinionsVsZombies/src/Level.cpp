@@ -154,7 +154,7 @@ void Level::updateZombies() {
             (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getType() != BANANA_MINION)) {
 
             zombiePosition = GBA_SCREEN_WIDTH -
-                             (((counter - (*zombie)->getCollidetime(currentTime)) * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
+                             (((counter - (*zombie)->getCollisionTime(currentTime)) * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
             (*zombie)->move(zombiePosition,
                             (*zombie)->getRow() * 32 + 32);
             (*zombie)->setPosition(zombiePosition);
