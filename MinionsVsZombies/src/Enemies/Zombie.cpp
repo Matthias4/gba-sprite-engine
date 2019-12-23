@@ -12,6 +12,8 @@ Zombie::Zombie(int givenHealth, int givenWalkingSpeed, int givenDamage, int give
     row = givenRow;
     position = GBA_SCREEN_WIDTH;
     this->creationTime = creationTime;
+    collisionTime = 0;
+    collisionStart = 0;
 }
 
 int Zombie::getWalkingSpeed() {
@@ -59,4 +61,17 @@ bool Zombie::show(bool show)
         backAtOrigin = true;
     }
     return backAtOrigin;
+}
+
+void Zombie::collide(int time) {
+    if (collisionStart == 0) {
+        collisionStart = time;
+    }
+}
+int Zombie::getCollidetime(int time) {
+    if(collisionStart != 0) {
+        collisionTime += (time - collisionStart);
+        collisionStart = 0;
+    }
+    return collisionTime;
 }

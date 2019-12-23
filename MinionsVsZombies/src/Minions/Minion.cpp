@@ -7,7 +7,7 @@
 
 Minion::Minion(int type, int givenHealth, int givenCost, int givenCooldownTime, std::unique_ptr<Sprite> givenImage, int creationTime) {
     this->type = type;
-    health = givenHealth;
+    health = givenHealth*1000;
     cost = givenCost;
     cooldownTime = givenCooldownTime;
     image = std::move(givenImage);// An unique_ptr cannot be moved, std::move solves this problem https://stackoverflow.com/questions/6876751/differences-between-unique-ptr-and-shared-ptr
@@ -16,6 +16,10 @@ Minion::Minion(int type, int givenHealth, int givenCost, int givenCooldownTime, 
 
 int Minion::getHealth() {
     return health;
+}
+
+void Minion::setHealth(int damage){
+    health -= damage;
 }
 
 int Minion::getCost() {

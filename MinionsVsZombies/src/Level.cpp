@@ -147,13 +147,25 @@ void Level::updateZombies() {
 
     for (auto zombie = zombies.begin(); zombie < zombies.end(); zombie++) {
         int counter = (currentTime - (*zombie)->getCreationTime());
-        if ((*zombie)->getPosition() >= 0) {
-            zombiePosition =
-                    GBA_SCREEN_WIDTH - ((counter * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
+
+        if (((*zombie)->getPosition() >= 0) &&
+            (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getType() != SHOOTER_MINION) &&
+            (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getType() != FLOWER_MINION) &&
+            (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getType() != BANANA_MINION)) {
+
+            zombiePosition = GBA_SCREEN_WIDTH -
+                             (((counter - (*zombie)->getCollidetime(currentTime)) * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
             (*zombie)->move(zombiePosition,
-                    (*zombie)->getRow() * 32 + 32);
+                            (*zombie)->getRow() * 32 + 32);
             (*zombie)->setPosition(zombiePosition);
+        } else {
+                grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->setHealth((*zombie)->getDamage()); //todo: set timer on this
+                if (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getHealth() == 0) {
+                    grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()].release();
+                }
+            (*zombie)->collide(currentTime);
         }
+
         if ((*zombie)->killedUser()) {
             playerDied = true;
             TextStream::instance().setText(std::string("You died!"), 10, 6);
