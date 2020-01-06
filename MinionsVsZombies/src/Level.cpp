@@ -89,6 +89,7 @@ void Level::updateMinions() {
                 if(grid[x][y]->getHealth() <= 0)
                 {
                     grid[x][y].release();
+                    engine->updateSpritesInScene();
                 }
             }
         }
