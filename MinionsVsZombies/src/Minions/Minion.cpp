@@ -18,6 +18,10 @@ int Minion::getHealth() {
     return health;
 }
 
+void Minion::setHealth(int damage){
+    health -= damage;
+}
+
 int Minion::getCost() {
     return cost;
 }

@@ -85,6 +85,11 @@ void Level::updateMinions() {
                 } else if (counter >= cooldownTime / 2 && counter <= grid[x][y]->getCooldownTime()) {
                     grid[x][y]->stopAnimtation();
                 }
+
+                if(grid[x][y]->getHealth() <= 0)
+                {
+                    grid[x][y].release();
+                }
             }
         }
     }
@@ -136,6 +141,7 @@ void Level::updateBullets() {
 void Level::updateZombies() {
     int currentTime = engine->getTimer()->getTotalMsecs();
     int zombiePosition;
+    int counter;
 
     int numberOfZombies = zombies.size();
 
@@ -146,14 +152,25 @@ void Level::updateZombies() {
     }
 
     for (auto zombie = zombies.begin(); zombie < zombies.end(); zombie++) {
-        int counter = (currentTime - (*zombie)->getCreationTime());
-        if ((*zombie)->getPosition() >= 0) {
-            zombiePosition =
-                    GBA_SCREEN_WIDTH - ((counter * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
+        counter = (currentTime - (*zombie)->getCreationTime());
+
+        if (((*zombie)->getPosition() >= 0) &&
+            (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getType() != SHOOTER_MINION) &&
+            (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getType() != FLOWER_MINION) &&
+            (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getType() != BANANA_MINION)) {
+
+            zombiePosition = GBA_SCREEN_WIDTH -
+                             (((counter - (*zombie)->getCollisionTime(currentTime)) * (*zombie)->getWalkingSpeed()) / (100 * ZOMBIES_SPEED_FACTOR));
             (*zombie)->move(zombiePosition,
-                    (*zombie)->getRow() * 32 + 32);
+                            (*zombie)->getRow() * 32 + 32);
             (*zombie)->setPosition(zombiePosition);
+        } else {
+            if(engine->getTimer()->getMsecs() == 0){
+                grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->setHealth((*zombie)->getDamage());
+            }
+            (*zombie)->collide(currentTime);
         }
+
         if ((*zombie)->killedUser()) {
             playerDied = true;
             TextStream::instance().setText(std::string("You died!"), 10, 6);

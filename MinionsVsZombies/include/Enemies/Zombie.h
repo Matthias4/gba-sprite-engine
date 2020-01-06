@@ -15,6 +15,8 @@ private:
     int row;
     int position;
     int creationTime;
+    int collisionStart;
+    int collisionTime;
 
 public:
     Zombie(int health, int walkingSpeed, int damage, int row, std::unique_ptr<Sprite> image, int creationTime);
@@ -32,6 +34,9 @@ public:
     bool show(bool show);
 
     inline bool killedUser(){return position == 0;}
+
+    void collide(int time);
+    int getCollisionTime(int time);
 };
 
 
