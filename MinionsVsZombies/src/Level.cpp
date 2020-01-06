@@ -85,6 +85,11 @@ void Level::updateMinions() {
                 } else if (counter >= cooldownTime / 2 && counter <= grid[x][y]->getCooldownTime()) {
                     grid[x][y]->stopAnimtation();
                 }
+
+                if(grid[x][y]->getHealth() <= 0)
+                {
+                    grid[x][y].release();
+                }
             }
         }
     }
@@ -136,6 +141,7 @@ void Level::updateBullets() {
 void Level::updateZombies() {
     int currentTime = engine->getTimer()->getTotalMsecs();
     int zombiePosition;
+    int counter;
 
     int numberOfZombies = zombies.size();
 
@@ -146,7 +152,7 @@ void Level::updateZombies() {
     }
 
     for (auto zombie = zombies.begin(); zombie < zombies.end(); zombie++) {
-        int counter = (currentTime - (*zombie)->getCreationTime());
+        counter = (currentTime - (*zombie)->getCreationTime());
 
         if (((*zombie)->getPosition() >= 0) &&
             (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getType() != SHOOTER_MINION) &&
@@ -159,10 +165,9 @@ void Level::updateZombies() {
                             (*zombie)->getRow() * 32 + 32);
             (*zombie)->setPosition(zombiePosition);
         } else {
-                grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->setHealth((*zombie)->getDamage()); //todo: set timer on this
-                if (grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->getHealth() == 0) {
-                    grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()].release();
-                }
+            if(engine->getTimer()->getMsecs() == 0){
+                grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->setHealth((*zombie)->getDamage());
+            }
             (*zombie)->collide(currentTime);
         }
 
