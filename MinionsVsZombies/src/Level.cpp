@@ -17,6 +17,7 @@
 #include <Enemies/BasicZombie.h>
 #include <Enemies/BucketheadZombie.h>
 #include <algorithm>
+#include <Minions/BananaMinion.h>
 
 #include "Level.h"
 #include "MainMenu.h"
@@ -167,7 +168,7 @@ void Level::updateZombies() {
             (*zombie)->setPosition(zombiePosition);
         } else {
             if(engine->getTimer()->getMsecs() == 0){
-                grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->setHealth((*zombie)->getDamage());
+                grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->takeDamage((*zombie)->getDamage());
             }
             (*zombie)->collide(currentTime);
         }
@@ -230,6 +231,7 @@ std::vector<Sprite *> Level::sprites() {
     // Sprite templates
     returnSprites.push_back(shooterSprite.get());
     returnSprites.push_back(flowerMinionSprite.get());
+    returnSprites.push_back(bananaMinionSprite.get());
     returnSprites.push_back(basicZombieSprite.get());
     returnSprites.push_back(coneheadZombieSprite.get());
     returnSprites.push_back(bucketheadZombieSprite.get());
@@ -288,6 +290,12 @@ void Level::load() {
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
 
+    bananaMinionSprite = spriteBuilder->withAnimated(3, 5)
+            .withData(BananaMinionTiles, sizeof(BananaMinionTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
+            .buildPtr();
+
     basicZombieSprite = spriteBuilder->withAnimated(4, 5)
             .withData(ZombieTiles, sizeof(ZombieTiles))
             .withSize(SIZE_32_32)
@@ -321,6 +329,9 @@ void Level::load() {
             case FLOWER_MINION:
                 toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*flowerMinionSprite);
                 break;
+            case BANANA_MINION:
+                toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*bananaMinionSprite);
+                break;
         }
 
         if (i == 0) {
@@ -349,6 +360,9 @@ void Level::tick(u16 keys) {
                     break;
                 case FLOWER_MINION:
                     toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*flowerMinionSprite);
+                    break;
+                case BANANA_MINION:
+                    toolbarSprites[i] = spriteBuilder->withLocation(i * x, y).buildWithDataOf(*bananaMinionSprite);
                     break;
             }
 
@@ -420,6 +434,8 @@ void Level::tick(u16 keys) {
                     selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 50, 10000, 25, spriteBuilder->buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
 
                     break;
+                case BANANA_MINION:
+                    selectedMinion = std::unique_ptr<Minion>(new BananaMinion(2, 150, 500, spriteBuilder->buildWithDataOf(*bananaMinionSprite), engine->getTimer()->getTotalMsecs()));
             }
 
             if (flowers >= selectedMinion->getCost()) {

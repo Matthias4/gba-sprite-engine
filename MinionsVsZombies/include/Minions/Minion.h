@@ -11,6 +11,7 @@ class Minion {
 private:
     int type;
     int health;
+    int maxHealth;
     int cost;
     int cooldownTime;
     int creationTime;
@@ -25,11 +26,12 @@ public:
 
     int getType() { return type; }
     int getHealth();
+    int getMaxHealth();
     int getCost();
     int getCooldownTime();
     int getCreationTime() { return creationTime; }
 
-    void setHealth(int damage);
+    void takeDamage(int damage);
 
     virtual void shoot() = 0; //FIXME: moeten we deze functie wegdoen? En gewoon bij shooter zetten?
                                 // Zoja, waar moeten we dan virtual zetten? Moet we een functie getPlanted() hebben ofzo waar we

@@ -14,7 +14,7 @@
 #define LEVEL_GRID_WIDTH 7
 #define LEVEL_GRID_HEIGHT 4
 
-#define TOOLBAR_SIZE 2
+#define TOOLBAR_SIZE 3
 
 #define ZOMBIE_SHOW_PLACE (GBA_SCREEN_WIDTH / 2)
 #define ZOMBIES_SPEED_FACTOR 10
@@ -50,12 +50,13 @@ private:
     std::unique_ptr< SpriteBuilder<Sprite> > spriteBuilder;
     std::unique_ptr<Sprite> shooterSprite;
     std::unique_ptr<Sprite> flowerMinionSprite;
+    std::unique_ptr<Sprite> bananaMinionSprite;
     std::unique_ptr<Sprite> basicZombieSprite;
     std::unique_ptr<Sprite> coneheadZombieSprite;
     std::unique_ptr<Sprite> bucketheadZombieSprite;
     std::unique_ptr<Sprite> bananaBulletSprite;
 
-    int toolbar[TOOLBAR_SIZE] = {SHOOTER_MINION, FLOWER_MINION};
+    int toolbar[TOOLBAR_SIZE] = {SHOOTER_MINION, FLOWER_MINION, BANANA_MINION};
     std::unique_ptr<Sprite> toolbarSprites[TOOLBAR_SIZE];
     bool plantSelected = false;
     uint8_t selectorX = 0;

@@ -54,7 +54,7 @@ add_executable(${PROJECT_NAME}.elf
         img/Level/ZombieBlind.h
         img/Level/ZombieBlind.c
         img/Level/Background.h
-        img/Level/Background.c)
+        img/Level/Background.c include/Minions/BananaMinion.h src/Minions/BananaMinion.cpp)
 
 target_include_directories(${PROJECT_NAME}.elf PRIVATE include)
 target_include_directories(${PROJECT_NAME}.elf PRIVATE img)
