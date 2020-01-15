@@ -167,7 +167,7 @@ void Level::updateZombies() {
                             (*zombie)->getRow() * 32 + 32);
             (*zombie)->setPosition(zombiePosition);
         } else {
-            if(engine->getTimer()->getMsecs() == 0){
+            if((engine->getTimer()->getMsecs() >= 0) && (engine->getTimer()->getMsecs() <= 3)){
                 grid[(*zombie)->getPosition() / 32][(*zombie)->getRow()]->takeDamage((*zombie)->getDamage());
             }
             (*zombie)->collide(currentTime);
@@ -428,14 +428,13 @@ void Level::tick(u16 keys) {
             switch (toolbar[selectorX]) {
                 case SHOOTER_MINION:
                     selectedMinion = std::unique_ptr<Minion>(new Shooter(1, 100, 1000, spriteBuilder->buildWithDataOf(*shooterSprite), engine->getTimer()->getTotalMsecs()));
-
                     break;
                 case FLOWER_MINION:
                     selectedMinion = std::unique_ptr<Minion>(new FlowerMinion(1, 50, 10000, 25, spriteBuilder->buildWithDataOf(*flowerMinionSprite), engine->getTimer()->getTotalMsecs()));
-
                     break;
                 case BANANA_MINION:
                     selectedMinion = std::unique_ptr<Minion>(new BananaMinion(2, 150, 500, spriteBuilder->buildWithDataOf(*bananaMinionSprite), engine->getTimer()->getTotalMsecs()));
+                    break;
             }
 
             if (flowers >= selectedMinion->getCost()) {
